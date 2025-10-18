@@ -8,8 +8,8 @@ import { TaskType, Ability } from '@/lib/types';
 interface SidebarProps {
   isDarkMode: boolean;
   setIsDarkMode: (value: boolean) => void;
-  currentSection: 'overview' | 'tasks' | 'about' | 'guide';
-  onSectionChange: (section: 'overview' | 'tasks' | 'about' | 'guide') => void;
+  currentSection: 'overview' | 'tasks' | 'about' | 'guide' | 'contact';
+  onSectionChange: (section: 'overview' | 'tasks' | 'about' | 'guide' | 'contact') => void;
   isOpen: boolean;
   onToggle: () => void;
   taskAbilities?: Record<TaskType, Ability>;
@@ -136,39 +136,34 @@ const Sidebar: FC<SidebarProps> = ({
 
           {/* About */}
           <li>
-            <div className={`px-6 py-4 font-bold text-2xl ${isDarkMode ? 'text-blue-200' : 'text-slate-700'}`}>
+            <button
+              onClick={() => onSectionChange('about')}
+              className={`w-full text-left px-6 py-4 rounded-lg font-bold text-2xl transition-colors ${
+                currentSection === 'about'
+                  ? isDarkMode 
+                    ? 'bg-blue-900/30 text-blue-200' 
+                    : 'bg-blue-50 text-blue-700'
+                  : isDarkMode 
+                    ? 'text-blue-200 hover:bg-blue-900/20' 
+                    : 'text-slate-700 hover:bg-slate-50'
+              }`}
+            >
               About
-            </div>
-            <ul className="ml-4 space-y-1">
-              <li>
-                <button
-                  onClick={() => onSectionChange('about')}
-                  className={`w-full text-left px-4 py-2 rounded-lg font-semibold text-xl transition-colors ${
-                    currentSection === 'about'
-                      ? isDarkMode 
-                        ? 'bg-blue-900/30 text-blue-200' 
-                        : 'bg-blue-50 text-blue-700'
-                      : isDarkMode 
-                        ? 'text-slate-400 hover:bg-blue-900/20 hover:text-blue-200' 
-                        : 'text-slate-600 hover:bg-slate-50 hover:text-slate-700'
-                  }`}
-                >
-                  Paper
-                </button>
-              </li>
-              <li>
-                <a
-                  href="mailto:codetreat.benchmark@gmail.com"
-                  className={`w-full text-left px-4 py-2 rounded-lg font-semibold text-xl transition-colors ${
-                    isDarkMode 
-                      ? 'text-slate-400 hover:bg-blue-900/20 hover:text-blue-200' 
-                      : 'text-slate-600 hover:bg-slate-50 hover:text-slate-700'
-                  }`}
-                >
-                  Contact Us
-                </a>
-              </li>
-            </ul>
+            </button>
+          </li>
+
+          {/* Contact Us */}
+          <li>
+            <a
+              href="mailto:ejli@cse.cuhk.edu.hk,lyu@cse.cuhk.edu.hk"
+              className={`w-full text-left px-6 py-4 rounded-lg font-bold text-2xl transition-colors block ${
+                isDarkMode 
+                  ? 'text-blue-200 hover:bg-blue-900/20' 
+                  : 'text-slate-700 hover:bg-slate-50'
+              }`}
+            >
+              Contact Us
+            </a>
           </li>
 
           {/* User Guide */}

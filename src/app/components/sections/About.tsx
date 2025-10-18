@@ -17,31 +17,22 @@ const About: FC<AboutProps> = ({ isDarkMode }) => {
       >
         <h2 className="text-5xl font-bold text-center text-transparent bg-clip-text 
           bg-gradient-to-r from-blue-500 to-purple-500 mb-16">
-          About Code TREAT
+          Contact Us
         </h2>
         
         <div className="flex justify-center">
-          <div className={`${isDarkMode ? 'bg-[#0f1729]/80' : 'bg-white/90'} backdrop-blur-sm p-8 rounded-xl border ${isDarkMode ? 'border-blue-500/20' : 'border-slate-200'} shadow-sm max-w-2xl w-full`}>
+          <div className={`${isDarkMode ? 'bg-[#0f1729]/80' : 'bg-white/90'} backdrop-blur-sm p-8 rounded-xl border ${isDarkMode ? 'border-blue-500/20' : 'border-slate-200'} shadow-sm max-w-7xl w-full`}>
             <div className="space-y-4 text-center">
               <div>
-                <p className={`text-lg ${isDarkMode ? 'text-blue-200' : 'text-slate-600'} mb-4`}>
-                  Code TREAT is a comprehensive framework for evaluating large language models on code generation tasks. 
-                  Our leaderboards provide insights into model performance across various coding challenges and benchmarks.
+                <p className={`text-lg ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                  For questions, suggestions, or collaboration opportunities, please reach out to us at{' '}
+                  <a 
+                    href="mailto:ejli@cse.cuhk.edu.hk,lyu@cse.cuhk.edu.hk" 
+                    className={`font-medium underline ${isDarkMode ? 'text-blue-300 hover:text-blue-200' : 'text-blue-600 hover:text-blue-700'} transition-colors`}
+                  >
+                    ejli@cse.cuhk.edu.hk, lyu@cse.cuhk.edu.hk
+                  </a>
                 </p>
-                <div className={`mt-6 p-4 rounded-lg ${isDarkMode ? 'bg-slate-800/50' : 'bg-slate-100'}`}>
-                  <p className={`text-sm font-semibold mb-2 ${isDarkMode ? 'text-blue-200' : 'text-slate-700'}`}>
-                    Contact Us
-                  </p>
-                  <p className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                    For questions, suggestions, or collaboration opportunities, please reach out to us at{' '}
-                    <a 
-                      href="mailto:codetreat.benchmark@gmail.com" 
-                      className={`font-medium underline ${isDarkMode ? 'text-blue-300 hover:text-blue-200' : 'text-blue-600 hover:text-blue-700'} transition-colors`}
-                    >
-                      codetreat.benchmark@gmail.com
-                    </a>
-                  </p>
-                </div>
               </div>
             </div>
           </div>
