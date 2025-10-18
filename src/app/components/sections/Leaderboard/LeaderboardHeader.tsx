@@ -108,15 +108,23 @@ const LeaderboardHeader: FC<LeaderboardHeaderProps> = ({
           {shouldShowChartButton && (
             <button
               onClick={() => {
-                // For all tasks, toggle between table and scatter only
-                // Code-questions view is temporarily hidden during development
-                setViewMode(viewMode === 'table' ? 'scatter' : 'table');
+                // Toggle between table, scatter, and code-questions views
+                if (viewMode === 'table') {
+                  setViewMode('scatter');
+                } else if (viewMode === 'scatter') {
+                  setViewMode('code-questions');
+                } else {
+                  setViewMode('table');
+                }
               }}
               className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 rounded-lg text-white font-medium text-sm sm:text-lg transition-all duration-200 hover:scale-105 hover:shadow-lg min-w-0"
               style={{
-                background: viewMode === 'table' 
-                  ? 'linear-gradient(to right, #f59e0b, #d97706)' 
-                  : 'linear-gradient(to right, #10b981, #14b8a6)',
+                background: 
+                  viewMode === 'table' 
+                    ? 'linear-gradient(to right, #f59e0b, #d97706)' 
+                    : viewMode === 'scatter'
+                      ? 'linear-gradient(to right, #10b981, #14b8a6)'
+                      : 'linear-gradient(to right, #6366f1, #8b5cf6)',
                 border: 'none',
                 cursor: 'pointer'
               }}
@@ -128,6 +136,15 @@ const LeaderboardHeader: FC<LeaderboardHeaderProps> = ({
                   </svg>
                   <span className="hidden sm:inline">Chart View</span>
                   <span className="sm:hidden">Chart</span>
+                </>
+              ) : viewMode === 'scatter' ? (
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-6 sm:w-6" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                    <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+                  </svg>
+                  <span className="hidden sm:inline">Code View</span>
+                  <span className="sm:hidden">Code</span>
                 </>
               ) : (
                 <>

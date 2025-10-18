@@ -232,13 +232,14 @@ interface LeaderboardProps {
         return releaseDate >= timelineRange.start && releaseDate <= timelineRange.end;
       });
       debug.leaderboard(`Timeline filtered: ${filtered.length}/${results.length} results`);
-      
-      // Normalize ranks after timeline filtering to ensure continuous ranking
-      filtered = filtered.map((result, index) => ({
-        ...result,
-        rank: index + 1
-      }));
     }
+    
+    // Always normalize ranks to ensure continuous ranking (whether filtered or not)
+    // This ensures ranks are always 1, 2, 3, 4... regardless of original data
+    filtered = filtered.map((result, index) => ({
+      ...result,
+      rank: index + 1
+    }));
     
     const sorted = sortResults(filtered, sortConfig);
     debug.leaderboard(`Sorted ${sorted.length} results. Sample sorted:`, sorted.slice(0, 3));
@@ -888,7 +889,7 @@ interface LeaderboardProps {
             />
           </div>
 
-          {/* Timeline Filter - positioned between filter panel and table, hidden in chart view */}
+          {/* Timeline Filter - positioned between filter panel and table, hidden in chart view and code questions view */}
           {filterConditions.shouldShowTimeline(currentTask) && viewMode === 'table' && (
             <div className={`w-full max-w-7xl mx-auto mt-6 ${
               isMultiLeaderboardTask(currentTask) ? 'mb-0' : 'mb-4'
@@ -918,8 +919,8 @@ interface LeaderboardProps {
                 />
               )}
               
-              {/* Compact Multi-leaderboard header for chart view */}
-              {isMultiLeaderboardTask(currentTask) && viewMode === 'scatter' && (
+              {/* Compact Multi-leaderboard header for chart view and code questions view */}
+              {isMultiLeaderboardTask(currentTask) && (viewMode === 'scatter' || viewMode === 'code-questions') && (
                 <CompactMultiLeaderboardHeader
                   currentTask={currentTask}
                   selectedTab={selectedMultiTab}

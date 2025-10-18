@@ -9,6 +9,7 @@ import TableCell from './TableCell';
 import { getModelUrl } from '@/lib/constants';
 import { AnimatedTableRow } from '@/app/components/ui/AnimatedTableRow';
 import ModelScatterChart, { ScatterChartRef } from '@/app/components/ui/ModelScatterChart';
+import CodeQuestionsView from './CodeQuestionsView';
 
 import MultiSelectDropdown from '@/app/components/ui/MultiSelectDropdown';
 import { FilterState } from '@/lib/filterHelpers';
@@ -79,6 +80,7 @@ const ResultsTable: FC<ResultsTableProps> = ({
   isDarkMode,
   onColumnWidthChange,
   timelineRange,
+  onTimelineChange,
   taskAbilities = {},
   selectedAbilities = {},
   handleAbilityChange,
@@ -728,7 +730,7 @@ const ResultsTable: FC<ResultsTableProps> = ({
               </tbody>
             </table>
           </div>
-        ) : (
+        ) : viewMode === 'scatter' ? (
           // Show scatter chart view
           <div style={{ width: '100%', paddingTop: '32px', paddingLeft: '20px', paddingRight: '20px' }}>
             <ModelScatterChart
@@ -742,6 +744,16 @@ const ResultsTable: FC<ResultsTableProps> = ({
               leaderboardTimelineRange={timelineRange}
               selectedMultiTab={selectedMultiTab}
             />
+          </div>
+        ) : (
+          // Show code questions view
+          <div style={{ width: '100%' }}>
+          <CodeQuestionsView
+            currentTask={currentTask}
+            results={results}
+            isDarkMode={isDarkMode}
+            selectedAbilities={selectedAbilities as Ability}
+          />
           </div>
         )}
       </div>

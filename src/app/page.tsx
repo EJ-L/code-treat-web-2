@@ -109,7 +109,7 @@ const taskAbilities: Record<TaskType, Ability> = {
 export default function Home() {
   // Main app state
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [currentSection, setCurrentSection] = useState<'overview' | 'tasks' | 'about' | 'guide'>('overview');
+  const [currentSection, setCurrentSection] = useState<'overview' | 'tasks' | 'about' | 'guide' | 'contact'>('overview');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [currentTask, setCurrentTask] = useState<TaskType>('overall');
 
@@ -120,7 +120,8 @@ export default function Home() {
         'overview': '#home',
         'tasks': '#evaluation', 
         'about': '#about',
-        'guide': '#guide'
+        'guide': '#guide',
+        'contact': '#contact'
       };
       window.location.hash = sectionToHash[currentSection];
     }
@@ -134,6 +135,7 @@ export default function Home() {
         '#evaluation': 'tasks' as const,
         '#about': 'about' as const,
         '#guide': 'guide' as const,
+        '#contact': 'contact' as const,
         '': 'overview' as const // Default case
       };
       
@@ -158,7 +160,7 @@ export default function Home() {
     }
   }, [currentSection]);
 
-  const handleSectionChange = (section: 'overview' | 'tasks' | 'about' | 'guide') => {
+  const handleSectionChange = (section: 'overview' | 'tasks' | 'about' | 'guide' | 'contact') => {
     setCurrentSection(section);
     setIsSidebarOpen(false); // Close sidebar on mobile after selection
     
