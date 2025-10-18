@@ -28,7 +28,20 @@ const About: FC<AboutProps> = ({ isDarkMode }) => {
                   Code TREAT is a comprehensive framework for evaluating large language models on code generation tasks. 
                   Our leaderboards provide insights into model performance across various coding challenges and benchmarks.
                 </p>
-                {/* Contact information hidden for privacy reasons */}
+                <div className={`mt-6 p-4 rounded-lg ${isDarkMode ? 'bg-slate-800/50' : 'bg-slate-100'}`}>
+                  <p className={`text-sm font-semibold mb-2 ${isDarkMode ? 'text-blue-200' : 'text-slate-700'}`}>
+                    Contact Us
+                  </p>
+                  <p className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                    For questions, suggestions, or collaboration opportunities, please reach out to us at{' '}
+                    <a 
+                      href="mailto:codetreat.benchmark@gmail.com" 
+                      className={`font-medium underline ${isDarkMode ? 'text-blue-300 hover:text-blue-200' : 'text-blue-600 hover:text-blue-700'} transition-colors`}
+                    >
+                      codetreat.benchmark@gmail.com
+                    </a>
+                  </p>
+                </div>
               </div>
             </div>
           </div>

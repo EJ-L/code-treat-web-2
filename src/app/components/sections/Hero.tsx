@@ -1,12 +1,14 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { motion } from 'framer-motion';
+import PaperCitationModal from '../ui/PaperCitationModal';
 
 interface HeroProps {
   isDarkMode: boolean;
   onNavigateToTask?: (task: string) => void;
 }
 
-const Hero: FC<HeroProps> = () => {
+const Hero: FC<HeroProps> = ({ isDarkMode, onNavigateToTask }) => {
+  const [isPaperModalOpen, setIsPaperModalOpen] = useState(false);
   return (
     <main className="relative flex-grow flex flex-col items-center justify-center text-center px-4 pb-16" id="home">
       <div className="relative mt-[180px]">
@@ -19,7 +21,39 @@ const Hero: FC<HeroProps> = () => {
           Code TREAT
         </motion.h1>
         <div className="flex flex-wrap justify-center gap-4">
-          {/* Paper button hidden for privacy reasons */}
+          <motion.button
+            onClick={() => setIsPaperModalOpen(true)}
+            className={`relative inline-flex items-center px-6 py-4 text-lg text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg
+              overflow-hidden group hover:scale-105 transition-transform cursor-pointer`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
+            <div className="flex items-center gap-6">
+              <span className="relative z-10 flex items-center justify-center">
+                <svg 
+                  aria-hidden="true" 
+                  focusable="false" 
+                  className="w-5 h-5" 
+                  role="img" 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  viewBox="0 0 384 512"
+                >
+                  <path 
+                    fill="currentColor" 
+                    d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48z"
+                  ></path>
+                </svg>
+              </span>
+              <span className="relative z-10">Paper</span>
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 
+              group-hover:opacity-100 transition-opacity" />
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-400/50 to-purple-400/50 blur-xl 
+              opacity-0 group-hover:opacity-100 transition-opacity" />
+          </motion.button>
           
           <motion.a
             href="https://anonymous.4open.science/r/Code-TREAT-887A/README.md"
@@ -128,6 +162,13 @@ const Hero: FC<HeroProps> = () => {
           </motion.a>
         </div>
       </div>
+      
+      <PaperCitationModal
+        isOpen={isPaperModalOpen}
+        onClose={() => setIsPaperModalOpen(false)}
+        isDarkMode={isDarkMode}
+        onNavigateToTask={onNavigateToTask}
+      />
     </main>
   );
 };
