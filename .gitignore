@@ -1,0 +1,76 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+.env
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# IDE
+.idea/
+.vscode/
+todo.md
+
+# data rar
+data.rar
+problem.md
+REFACTOR_SUMMARY.md
+src/lib/dataSources/README.md
+DEBUG_USAGE.md
+
+# data folder
+data/code-generation/
+data/multi-modality/
+data/code-review/
+data/code-robustness/
+data/code-summarization/
+data/code-translation/
+data/code-web/
+data/input_prediction/
+data/interaction-2-code/
+data/mr-web/
+data/output_prediction/
+data/vulnerability-detection/
+data/overall/
+data/precomputed/code-generation/
+data/precomputed/code-review/
+data/precomputed/code-robustness/
+data/precomputed/code-summarization/
+data/precomputed/code-translation/
+data/precomputed/code-web/
+data/precomputed/input-prediction/
+data/precomputed/interaction-2-code/
+data/precomputed/mr-web/
+data/precomputed/output-prediction/
+data/precomputed/vulnerability-detection/
+data/precomputed/multi-modality/
+data/unit_test_generation/
+data/multi-modality/
+new_dataset/
+data/backuo/
+data/precomputed/unit-test-generation/
+data/precomputed/middle_data/code-web/
