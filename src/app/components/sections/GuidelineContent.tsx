@@ -68,6 +68,12 @@ const GuidelineContent: FC<GuidelineContentProps> = ({ isDarkMode, onNavigateToT
     'Filtering': <ChartBarIcon className="w-8 h-8" />,
     'Chart View': <PresentationChartLineIcon className="w-8 h-8" />,
     'Table View': <TableCellsIcon className="w-8 h-8" />,
+    'Code View': (
+      <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+    ),
     'Compare': <ArrowsPointingOutIcon className="w-8 h-8" />,
     'Exporting': <ArrowDownTrayIcon className="w-8 h-8" />,
     'Sidebar': <Bars3Icon className="w-8 h-8" />,

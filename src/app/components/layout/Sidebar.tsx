@@ -152,20 +152,6 @@ const Sidebar: FC<SidebarProps> = ({
             </button>
           </li>
 
-          {/* Contact Us */}
-          <li>
-            <a
-              href="mailto:ejli@cse.cuhk.edu.hk,lyu@cse.cuhk.edu.hk"
-              className={`w-full text-left px-6 py-4 rounded-lg font-bold text-2xl transition-colors block ${
-                isDarkMode 
-                  ? 'text-blue-200 hover:bg-blue-900/20' 
-                  : 'text-slate-700 hover:bg-slate-50'
-              }`}
-            >
-              Contact Us
-            </a>
-          </li>
-
           {/* User Guide */}
           <li>
             <button
@@ -182,6 +168,20 @@ const Sidebar: FC<SidebarProps> = ({
             >
               User Guide
             </button>
+          </li>
+
+          {/* Contact Us */}
+          <li>
+            <a
+              href="mailto:ejli@cse.cuhk.edu.hk,lyu@cse.cuhk.edu.hk"
+              className={`w-full text-left px-6 py-4 rounded-lg font-bold text-2xl transition-colors block ${
+                isDarkMode 
+                  ? 'text-blue-200 hover:bg-blue-900/20' 
+                  : 'text-slate-700 hover:bg-slate-50'
+              }`}
+            >
+              Contact Us
+            </a>
           </li>
         </ul>
       </nav>

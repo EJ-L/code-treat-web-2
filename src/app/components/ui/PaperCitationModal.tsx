@@ -23,12 +23,12 @@ interface PaperInfo {
 const papers: PaperInfo[] = [
   {
     name: "Code-TREAT",
-    title: "Code-TREAT: A Comprehensive Framework for LLM Code Generation Evaluation",
-    authors: "Zhang et al.",
+    title: "TREAT: A Code LLMs Trustworthiness / Reliability Evaluation and Testing Framework",
+    authors: "Gao et al.",
     venue: "arXiv",
-    year: "2024",
-    description: "The foundational framework that unifies multiple evaluation methodologies for assessing the trustworthiness and reliability of AI-generated code across diverse programming tasks.",
-    url: "https://arxiv.org/abs/2404.00160"
+    year: "2025",
+    description: "A comprehensive evaluation framework for assessing the robustness, reliability, and multi-modal capabilities of code generation models across diverse software engineering tasks.",
+    url: "https://arxiv.org/abs/2510.17163"
   },
   {
     name: "Multi-Modality",
