@@ -191,6 +191,30 @@ const GuidelineContent: FC<GuidelineContentProps> = ({ isDarkMode, onNavigateToT
           ]
         },
         {
+          title: "Code View",
+          items: [
+            {
+              question: "What’s in the Code View Section",
+              instructions: [
+                "The Code View displays example questions used to evaluate model performance for a specific task. Users can click 'Refresh Questions' button to load a new set of 10 questions.",
+                "Each entry includes the original code-related question and the model’s response to it.",
+                "Model responses are color-coded: green indicates better performance, while red suggests poorer performance.",
+                "Users can use the dropdown menu to view responses from different models.",
+                "Filtering options are available, just like in other views, allowing users to narrow down the results.",
+                "Currently, only the following tasks support Code View: Code Translation, Code Generation, and Unit Test Generation. Other tasks will be added in the future."
+              ],
+              images: {
+                pc: ["/guidelines/desktop/code-view-pc-1.png", "/guidelines/desktop/code-view-pc-2.png", "/guidelines/desktop/code-view-pc-3.png", "/guidelines/desktop/code-view-pc-4.png", "/guidelines/desktop/code-view-pc-5.png"],
+                mobile: ["/guidelines/mobile/code-view-mobile-1.png", "/guidelines/mobile/code-view-mobile-2.png", "/guidelines/mobile/code-view-mobile-3.png", "/guidelines/mobile/code-view-mobile-4.png", "/guidelines/mobile/code-view-mobile-5.png"],
+                captions: {
+                  pc: ["User can click the 'Refresh Questions' button to load new 10 questions", "Here is the example of the code question", "Here is the example of the model response, and the background is green means it performs well in here", "When user click the dropdown menu, it will show the response from different models", "It will show the remainder when checking the code view in other task"],
+                  mobile: ["User can click the 'Refresh Questions' button to load new 10 questions", "Here is the example of the code question", "Here is the example of the model response, and the background is green means it performs well in here", "When user click the dropdown menu, it will show the response from different models", "It will show the remainder when checking the code view in other task"]
+                }
+              }
+            }
+          ]
+        },
+        {
           title: "Compare",
           items: [
             {
