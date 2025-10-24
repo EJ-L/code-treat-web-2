@@ -1,7 +1,6 @@
 import { FC, useState, useEffect } from 'react';
 import { TaskType, ProcessedResult, Ability } from '@/lib/types';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus, vs } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import hljs from 'highlight.js';
 
 interface CodeQuestionsViewProps {
   currentTask: TaskType;
@@ -47,6 +46,62 @@ const getPrimaryMetric = (modelData: { metric?: number; metrics?: { [key: string
   return { value: 0, name: 'Score' };
 };
 
+// Custom syntax highlighter component using highlight.js
+const CodeHighlighter: FC<{
+  code: string;
+  language?: string;
+  isDarkMode: boolean;
+  customStyle?: React.CSSProperties;
+  className?: string;
+}> = ({ code, language, isDarkMode, customStyle, className }) => {
+  const [highlightedCode, setHighlightedCode] = useState<string>('');
+
+  useEffect(() => {
+    if (language && language !== 'text') {
+      try {
+        const highlighted = hljs.highlight(code, { language }).value;
+        setHighlightedCode(highlighted);
+      } catch (error) {
+        // If specific language fails, try auto-detection
+        try {
+          const highlighted = hljs.highlightAuto(code).value;
+          setHighlightedCode(highlighted);
+        } catch (autoError) {
+          // Fallback to plain text
+          setHighlightedCode(code);
+        }
+      }
+    } else {
+      // Auto-detect language
+      try {
+        const highlighted = hljs.highlightAuto(code).value;
+        setHighlightedCode(highlighted);
+      } catch (error) {
+        setHighlightedCode(code);
+      }
+    }
+  }, [code, language]);
+
+  return (
+    <pre 
+      className={`hljs ${isDarkMode ? 'hljs-dark' : 'hljs-light'} ${className || ''}`}
+      style={{
+        padding: '16px',
+        borderRadius: '8px',
+        fontSize: '16px',
+        lineHeight: '1.5',
+        overflow: 'auto',
+        ...customStyle
+      }}
+    >
+      <code 
+        dangerouslySetInnerHTML={{ __html: highlightedCode }}
+        style={{ fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace' }}
+      />
+    </pre>
+  );
+};
+
 // Helper function to get language for syntax highlighting
 const getLanguageForHighlighting = (question: CodeQuestionData, isSource: boolean = false): string => {
   // For code translation, use modality
@@ -63,8 +118,8 @@ const getLanguageForHighlighting = (question: CodeQuestionData, isSource: boolea
     return question.lang;
   }
   
-  // Default fallback
-  return 'text';
+  // Default fallback - let highlight.js auto-detect
+  return '';
 };
 
 // Helper function to determine the target language from modality string
@@ -525,18 +580,20 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
              (currentTask as string) === 'unit test generation' ? 'Code to Test' :
              'Question'}
           </h3>
-          <SyntaxHighlighter 
-            language={getLanguageForHighlighting(currentQuestion, true)}
-            style={isDarkMode ? vscDarkPlus : vs}
+          <div
             className="text-base rounded overflow-x-auto whitespace-pre-wrap"
-            customStyle={{ 
+            style={{ 
               padding: '16px',
               border: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`,
-              fontSize: '16px'
+              backgroundColor: isDarkMode ? '#1e293b' : '#ffffff',
+              fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace',
+              fontSize: '16px',
+              lineHeight: '1.5',
+              color: isDarkMode ? '#e2e8f0' : '#374151'
             }}
           >
             {currentQuestion.wrapped_text}
-          </SyntaxHighlighter>
+          </div>
         </div>
       </div>
 
@@ -629,21 +686,18 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
                  (currentTask as string) === 'unit test generation' ? 'Generated Tests:' :
                  'Generated Code:'}
               </h4>
-              <SyntaxHighlighter 
+              <CodeHighlighter
+                code={currentModel.data.parsed_code}
                 language={getLanguageForHighlighting(currentQuestion, false)}
-                style={isDarkMode ? vscDarkPlus : vs}
+                isDarkMode={isDarkMode}
                 className="text-base rounded overflow-x-auto whitespace-pre-wrap"
                 customStyle={{ 
-                  padding: '16px',
                   border: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`,
                   maxHeight: '400px',
                   overflowY: 'auto',
-                  fontSize: '16px',
                   backgroundColor: getPerformanceColors(currentModel.primaryMetric, minMetric, maxMetric, isDarkMode).backgroundColor
                 }}
-              >
-                {currentModel.data.parsed_code}
-              </SyntaxHighlighter>
+              />
             </div>
           </div>
         )}

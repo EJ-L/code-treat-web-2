@@ -1,0 +1,226 @@
+/* Custom highlight.js themes for light and dark modes */
+
+/* Light theme - based on GitHub light with improvements */
+.hljs-light {
+  background: #ffffff;
+  color: #24292f;
+  border: 1px solid #e1e4e8;
+}
+
+.hljs-light .hljs-comment,
+.hljs-light .hljs-quote {
+  color: #6a737d;
+  font-style: italic;
+}
+
+.hljs-light .hljs-keyword,
+.hljs-light .hljs-selector-tag,
+.hljs-light .hljs-subst {
+  color: #d73a49;
+  font-weight: 600;
+}
+
+.hljs-light .hljs-number,
+.hljs-light .hljs-literal,
+.hljs-light .hljs-variable,
+.hljs-light .hljs-template-variable,
+.hljs-light .hljs-tag .hljs-attr {
+  color: #005cc5;
+}
+
+.hljs-light .hljs-string,
+.hljs-light .hljs-doctag {
+  color: #032f62;
+}
+
+.hljs-light .hljs-title,
+.hljs-light .hljs-section,
+.hljs-light .hljs-selector-id {
+  color: #6f42c1;
+  font-weight: 600;
+}
+
+.hljs-light .hljs-type,
+.hljs-light .hljs-class .hljs-title {
+  color: #445588;
+  font-weight: 600;
+}
+
+.hljs-light .hljs-tag,
+.hljs-light .hljs-name,
+.hljs-light .hljs-attribute {
+  color: #22863a;
+  font-weight: 600;
+}
+
+.hljs-light .hljs-regexp,
+.hljs-light .hljs-link {
+  color: #032f62;
+}
+
+.hljs-light .hljs-symbol,
+.hljs-light .hljs-bullet {
+  color: #e36209;
+}
+
+.hljs-light .hljs-built_in,
+.hljs-light .hljs-builtin-name {
+  color: #005cc5;
+}
+
+.hljs-light .hljs-meta {
+  color: #6a737d;
+}
+
+.hljs-light .hljs-deletion {
+  background: #ffeef0;
+}
+
+.hljs-light .hljs-addition {
+  background: #f0fff4;
+}
+
+.hljs-light .hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-light .hljs-strong {
+  font-weight: bold;
+}
+
+/* Dark theme - based on GitHub dark with improvements */
+.hljs-dark {
+  background: #0d1117;
+  color: #e6edf3;
+  border: 1px solid #30363d;
+}
+
+.hljs-dark .hljs-comment,
+.hljs-dark .hljs-quote {
+  color: #8b949e;
+  font-style: italic;
+}
+
+.hljs-dark .hljs-keyword,
+.hljs-dark .hljs-selector-tag,
+.hljs-dark .hljs-subst {
+  color: #ff7b72;
+  font-weight: 600;
+}
+
+.hljs-dark .hljs-number,
+.hljs-dark .hljs-literal,
+.hljs-dark .hljs-variable,
+.hljs-dark .hljs-template-variable,
+.hljs-dark .hljs-tag .hljs-attr {
+  color: #79c0ff;
+}
+
+.hljs-dark .hljs-string,
+.hljs-dark .hljs-doctag {
+  color: #a5d6ff;
+}
+
+.hljs-dark .hljs-title,
+.hljs-dark .hljs-section,
+.hljs-dark .hljs-selector-id {
+  color: #d2a8ff;
+  font-weight: 600;
+}
+
+.hljs-dark .hljs-type,
+.hljs-dark .hljs-class .hljs-title {
+  color: #ffa657;
+  font-weight: 600;
+}
+
+.hljs-dark .hljs-tag,
+.hljs-dark .hljs-name,
+.hljs-dark .hljs-attribute {
+  color: #7ee787;
+  font-weight: 600;
+}
+
+.hljs-dark .hljs-regexp,
+.hljs-dark .hljs-link {
+  color: #a5d6ff;
+}
+
+.hljs-dark .hljs-symbol,
+.hljs-dark .hljs-bullet {
+  color: #ffa657;
+}
+
+.hljs-dark .hljs-built_in,
+.hljs-dark .hljs-builtin-name {
+  color: #79c0ff;
+}
+
+.hljs-dark .hljs-meta {
+  color: #8b949e;
+}
+
+.hljs-dark .hljs-deletion {
+  background: #490202;
+}
+
+.hljs-dark .hljs-addition {
+  background: #04260f;
+}
+
+.hljs-dark .hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-dark .hljs-strong {
+  font-weight: bold;
+}
+
+/* Additional styling for better readability */
+.hljs-light,
+.hljs-dark {
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hljs-dark {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Scrollbar styling */
+.hljs-light::-webkit-scrollbar,
+.hljs-dark::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.hljs-light::-webkit-scrollbar-track {
+  background: #f1f3f4;
+  border-radius: 4px;
+}
+
+.hljs-dark::-webkit-scrollbar-track {
+  background: #21262d;
+  border-radius: 4px;
+}
+
+.hljs-light::-webkit-scrollbar-thumb {
+  background: #c1c7cd;
+  border-radius: 4px;
+}
+
+.hljs-dark::-webkit-scrollbar-thumb {
+  background: #484f58;
+  border-radius: 4px;
+}
+
+.hljs-light::-webkit-scrollbar-thumb:hover {
+  background: #a8b1bb;
+}
+
+.hljs-dark::-webkit-scrollbar-thumb:hover {
+  background: #6e7681;
+}
