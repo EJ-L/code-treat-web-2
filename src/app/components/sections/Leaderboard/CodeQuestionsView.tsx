@@ -20,7 +20,7 @@ interface CodeQuestionData {
   lang?: string; // For code generation and unit test generation
   wrapped_text: string;
   models: Record<string, {
-    parsed_code: string;
+    parsed_code: string | number; // Can be string (most tasks) or number (vulnerability detection)
     metric?: number; // Single metric (code translation)
     metrics?: { // Multi-field metrics (unit test generation, code generation)
       [key: string]: number;
@@ -29,19 +29,34 @@ interface CodeQuestionData {
 }
 
 // Helper function to get the primary metric value and name from model data
-const getPrimaryMetric = (modelData: { metric?: number; metrics?: { [key: string]: number } }): { value: number; name: string } => {
+const getPrimaryMetric = (modelData: { metric?: number; metrics?: { [key: string]: number | { [key: string]: number } } }): { value: number; name: string } => {
   if (modelData.metric !== undefined) {
     return { value: modelData.metric, name: 'Score' };
   }
   if (modelData.metrics) {
     // For unit test generation, prioritize csr, then line_coverage
-    if (modelData.metrics.csr !== undefined) return { value: modelData.metrics.csr, name: 'CSR' };
-    if (modelData.metrics.line_coverage !== undefined) return { value: modelData.metrics.line_coverage, name: 'Line Coverage' };
-    // For code generation, use pass@1
-    if (modelData.metrics['pass@1'] !== undefined) return { value: modelData.metrics['pass@1'], name: 'Pass@1' };
+    if (modelData.metrics.csr !== undefined) return { value: modelData.metrics.csr as number, name: 'CSR' };
+    if (modelData.metrics.line_coverage !== undefined) return { value: modelData.metrics.line_coverage as number, name: 'Line Coverage' };
+    // For code generation and input/output prediction, use pass@1
+    if (modelData.metrics['pass@1'] !== undefined) return { value: modelData.metrics['pass@1'] as number, name: 'Pass@1' };
+    // For vulnerability detection, use accuracy
+    if (modelData.metrics.accuracy !== undefined) return { value: modelData.metrics.accuracy as number, name: 'Accuracy' };
+    // For code review and code summarization, handle LLMJudge nested metrics - show original score
+    if (modelData.metrics.LLMJudge && typeof modelData.metrics.LLMJudge === 'object') {
+      const llmJudgeMetrics = modelData.metrics.LLMJudge as { [key: string]: number };
+      const judgeKeys = Object.keys(llmJudgeMetrics);
+      if (judgeKeys.length > 0) {
+        // Return original LLMJudge score (don't normalize)
+        const rawScore = llmJudgeMetrics[judgeKeys[0]];
+        return { value: rawScore, name: 'LLM Judge' };
+      }
+    }
     // Return the first available metric
     const firstKey = Object.keys(modelData.metrics)[0];
-    return { value: modelData.metrics[firstKey] || 0, name: firstKey };
+    const firstValue = modelData.metrics[firstKey];
+    if (typeof firstValue === 'number') {
+      return { value: firstValue, name: firstKey };
+    }
   }
   return { value: 0, name: 'Score' };
 };
@@ -209,13 +224,24 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
       const beforeCount = filteredData.length;
       filteredData = filteredData.filter((item: CodeQuestionData) => {
         const itemDataset = item.dataset.toLowerCase();
-        return selectedAbilities.dataset!.some(dataset => 
-          dataset.toLowerCase() === itemDataset || 
-          (dataset.toLowerCase() === 'polyhumaneval' && itemDataset === 'polyhumaneval') ||
-          (dataset.toLowerCase() === 'hackerrank' && itemDataset === 'hackerrank') ||
-          (dataset.toLowerCase() === 'geeksforgeeks' && itemDataset === 'geeksforgeeks') ||
-          (dataset.toLowerCase() === 'symprompt' && itemDataset === 'symprompt')
-        );
+        return selectedAbilities.dataset!.some(dataset => {
+          const normalizedDataset = dataset.toLowerCase();
+          
+          // Handle dataset name mappings between UI and data
+          if (normalizedDataset === 'primevulpairs') {
+            return itemDataset === 'primevul_pair';
+          }
+          if (normalizedDataset === 'primevul') {
+            return itemDataset === 'primevul';
+          }
+          
+          // Handle other existing mappings
+          return normalizedDataset === itemDataset || 
+                 (normalizedDataset === 'polyhumaneval' && itemDataset === 'polyhumaneval') ||
+                 (normalizedDataset === 'hackerrank' && itemDataset === 'hackerrank') ||
+                 (normalizedDataset === 'geeksforgeeks' && itemDataset === 'geeksforgeeks') ||
+                 (normalizedDataset === 'symprompt' && itemDataset === 'symprompt');
+        });
       });
       console.log(`📊 Dataset filter: ${beforeCount} → ${filteredData.length} questions`);
     }
@@ -231,16 +257,58 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
       console.log(`🔄 Modality filter: ${beforeCount} → ${filteredData.length} questions`);
     }
     
-    // Filter by language (for code generation and unit test generation)
-    if (((currentTask as string) === 'code generation' || (currentTask as string) === 'unit test generation') && 
+    // Filter by language (for code generation, unit test generation, code review, code summarization, input/output prediction)
+    if (((currentTask as string) === 'code generation' || 
+         (currentTask as string) === 'unit test generation' ||
+         (currentTask as string) === 'code review' ||
+         (currentTask as string) === 'code summarization' ||
+         (currentTask as string) === 'input prediction' ||
+         (currentTask as string) === 'output prediction') && 
         selectedAbilities.modality && selectedAbilities.modality.length > 0) {
       const beforeCount = filteredData.length;
       filteredData = filteredData.filter((item: CodeQuestionData) => {
-        return selectedAbilities.modality!.some(lang => 
-          item.lang?.toLowerCase() === lang.toLowerCase()
-        );
+        return selectedAbilities.modality!.some(lang => {
+          const normalizedLang = lang.toLowerCase();
+          const itemLang = item.lang?.toLowerCase();
+          
+          // Handle language name mappings between UI and data
+          if (normalizedLang === 'c#') {
+            return itemLang === 'csharp';
+          }
+          if (normalizedLang === 'c++' || normalizedLang === 'cpp') {
+            return itemLang === 'cpp';
+          }
+          if (normalizedLang === 'javascript') {
+            return itemLang === 'javascript';
+          }
+          if (normalizedLang === 'typescript') {
+            return itemLang === 'typescript';
+          }
+          
+          // Default case: direct comparison
+          return itemLang === normalizedLang;
+        });
       });
       console.log(`🔄 Language filter: ${beforeCount} → ${filteredData.length} questions`);
+    }
+    
+    // Filter by LLMJudge (for code review and code summarization)
+    if (((currentTask as string) === 'code review' || (currentTask as string) === 'code summarization') && 
+        selectedAbilities.llmJudges && selectedAbilities.llmJudges.length > 0) {
+      const beforeCount = filteredData.length;
+      filteredData = filteredData.filter((item: CodeQuestionData) => {
+        // Check if any model in this question has responses from the selected LLM judges
+        return Object.values(item.models || {}).some(modelData => {
+          if (modelData.metrics && modelData.metrics.LLMJudge && typeof modelData.metrics.LLMJudge === 'object') {
+            const llmJudgeMetrics = modelData.metrics.LLMJudge as { [key: string]: number };
+            return selectedAbilities.llmJudges!.some(judge => 
+              llmJudgeMetrics[judge] !== undefined
+            );
+          }
+          return false;
+        });
+      });
+      console.log(`⚖️ LLMJudge filter: ${beforeCount} → ${filteredData.length} questions`);
     }
     
     // If no data matches filters, return empty array
@@ -267,7 +335,16 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
   useEffect(() => {
     const loadQuestionData = async () => {
       // Check if current task supports code view
-      const supportedTasks = ['code translation', 'code generation', 'unit test generation'];
+      const supportedTasks = [
+        'code translation', 
+        'code generation', 
+        'unit test generation',
+        'code review',
+        'code summarization', 
+        'input prediction',
+        'output prediction',
+        'vulnerability detection'
+      ];
       if (!supportedTasks.includes(currentTask)) {
         setIsLoading(false);
         return;
@@ -304,6 +381,60 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
             // Unit test generation data is already in flat array format
             return Array.isArray(data) ? data : [];
           };
+        } else if (currentTask === 'code review') {
+          dataUrl = '/data/code-example/code-review/combined_data.json';
+          dataProcessor = (data) => {
+            // Code review data is already in flat array format
+            return Array.isArray(data) ? data : [];
+          };
+        } else if (currentTask === 'code summarization') {
+          dataUrl = '/data/code-example/code-summarization/combined_data.json';
+          dataProcessor = (data) => {
+            // Code summarization data is already in flat array format
+            return Array.isArray(data) ? data : [];
+          };
+        } else if (currentTask === 'input prediction') {
+          dataUrl = '/data/code-example/input-prediction/combined_data.json';
+          dataProcessor = (data) => {
+            // Convert the nested structure to flat array
+            const flatData: CodeQuestionData[] = [];
+            Object.keys(data).forEach(dataset => {
+              if (Array.isArray(data[dataset])) {
+                data[dataset].forEach((item: any) => {
+                  flatData.push({
+                    ...item,
+                    dataset: dataset,
+                    lang: item.lang // Use existing lang field
+                  });
+                });
+              }
+            });
+            return flatData;
+          };
+        } else if (currentTask === 'output prediction') {
+          dataUrl = '/data/code-example/output-prediction/combined_data.json';
+          dataProcessor = (data) => {
+            // Convert the nested structure to flat array
+            const flatData: CodeQuestionData[] = [];
+            Object.keys(data).forEach(dataset => {
+              if (Array.isArray(data[dataset])) {
+                data[dataset].forEach((item: any) => {
+                  flatData.push({
+                    ...item,
+                    dataset: dataset,
+                    lang: item.lang // Use existing lang field
+                  });
+                });
+              }
+            });
+            return flatData;
+          };
+        } else if (currentTask === 'vulnerability detection') {
+          dataUrl = '/data/code-example/vulnerability-detection/combined_data.json';
+          dataProcessor = (data) => {
+            // Vulnerability detection data is already in flat array format
+            return Array.isArray(data) ? data : [];
+          };
         } else {
           setIsLoading(false);
           return;
@@ -327,7 +458,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
     };
 
     loadQuestionData();
-  }, [currentTask, selectedAbilities.dataset, selectedAbilities.modality]);
+  }, [currentTask, selectedAbilities.dataset, selectedAbilities.modality, selectedAbilities.llmJudges]);
 
   if (isLoading) {
     return (
@@ -343,12 +474,21 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
   }
 
   // Check if current task is supported for code view
-  const supportedTasks = ['code translation', 'code generation', 'unit test generation'];
+  const supportedTasks = [
+    'code translation', 
+    'code generation', 
+    'unit test generation',
+    'code review',
+    'code summarization', 
+    'input prediction',
+    'output prediction',
+    'vulnerability detection'
+  ];
   if (!supportedTasks.includes(currentTask)) {
     return (
       <div className="flex items-center justify-center p-8">
         <span style={{ color: isDarkMode ? '#94a3b8' : '#64748b' }}>
-          Code questions view is only available for code translation, code generation, and unit test generation tasks.
+          Code questions view is not yet available for this task.
         </span>
       </div>
     );
@@ -385,11 +525,22 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
     );
   }
   
+  // Debug logging for vulnerability detection
+  if ((currentTask as string) === 'vulnerability detection') {
+    console.log('🔍 VD Current Question:', {
+      questionId: (currentQuestion as any).data_idx,
+      availableModelKeys: Object.keys(currentQuestion.models || {}),
+      modelCount: Object.keys(currentQuestion.models || {}).length,
+      resultsCount: results.length,
+      resultsModels: results.map(r => r.model || r.modelName)
+    });
+  }
+  
   // Get models that have responses for this question and are in the current results
   const availableModels = Object.keys(currentQuestion.models || {})
     .map(modelKey => {
       // Extract model name from key (remove task-specific prefixes)
-      const modelName = modelKey.replace(/^(code_translation_|code_generation_|unit_test_generation_)/, '');
+      const modelName = modelKey.replace(/^(code_translation_|code_generation_|unit_test_generation_|code_review_|code_summarization_|input_prediction_|output_prediction_|vulnerability_detection_)/, '');
       const modelData = currentQuestion.models[modelKey];
       const primaryMetricInfo = getPrimaryMetric(modelData);
       return {
@@ -400,9 +551,19 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
         primaryMetricName: primaryMetricInfo.name
       };
     })
-    .filter(model => 
-      results.some(result => result.model === model.name || result.modelName === model.name)
-    )
+    .filter(model => {
+      const hasMatch = results.some(result => result.model === model.name || result.modelName === model.name);
+      // Debug logging for vulnerability detection
+      if ((currentTask as string) === 'vulnerability detection') {
+        console.log('🔍 VD Model filtering:', {
+          modelKey: model.key,
+          modelName: model.name,
+          hasMatch,
+          availableResultModels: results.map(r => ({ model: r.model, modelName: r.modelName }))
+        });
+      }
+      return hasMatch;
+    })
     .sort((a, b) => b.primaryMetric - a.primaryMetric); // Sort by primary metric descending
 
   // Set default selected model if not set or if model is not available
@@ -431,16 +592,30 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
     );
   }
 
-  // Use global metric range for consistent color coding across all questions
+  // Use appropriate metric range for consistent color coding across all questions
   // This prevents issues when all models have the same score for a question
-  const minMetric = 0.0;
-  const maxMetric = 1.0;
+  let minMetric = 0.0;
+  let maxMetric = 1.0;
+  
+  // For LLMJudge scores, use 1-5 scale
+  if (availableModels.length > 0 && availableModels[0].primaryMetricName === 'LLM Judge') {
+    minMetric = 1.0;
+    maxMetric = 5.0;
+  }
 
   // Get currently selected model data
   const currentModel = availableModels.find(m => m.key === selectedModel);
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-6">
+    <div 
+      className="w-full max-w-7xl mx-auto p-6"
+      style={{
+        pointerEvents: 'auto',
+        cursor: 'default'
+      }}
+      onMouseDown={(e) => e.stopPropagation()}
+      onMouseMove={(e) => e.stopPropagation()}
+    >
       {/* Question Navigation */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-6">
@@ -448,10 +623,16 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
             {(currentTask as string) === 'code translation' ? 'Code Translation Questions' :
              (currentTask as string) === 'code generation' ? 'Code Generation Questions' :
              (currentTask as string) === 'unit test generation' ? 'Unit Test Generation Questions' :
+             (currentTask as string) === 'code review' ? 'Code Review Questions' :
+             (currentTask as string) === 'code summarization' ? 'Code Summarization Questions' :
+             (currentTask as string) === 'input prediction' ? 'Input Prediction Questions' :
+             (currentTask as string) === 'output prediction' ? 'Output Prediction Questions' :
+             (currentTask as string) === 'vulnerability detection' ? 'Vulnerability Detection Questions' :
              'Code Questions'}
           </h2>
           <div className="flex items-center gap-3">
             <button
+              onMouseDown={(e) => e.stopPropagation()}
               onClick={async () => {
                 setIsLoading(true);
                 try {
@@ -484,6 +665,60 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
                       // Unit test generation data is already in flat array format
                       return Array.isArray(data) ? data : [];
                     };
+                  } else if (currentTask === 'code review') {
+                    dataUrl = '/data/code-example/code-review/combined_data.json';
+                    dataProcessor = (data) => {
+                      // Code review data is already in flat array format
+                      return Array.isArray(data) ? data : [];
+                    };
+                  } else if (currentTask === 'code summarization') {
+                    dataUrl = '/data/code-example/code-summarization/combined_data.json';
+                    dataProcessor = (data) => {
+                      // Code summarization data is already in flat array format
+                      return Array.isArray(data) ? data : [];
+                    };
+                  } else if (currentTask === 'input prediction') {
+                    dataUrl = '/data/code-example/input-prediction/combined_data.json';
+                    dataProcessor = (data) => {
+                      // Convert the nested structure to flat array
+                      const flatData: CodeQuestionData[] = [];
+                      Object.keys(data).forEach(dataset => {
+                        if (Array.isArray(data[dataset])) {
+                          data[dataset].forEach((item: any) => {
+                            flatData.push({
+                              ...item,
+                              dataset: dataset,
+                              lang: item.lang // Use existing lang field
+                            });
+                          });
+                        }
+                      });
+                      return flatData;
+                    };
+                  } else if (currentTask === 'output prediction') {
+                    dataUrl = '/data/code-example/output-prediction/combined_data.json';
+                    dataProcessor = (data) => {
+                      // Convert the nested structure to flat array
+                      const flatData: CodeQuestionData[] = [];
+                      Object.keys(data).forEach(dataset => {
+                        if (Array.isArray(data[dataset])) {
+                          data[dataset].forEach((item: any) => {
+                            flatData.push({
+                              ...item,
+                              dataset: dataset,
+                              lang: item.lang // Use existing lang field
+                            });
+                          });
+                        }
+                      });
+                      return flatData;
+                    };
+                  } else if (currentTask === 'vulnerability detection') {
+                    dataUrl = '/data/code-example/vulnerability-detection/combined_data.json';
+                    dataProcessor = (data) => {
+                      // Vulnerability detection data is already in flat array format
+                      return Array.isArray(data) ? data : [];
+                    };
                   } else {
                     setIsLoading(false);
                     return;
@@ -514,6 +749,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
               🔄 Refresh Questions
             </button>
             <button
+              onMouseDown={(e) => e.stopPropagation()}
               onClick={() => setSelectedQuestion(Math.max(0, selectedQuestion - 1))}
               disabled={selectedQuestion === 0}
               className="px-4 py-2 rounded-lg text-base font-medium transition-colors disabled:opacity-50"
@@ -529,6 +765,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
               {selectedQuestion + 1} of {questionData.length}
             </span>
             <button
+              onMouseDown={(e) => e.stopPropagation()}
               onClick={() => setSelectedQuestion(Math.min(questionData.length - 1, selectedQuestion + 1))}
               disabled={selectedQuestion === questionData.length - 1}
               className="px-4 py-2 rounded-lg text-base font-medium transition-colors disabled:opacity-50"
@@ -560,7 +797,32 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
               Modality:
             </span>
             <div className="text-lg font-semibold" style={{ color: isDarkMode ? '#e2e8f0' : '#374151' }}>
-              {currentQuestion.modality}
+              {(() => {
+                // For code review, code summarization, input prediction, output prediction - use lang field
+                if ((currentTask as string) === 'code review' || 
+                    (currentTask as string) === 'code summarization' ||
+                    (currentTask as string) === 'input prediction' ||
+                    (currentTask as string) === 'output prediction') {
+                  const lang = currentQuestion.lang;
+                  // Display proper language names for better readability
+                  if (lang === 'csharp') {
+                    return 'C#';
+                  }
+                  if (lang === 'cpp') {
+                    return 'C++';
+                  }
+                  if (lang === 'javascript') {
+                    return 'JavaScript';
+                  }
+                  if (lang === 'typescript') {
+                    return 'TypeScript';
+                  }
+                  // Capitalize first letter for other languages
+                  return lang ? lang.charAt(0).toUpperCase() + lang.slice(1) : 'N/A';
+                }
+                // For other tasks, use modality field
+                return currentQuestion.modality || 'N/A';
+              })()}
             </div>
           </div>
           <div>
@@ -568,7 +830,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
               Question ID:
             </span>
             <div className="text-lg font-semibold break-all" style={{ color: isDarkMode ? '#e2e8f0' : '#374151' }}>
-              {currentQuestion.id || currentQuestion.question_key || currentQuestion.prompt_id || 'N/A'}
+              {(currentQuestion as any).data_idx || currentQuestion.id || currentQuestion.question_key || currentQuestion.prompt_id || 'N/A'}
             </div>
           </div>
         </div>
@@ -578,6 +840,11 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
             {(currentTask as string) === 'code translation' ? 'Original Question' :
              (currentTask as string) === 'code generation' ? 'Problem Statement' :
              (currentTask as string) === 'unit test generation' ? 'Code to Test' :
+             (currentTask as string) === 'code review' ? 'Code to Review' :
+             (currentTask as string) === 'code summarization' ? 'Code to Summarize' :
+             (currentTask as string) === 'input prediction' ? 'Function and Expected Output' :
+             (currentTask as string) === 'output prediction' ? 'Function and Input' :
+             (currentTask as string) === 'vulnerability detection' ? 'Code to Analyze' :
              'Question'}
           </h3>
           <div
@@ -589,10 +856,13 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
               fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace',
               fontSize: '16px',
               lineHeight: '1.5',
-              color: isDarkMode ? '#e2e8f0' : '#374151'
+              color: isDarkMode ? '#e2e8f0' : '#374151',
+              cursor: 'text',
+              pointerEvents: 'auto'
             }}
+            onMouseDown={(e) => e.stopPropagation()}
           >
-            {currentQuestion.wrapped_text}
+            {currentQuestion.wrapped_text || (currentQuestion as any)['code/function'] || 'No content available'}
           </div>
         </div>
       </div>
@@ -614,12 +884,16 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
               style={{
                 backgroundColor: isDarkMode ? '#374151' : '#ffffff',
                 color: isDarkMode ? '#e2e8f0' : '#374151',
-                borderColor: isDarkMode ? '#4b5563' : '#d1d5db'
+                borderColor: isDarkMode ? '#4b5563' : '#d1d5db',
+                cursor: 'pointer',
+                pointerEvents: 'auto'
               }}
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
             >
               {availableModels.map((model, index) => (
                 <option key={model.key} value={model.key}>
-                  #{index + 1} {model.name} (Score: {model.primaryMetric.toFixed(2)})
+                  #{index + 1} {model.name} (Score: {model.primaryMetricName === 'LLM Judge' ? model.primaryMetric.toFixed(0) : model.primaryMetric.toFixed(2)})
                 </option>
               ))}
             </select>
@@ -644,7 +918,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
                       color: 'white'
                     }}
                   >
-                    {currentModel.primaryMetricName}: {currentModel.primaryMetric.toFixed(2)}
+                    {currentModel.primaryMetricName}: {currentModel.primaryMetricName === 'LLM Judge' ? currentModel.primaryMetric.toFixed(0) : currentModel.primaryMetric.toFixed(2)}
                   </span>
                   {/* Show additional metrics for unit test generation */}
                   {(currentTask as string) === 'unit test generation' && currentModel.data.metrics && (
@@ -684,20 +958,41 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
                 {(currentTask as string) === 'code translation' ? 'Generated Code:' :
                  (currentTask as string) === 'code generation' ? 'Generated Solution:' :
                  (currentTask as string) === 'unit test generation' ? 'Generated Tests:' :
+                 (currentTask as string) === 'code review' ? 'Generated Review:' :
+                 (currentTask as string) === 'code summarization' ? 'Generated Summary:' :
+                 (currentTask as string) === 'input prediction' ? 'Predicted Input:' :
+                 (currentTask as string) === 'output prediction' ? 'Predicted Output:' :
+                 (currentTask as string) === 'vulnerability detection' ? 'Vulnerability Analysis:' :
                  'Generated Code:'}
               </h4>
-              <CodeHighlighter
-                code={currentModel.data.parsed_code}
-                language={getLanguageForHighlighting(currentQuestion, false)}
-                isDarkMode={isDarkMode}
-                className="text-base rounded overflow-x-auto whitespace-pre-wrap"
-                customStyle={{ 
-                  border: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`,
-                  maxHeight: '400px',
-                  overflowY: 'auto',
-                  backgroundColor: getPerformanceColors(currentModel.primaryMetric, minMetric, maxMetric, isDarkMode).backgroundColor
-                }}
-              />
+              <div
+                onMouseDown={(e) => e.stopPropagation()}
+                style={{ cursor: 'text', pointerEvents: 'auto' }}
+              >
+                <CodeHighlighter
+                  code={(() => {
+                    // For vulnerability detection, convert numeric responses to meaningful text
+                    if ((currentTask as string) === 'vulnerability detection' && typeof currentModel.data.parsed_code === 'number') {
+                      return currentModel.data.parsed_code === 1 
+                        ? '(1) YES: A security vulnerability detected.' 
+                        : '(2) NO: No security vulnerability.';
+                    }
+                    // For other tasks, convert to string
+                    return String(currentModel.data.parsed_code);
+                  })()}
+                  language={getLanguageForHighlighting(currentQuestion, false)}
+                  isDarkMode={isDarkMode}
+                  className="text-base rounded overflow-x-auto whitespace-pre-wrap"
+                  customStyle={{ 
+                    border: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`,
+                    maxHeight: '400px',
+                    overflowY: 'auto',
+                    backgroundColor: getPerformanceColors(currentModel.primaryMetric, minMetric, maxMetric, isDarkMode).backgroundColor,
+                    cursor: 'text',
+                    pointerEvents: 'auto'
+                  }}
+                />
+              </div>
             </div>
           </div>
         )}

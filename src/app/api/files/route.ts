@@ -8,18 +8,27 @@ export const fetchCache = 'force-no-store';
 
 // Security: Define allowed directories to prevent path traversal
 const ALLOWED_DIRECTORIES = [
-  'data/code-generation',
-  'data/code-review', 
-  'data/code-summarization',
-  'data/code-translation',
-  'data/input_prediction',
-  'data/output_prediction',
-  'data/vulnerability-detection',
-  'data/multi-modality',
-  'data/interaction-2-code',
-  'data/code-robustness',
-  'data/mr-web',
-  'data/overall'
+  'data/code-example/code-generation',
+  'data/code-example/code-review', 
+  'data/code-example/code-summarization',
+  'data/code-example/code-translation',
+  'data/code-example/input-prediction',
+  'data/code-example/output-prediction',
+  'data/code-example/vulnerability-detection',
+  'data/code-example/unit-test-generation',
+  'data/precomputed/code-generation',
+  'data/precomputed/code-review', 
+  'data/precomputed/code-summarization',
+  'data/precomputed/code-translation',
+  'data/precomputed/input-prediction',
+  'data/precomputed/output-prediction',
+  'data/precomputed/vulnerability-detection',
+  'data/precomputed/unit-test-generation',
+  'data/precomputed/multi-modality',
+  'data/precomputed/interaction-2-code',
+  'data/precomputed/code-robustness',
+  'data/precomputed/mr-web',
+  'data/precomputed/overall'
 ];
 
 // Security: Validate and sanitize path input

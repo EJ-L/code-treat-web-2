@@ -11,18 +11,18 @@ import { ResultEntry, TaskType, FilterOptions } from '../../types';
  * Task directories mapping
  */
 const TASK_DIRECTORIES: Record<string, string> = {
-  'code generation': 'data/code-generation',
-  'code translation': 'data/code-translation',
-  'code summarization': 'data/code-summarization',
-  'vulnerability detection': 'data/vulnerability-detection',
-  'code review': 'data/code-review',
-  'input prediction': 'data/input_prediction',
-  'output prediction': 'data/output_prediction',
-  'multi-modality': 'data/multi-modality',
-  'interaction-2-code': 'data/interaction-2-code',
-  'code-robustness': 'data/code-robustness',
-  'mr-web': 'data/mr-web',
-  'unit test generation': 'data/unit_test_generation',
+  'code generation': 'data/code-example/code-generation',
+  'code translation': 'data/code-example/code-translation',
+  'code summarization': 'data/code-example/code-summarization',
+  'vulnerability detection': 'data/code-example/vulnerability-detection',
+  'code review': 'data/code-example/code-review',
+  'input prediction': 'data/code-example/input-prediction',
+  'output prediction': 'data/code-example/output-prediction',
+  'unit test generation': 'data/code-example/unit-test-generation',
+  'multi-modality': 'data/precomputed/multi-modality',
+  'interaction-2-code': 'data/precomputed/interaction-2-code',
+  'code-robustness': 'data/precomputed/code-robustness',
+  'mr-web': 'data/precomputed/mr-web',
 };
 
 /**
@@ -47,7 +47,7 @@ export class FileSystemDataSource extends BaseDataSource implements IFileDataSou
   protected async doInitialize(config?: DataLoadConfig): Promise<void> {
     // Validate that the API endpoints are available
     try {
-      const testResponse = await fetch('/api/files?directory=data/code-generation');
+      const testResponse = await fetch('/api/files?directory=data/code-example/code-generation');
       if (!testResponse.ok) {
         throw new Error('Files API not available');
       }
@@ -58,7 +58,7 @@ export class FileSystemDataSource extends BaseDataSource implements IFileDataSou
 
   protected async checkAvailability(): Promise<boolean> {
     try {
-      const response = await fetch('/api/files?directory=data/code-generation');
+      const response = await fetch('/api/files?directory=data/code-example/code-generation');
       return response.ok;
     } catch {
       return false;

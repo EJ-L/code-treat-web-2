@@ -43,6 +43,7 @@ src/lib/dataSources/README.md
 DEBUG_USAGE.md
 
 # data folder
+data/code-example/
 data/code-generation/
 data/multi-modality/
 data/code-review/

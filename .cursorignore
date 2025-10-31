@@ -1,0 +1,64 @@
+# Version control and editor metadata
+.git/
+.gitignore
+.vscode/
+.idea/
+
+# Dependencies and build outputs
+node_modules/
+.next/
+.vercel/
+.turbo/
+.cache/
+dist/
+build/
+out/
+.storybook/
+storybook-static/
+
+# Test artifacts
+coverage/
+.playwright/
+test-results/
+cypress/videos/
+cypress/screenshots/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# TypeScript build info
+tsconfig.tsbuildinfo
+
+# Project large data and static assets
+#data/
+#public/data/
+#public/guidelines/
+#public/overview/
+#public/icon.zip
+new_dataset/backup/
+
+# Large/binary assets (reduce indexing load)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.svg
+*.pdf
+*.zip
+*.tar
+*.gz

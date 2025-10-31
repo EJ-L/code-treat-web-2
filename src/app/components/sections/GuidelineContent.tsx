@@ -207,7 +207,7 @@ const GuidelineContent: FC<GuidelineContentProps> = ({ isDarkMode, onNavigateToT
                 "Model responses are color-coded: green indicates better performance, while red suggests poorer performance.",
                 "Users can use the dropdown menu to view responses from different models.",
                 "Filtering options are available, just like in other views, allowing users to narrow down the results.",
-                "Currently, only the following tasks support Code View: Code Translation, Code Generation, and Unit Test Generation. Other tasks will be added in the future."
+                "Currently, the following tasks support Code View: Code Review, Code Summarization, Code Translation, Code Generation, Input Prediction, Output Prediction, Vulnerability Detection, Unit Test Generation."
               ],
               images: {
                 pc: ["/guidelines/desktop/code-view-pc-1.png", "/guidelines/desktop/code-view-pc-2.png", "/guidelines/desktop/code-view-pc-3.png", "/guidelines/desktop/code-view-pc-4.png", "/guidelines/desktop/code-view-pc-5.png"],
