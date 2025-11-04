@@ -226,69 +226,188 @@ export function useProgressiveLoading(
   };
 
   const calculateOverallResults = (allTaskResults: Array<{ task: string; results: ProcessedResult[] }>): ProcessedResult[] => {
-    // This is a simplified version - you may need to adapt based on your existing overall calculation logic
-    const modelMap = new Map<string, {
-      model: string;
-      modelName: string;
-      tasks: Set<string>;
-      totalRank: number;
-      taskCount: number;
-    }>();
-
-    // Process each task's results
-    allTaskResults.forEach(({ task, results }) => {
-      if (results.length === 0) return;
-
-      // Sort results by primary metric (descending)
-      const sortedResults = [...results].sort((a, b) => {
-        const aMetric = getTaskPrimaryMetric(a, task);
-        const bMetric = getTaskPrimaryMetric(b, task);
-        return (bMetric || 0) - (aMetric || 0);
+    // Use the same logic as the fallback implementation for consistency
+    
+    // Helper function to calculate combined Code Reasoning ranks
+    const calculateCombinedCodeReasoningRanks = (allTaskResults: Array<{ task: string; results: ProcessedResult[] }>) => {
+      const inputPredictionResults = allTaskResults.find(r => r.task === 'input prediction')?.results || [];
+      const outputPredictionResults = allTaskResults.find(r => r.task === 'output prediction')?.results || [];
+      
+      // Get all models that have scores in either input or output prediction
+      const allModels = new Set<string>();
+      inputPredictionResults.forEach(r => r.model && allModels.add(r.model));
+      outputPredictionResults.forEach(r => r.model && allModels.add(r.model));
+      
+      // Calculate combined scores for Code Reasoning
+      const combinedScores: Array<{ model: string; score: number }> = [];
+      allModels.forEach(model => {
+        const inputResult = inputPredictionResults.find(r => r.model === model);
+        const outputResult = outputPredictionResults.find(r => r.model === model);
+        
+        const validScores: number[] = [];
+        
+        // Extract pass@1 scores - use the same field access as the main scoring logic
+        const inputScore = inputResult ? parseFloat(String(inputResult['pass@1'] || '0')) || 0 : 0;
+        const outputScore = outputResult ? parseFloat(String(outputResult['pass@1'] || '0')) || 0 : 0;
+        
+        if (inputScore > 0) {
+          validScores.push(inputScore);
+        }
+        if (outputScore > 0) {
+          validScores.push(outputScore);
+        }
+        
+        if (validScores.length > 0) {
+          const avgScore = validScores.reduce((a, b) => a + b, 0) / validScores.length;
+          combinedScores.push({ model, score: avgScore });
+        }
       });
+      
+      // Sort by combined score (descending) and assign ranks
+      combinedScores.sort((a, b) => b.score - a.score);
+      
+      const combinedRanks: Record<string, number> = {};
+      combinedScores.forEach((item, index) => {
+        combinedRanks[item.model] = index + 1;
+      });
+      
+      return combinedRanks;
+    };
 
-      // Assign ranks
-      sortedResults.forEach((result, index) => {
-        const modelKey = result.model || result.modelName || 'Unknown';
-        const rank = index + 1;
-
-        if (!modelMap.has(modelKey)) {
-          modelMap.set(modelKey, {
-            model: modelKey,
-            modelName: result.modelName || modelKey,
-            tasks: new Set(),
+    // Calculate combined Code Reasoning ranks
+    const codeReasoningRanks = calculateCombinedCodeReasoningRanks(allTaskResults);
+    
+    // Aggregate results by model
+    const modelAggregates = new Map<string, { 
+      model: string, 
+      taskCount: number, 
+      totalScore: number, 
+      totalRank: number,
+      taskScores: Record<string, number> 
+    }>();
+    
+    // Define task groups for ranking calculation (7 groups instead of 8 individual tasks)
+    const rankingTaskGroups = [
+      'code generation',
+      'code summarization',
+      'code translation', 
+      'code review',
+      'code-reasoning', // Combined input/output prediction
+      'unit test generation',
+      'vulnerability detection'
+    ];
+    
+    // Process each task separately to calculate ranks (for individual task data)
+    const taskRankMaps = new Map<string, Record<string, number>>();
+    
+    // Calculate ranks for individual tasks (but don't use these for aggregation)
+    allTaskResults.forEach(({ task, results }) => {
+      if (!results || results.length === 0) return;
+      
+      const taskScores: { model: string; score: number }[] = [];
+      results.forEach((result: ProcessedResult) => {
+        const modelName = result.model;
+        if (!modelName) return; // Skip if model name is undefined
+        
+        let primaryScore = 0;
+        
+        // Get primary metric for each task type (match script's TASK_PRIMARY_METRICS)
+        if (task === 'code summarization' || task === 'code review') {
+          primaryScore = parseFloat(String(result['LLM Judge'] || '0')) || 0;
+        } else if (task === 'vulnerability detection') {
+          primaryScore = parseFloat(String(result['Accuracy'] || '0')) || 0;
+        } else if (task === 'unit test generation') {
+          primaryScore = parseFloat(String(result['line_coverage'] || '0')) || 0;
+        } else {
+          // For code generation, code translation, input prediction, output prediction use pass@1
+          primaryScore = parseFloat(String(result['pass@1'] || '0')) || 0;
+        }
+        
+        if (primaryScore > 0) {
+          taskScores.push({ model: modelName, score: primaryScore });
+        }
+        
+        // Store task scores for aggregation
+        if (!modelAggregates.has(modelName)) {
+          modelAggregates.set(modelName, {
+            model: modelName,
+            taskCount: 0,
+            totalScore: 0,
             totalRank: 0,
-            taskCount: 0
+            taskScores: {}
           });
         }
+        modelAggregates.get(modelName)!.taskScores[task] = primaryScore;
+      });
+      
+      taskScores.sort((a, b) => b.score - a.score);
+      const taskRanks: Record<string, number> = {};
+      taskScores.forEach((item, index) => {
+        taskRanks[item.model] = index + 1;
+      });
+      
+      taskRankMaps.set(task, taskRanks);
+    });
 
-        const modelData = modelMap.get(modelKey)!;
-        if (!modelData.tasks.has(task)) {
-          modelData.tasks.add(task);
-          modelData.totalRank += rank;
-          modelData.taskCount += 1;
+    // Now aggregate using the 7 grouped tasks
+    Array.from(modelAggregates.keys()).forEach(modelName => {
+      const aggregate = modelAggregates.get(modelName)!;
+      
+      // Calculate ranks using grouped tasks
+      rankingTaskGroups.forEach(taskGroup => {
+        let rankToAdd: number | null = null;
+        let scoreToAdd: number | null = null;
+        
+        if (taskGroup === 'code-reasoning') {
+          // Use combined Code Reasoning rank
+          rankToAdd = codeReasoningRanks[modelName] || null;
+          // Calculate combined score for display
+          const inputScore = aggregate.taskScores['input prediction'];
+          const outputScore = aggregate.taskScores['output prediction'];
+          const validScores = [inputScore, outputScore].filter(s => s != null && s > 0);
+          if (validScores.length > 0) {
+            scoreToAdd = validScores.reduce((a, b) => a + b, 0) / validScores.length;
+          }
+        } else {
+          // Use individual task rank
+          const taskRanks = taskRankMaps.get(taskGroup);
+          rankToAdd = taskRanks ? taskRanks[modelName] : null;
+          scoreToAdd = aggregate.taskScores[taskGroup];
+        }
+        
+        if (rankToAdd !== null && scoreToAdd !== null) {
+          aggregate.taskCount++;
+          aggregate.totalScore += scoreToAdd;
+          aggregate.totalRank += rankToAdd;
         }
       });
     });
+    
+    // Models to exclude from overall leaderboard (match script - no exclusions)
+    const excludedModels: string[] = [];
 
-    // Convert to ProcessedResult format and sort by average rank
-    return Array.from(modelMap.values())
-      .filter(model => model.taskCount >= 3) // Minimum 3 tasks
-      .map(model => {
-        const avgRank = model.totalRank / model.taskCount;
-        return {
-          modelId: model.model,
-          model: model.model,
-          modelName: model.modelName,
-          avgRank: avgRank,
-          taskCount: model.taskCount,
-        // Add other required fields with default values
-        dataset: '',
-        task: 'overall' as TaskType,
+    // Calculate final rankings using average rank (now based on 7 grouped tasks)
+    // This matches the logic in generate-model-comparison-table-fixed.js
+    const overallResults = Array.from(modelAggregates.values())
+      .filter(aggregate => aggregate.taskCount > 0)
+      .filter(aggregate => !excludedModels.includes(aggregate.model))
+      .map(aggregate => ({
+        model: aggregate.model,
+        averageScore: aggregate.totalScore / aggregate.taskCount,
+        averageRank: aggregate.totalRank / aggregate.taskCount,
+        taskCount: aggregate.taskCount
+      }))
+      .sort((a, b) => a.averageRank - b.averageRank) // Sort by average rank (ascending)
+      .map((result, index): ProcessedResult => ({
+        modelId: result.model,
+        modelName: result.model,
+        model: result.model,
+        rank: index + 1,
+        dataset: 'Overall',
+        task: 'overall',
+        lang: 'Multiple',
         sourceLang: null,
         targetLang: null,
-        lang: '',
-        modality: undefined,
-        domain: '',
         pass1: null,
         pass3: null,
         pass5: null,
@@ -305,53 +424,31 @@ export function useProgressiveLoading(
         llmjudge: null,
         executionAccuracy: null,
         difficulty: null,
-        'P-C': null,
-        'P-V': null,
-        'P-B': null,
-        'P-R': null,
-        'Accuracy': null,
-        'Precision': null,
-        'Recall': null,
-        'F1 Score': null,
-        'CLIP': null,
-        'Compilation': null,
-        'SSIM': null,
-        'Text': null,
-        'Position': null,
-        'Implement Rate': null,
-        'VAN': null,
-        'REN': null,
-        'RTF': null,
-        'GBC': null,
-        'ALL': null,
-        'MDC': null,
-        'MPS': null,
-        'MHC': null,
-        'MAE': null,
-        'NEMD': null,
-        'RER': null
-        } as ProcessedResult & { avgRank: number; taskCount: number };
-      })
-      .sort((a, b) => {
-        return a.avgRank - b.avgRank;
-      });
+        // Store both score and average rank in the dynamic properties
+        score: result.averageScore.toFixed(1),
+        avgRank: result.averageRank.toFixed(1),
+        tasks: result.taskCount
+      }));
+    
+    return overallResults;
   };
 
   const getTaskPrimaryMetric = (result: ProcessedResult, task: string): number | null => {
-    // Return the primary metric for each task type
+    // Return the primary metric for each task type (match script's TASK_PRIMARY_METRICS)
     switch (task) {
       case 'code generation':
       case 'code translation':
-      case 'unit test generation':
         return result.pass1;
       case 'code summarization':
       case 'code review':
         return result.llmjudge;
       case 'vulnerability detection':
-        return result['F1 Score'] ?? null;
+        return result['Accuracy'] ?? null;
+      case 'unit test generation':
+        return result['line_coverage'] ?? null;
       case 'input prediction':
       case 'output prediction':
-        return result.executionAccuracy;
+        return result.pass1; // Use pass@1 for input/output prediction, not executionAccuracy
       default:
         return result.pass1 || result.llmjudge || result.executionAccuracy;
     }

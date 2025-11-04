@@ -579,22 +579,18 @@ interface TimelineFilterProps {
   isDarkMode: boolean;
   timelineRange: { start: Date; end: Date } | null;
   onTimelineChange: (startDate: Date, endDate: Date) => void;
-  results?: ProcessedResult[]; // Add results prop for task-specific bounds
+  results?: ProcessedResult[]; // Keep for backward compatibility but not used for bounds calculation
 }
 
 export const TimelineFilter: FC<TimelineFilterProps> = ({ 
   isDarkMode, 
   timelineRange, 
-  onTimelineChange,
-  results
+  onTimelineChange
 }) => {
-  // Calculate date bounds based on task-specific results with 2-month buffers
+  // Calculate stable date bounds that don't change during filtering
+  // Use all available model dates, not just current filtered results
   const dateBounds = useMemo(() => {
-    if (results && results.length > 0) {
-      return calculateTaskSpecificDateBounds(results);
-    }
-    
-    // Fallback to all model dates if no results provided
+    // Always use the full range of all model dates to prevent timeline flickering
     const modelDates = Object.values(MODEL_PUBLISH_DATES)
       .map(dateStr => new Date(dateStr))
       .filter(date => !isNaN(date.getTime()))
@@ -607,11 +603,14 @@ export const TimelineFilter: FC<TimelineFilterProps> = ({
       };
     }
     
+    // Add 2-month buffer before earliest and after latest dates for consistency
+    const twoMonthsInMs = 2 * 30 * 24 * 60 * 60 * 1000; // Approximate 2 months
+    
     return {
-      min: modelDates[0],
-      max: modelDates[modelDates.length - 1]
+      min: new Date(modelDates[0].getTime() - twoMonthsInMs),
+      max: new Date(modelDates[modelDates.length - 1].getTime() + twoMonthsInMs)
     };
-  }, [results]); // Recalculate when results change
+  }, []); // Empty dependency array - bounds should never change during filtering
   
   // Use the provided range or default to full range
   const currentStart = timelineRange?.start || dateBounds.min;

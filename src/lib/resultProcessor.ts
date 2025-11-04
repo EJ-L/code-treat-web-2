@@ -9,7 +9,6 @@ import { processCodeReview, aggregateCodeReviewResults } from './tasks/codeRevie
 import { processInputPrediction, aggregateInputPredictionResults } from './tasks/inputPrediction';
 import { processOutputPrediction, aggregateOutputPredictionResults } from './tasks/outputPrediction';
 import { processUnitTestGeneration, aggregateUnitTestGenerationResults } from './tasks/unitTestGeneration';
-import { processOverall } from './tasks/overall';
 import { MODEL_URLS } from './constants';
 
 // 辅助函数：标准化语言名称
@@ -152,8 +151,9 @@ export async function processResults(task: TaskType, filters: FilterOptions): Pr
       break;
       
     case 'overall':
-      // overall任务是异步的，需要await
-      processedResults = await processOverall(data.map(processResult), filters);
+      // Overall task should use precomputed data or the correct ranking implementation
+      // This fallback should never be reached since we have precomputed data and progressive loading
+      throw new Error('Overall task should use precomputed data or progressive loading, not real-time processing');
       break;
       
     case 'multi-modality':

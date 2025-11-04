@@ -285,11 +285,12 @@ const ResultsTable: FC<ResultsTableProps> = ({
 
   // Reset to table view only when the original results are empty (not just timeline filtered)
   // This ensures users can stay in chart view to adjust timeline filters
+  // Also prevent switching during loading states to avoid flickering during filtering
   useEffect(() => {
-    if (results.length === 0 && viewMode === 'scatter') {
+    if (results.length === 0 && viewMode === 'scatter' && !isLoading) {
       setViewMode('table');
     }
-  }, [results.length, viewMode, setViewMode]);
+  }, [results.length, viewMode, setViewMode, isLoading]);
   
   // Calculate total table width based on column widths
   const calculateTableWidth = useCallback(() => {
