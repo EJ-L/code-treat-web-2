@@ -34,19 +34,27 @@ const Sidebar: FC<SidebarProps> = ({
       {/* Header */}
       <div className="flex-shrink-0 p-6 border-b border-slate-200 dark:border-blue-500/20">
         <div className="flex items-center justify-between">
-          <button 
+          <motion.button 
             onClick={() => onSectionChange('overview')}
             className="flex items-center cursor-pointer"
             aria-label="Navigate to home page"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.2 }}
           >
-            <WebpageIcon 
-              className="w-12 h-12 mr-4"
-              isDarkMode={isDarkMode}
-            />
+            <motion.div
+              whileHover={{ rotate: 5 }}
+              transition={{ duration: 0.3 }}
+            >
+              <WebpageIcon 
+                className="w-12 h-12 mr-4"
+                isDarkMode={isDarkMode}
+              />
+            </motion.div>
             <span className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">
               Code TREAT
             </span>
-          </button>
+          </motion.button>
           {/* Close button for mobile */}
           <button
             onClick={onToggle}
@@ -63,9 +71,9 @@ const Sidebar: FC<SidebarProps> = ({
         <ul className="space-y-2">
           {/* Overview */}
           <li>
-            <button
+            <motion.button
               onClick={() => onSectionChange('overview')}
-              className={`w-full text-left px-6 py-4 rounded-lg font-bold text-2xl transition-colors ${
+              className={`w-full text-left px-6 py-4 rounded-lg font-bold text-2xl transition-all duration-200 ${
                 currentSection === 'overview'
                   ? isDarkMode 
                     ? 'bg-blue-900/30 text-blue-200' 
@@ -74,9 +82,15 @@ const Sidebar: FC<SidebarProps> = ({
                     ? 'text-blue-200 hover:bg-blue-900/20' 
                     : 'text-slate-700 hover:bg-slate-50'
               }`}
+              whileHover={{ 
+                scale: 1.02,
+                x: currentSection !== 'overview' ? 4 : 0
+              }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.2 }}
             >
               Overview
-            </button>
+            </motion.button>
           </li>
 
           {/* Tasks */}

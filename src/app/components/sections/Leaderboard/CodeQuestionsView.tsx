@@ -204,7 +204,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
 }) => {
   const [questionData, setQuestionData] = useState<CodeQuestionData[]>([]);
   const [selectedQuestion, setSelectedQuestion] = useState<number>(0);
-  const [selectedModel, setSelectedModel] = useState<string>(''); // New state for selected model
+  const [selectedModels, setSelectedModels] = useState<[string, string]>(['', '']); // Two models for side-by-side comparison
   const [isLoading, setIsLoading] = useState(true);
 
   // Function to filter and randomly select questions
@@ -541,25 +541,28 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
     })
     .sort((a, b) => b.primaryMetric - a.primaryMetric); // Sort by primary metric descending
 
-  // Set default selected model if not set or if model is not available
-  if (availableModels.length > 0 && (!selectedModel || !availableModels.find(m => m.key === selectedModel))) {
-    if (selectedModel !== availableModels[0].key) {
-      setSelectedModel(availableModels[0].key);
+  // Set default selected models if not set or if models are not available
+  if (availableModels.length >= 2) {
+    if (!selectedModels[0] || !availableModels.find(m => m.key === selectedModels[0]) ||
+        !selectedModels[1] || !availableModels.find(m => m.key === selectedModels[1])) {
+      if (selectedModels[0] !== availableModels[0].key || selectedModels[1] !== availableModels[1].key) {
+        setSelectedModels([availableModels[0].key, availableModels[1].key]);
+      }
     }
   }
   
-  // If no models are available, show a message
-  if (availableModels.length === 0) {
+  // If less than 2 models are available, show a message
+  if (availableModels.length < 2) {
     return (
       <div className="w-full max-w-7xl mx-auto p-6">
         <div className="flex items-center justify-center p-8">
           <div className="text-center">
             <span style={{ color: isDarkMode ? '#94a3b8' : '#64748b', fontSize: '1.125rem' }}>
-              No model responses available for this question.
+              Need at least 2 models to show side-by-side comparison.
             </span>
             <br />
             <span style={{ color: isDarkMode ? '#6b7280' : '#9ca3af', fontSize: '0.875rem' }}>
-              This might be because the models in the current results don't have responses for this specific question.
+              Available models: {availableModels.length}
             </span>
           </div>
         </div>
@@ -578,8 +581,9 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
     maxMetric = 5.0;
   }
 
-  // Get currently selected model data
-  const currentModel = availableModels.find(m => m.key === selectedModel);
+  // Get currently selected models data
+  const leftModel = availableModels.find(m => m.key === selectedModels[0]);
+  const rightModel = availableModels.find(m => m.key === selectedModels[1]);
 
   return (
     <div 
@@ -595,15 +599,15 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
       <div className="mb-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-3xl font-bold" style={{ color: isDarkMode ? '#e2e8f0' : '#374151' }}>
-            {(currentTask as string) === 'code translation' ? 'Code Translation Questions' :
-             (currentTask as string) === 'code generation' ? 'Code Generation Questions' :
-             (currentTask as string) === 'unit test generation' ? 'Unit Test Generation Questions' :
-             (currentTask as string) === 'code review' ? 'Code Review Questions' :
-             (currentTask as string) === 'code summarization' ? 'Code Summarization Questions' :
-             (currentTask as string) === 'input prediction' ? 'Input Prediction Questions' :
-             (currentTask as string) === 'output prediction' ? 'Output Prediction Questions' :
-             (currentTask as string) === 'vulnerability detection' ? 'Vulnerability Detection Questions' :
-             'Code Questions'}
+            {(currentTask as string) === 'code translation' ? 'Code Translation - Side by Side' :
+             (currentTask as string) === 'code generation' ? 'Code Generation - Side by Side' :
+             (currentTask as string) === 'unit test generation' ? 'Unit Test Generation - Side by Side' :
+             (currentTask as string) === 'code review' ? 'Code Review - Side by Side' :
+             (currentTask as string) === 'code summarization' ? 'Code Summarization - Side by Side' :
+             (currentTask as string) === 'input prediction' ? 'Input Prediction - Side by Side' :
+             (currentTask as string) === 'output prediction' ? 'Output Prediction - Side by Side' :
+             (currentTask as string) === 'vulnerability detection' ? 'Vulnerability Detection - Side by Side' :
+             'Code Questions - Side by Side'}
           </h2>
           <div className="flex items-center gap-3">
             <button
@@ -842,20 +846,45 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
         </div>
       </div>
 
-      {/* Model Response */}
-      <div>
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-2xl font-semibold" style={{ color: isDarkMode ? '#e2e8f0' : '#374151' }}>
-            Model Response
-          </h3>
-          <div className="flex items-center gap-4">
-            <span className="text-base font-medium" style={{ color: isDarkMode ? '#94a3b8' : '#64748b' }}>
-              Select Model:
+      {/* Model Selection */}
+      <div className="mb-6">
+        <h3 className="text-2xl font-semibold mb-4" style={{ color: isDarkMode ? '#e2e8f0' : '#374151' }}>
+          Model Comparison
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <span className="text-base font-medium mb-2 block" style={{ color: isDarkMode ? '#94a3b8' : '#64748b' }}>
+              Left Model:
             </span>
             <select
-              value={selectedModel}
-              onChange={(e) => setSelectedModel(e.target.value)}
-              className="px-4 py-2 rounded-lg border text-base font-medium min-w-48"
+              value={selectedModels[0]}
+              onChange={(e) => setSelectedModels([e.target.value, selectedModels[1]])}
+              className="w-full px-4 py-2 rounded-lg border text-base font-medium"
+              style={{
+                backgroundColor: isDarkMode ? '#374151' : '#ffffff',
+                color: isDarkMode ? '#e2e8f0' : '#374151',
+                borderColor: isDarkMode ? '#4b5563' : '#d1d5db',
+                cursor: 'pointer',
+                pointerEvents: 'auto'
+              }}
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {availableModels.map((model, index) => (
+                <option key={model.key} value={model.key}>
+                  #{index + 1} {model.name} (Score: {model.primaryMetricName === 'LLM Judge' ? model.primaryMetric.toFixed(0) : model.primaryMetric.toFixed(2)})
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <span className="text-base font-medium mb-2 block" style={{ color: isDarkMode ? '#94a3b8' : '#64748b' }}>
+              Right Model:
+            </span>
+            <select
+              value={selectedModels[1]}
+              onChange={(e) => setSelectedModels([selectedModels[0], e.target.value])}
+              className="w-full px-4 py-2 rounded-lg border text-base font-medium"
               style={{
                 backgroundColor: isDarkMode ? '#374151' : '#ffffff',
                 color: isDarkMode ? '#e2e8f0' : '#374151',
@@ -874,104 +903,146 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
             </select>
           </div>
         </div>
-        
-        {currentModel && (
+      </div>
+      
+      {/* Side by Side Comparison */}
+      {leftModel && rightModel && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Left Model */}
           <div 
-            className="p-6 rounded-lg"
-            style={{ backgroundColor: isDarkMode ? '#1e293b' : '#f8fafc' }}
+            className="p-6 rounded-lg border-2"
+            style={{ 
+              backgroundColor: isDarkMode ? '#1e293b' : '#f8fafc',
+              borderColor: getPerformanceColors(leftModel.primaryMetric, minMetric, maxMetric, isDarkMode).badgeColor
+            }}
           >
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-4">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
                 <span className="text-xl font-semibold" style={{ color: isDarkMode ? '#e2e8f0' : '#374151' }}>
-                  {currentModel.name}
+                  {leftModel.name}
                 </span>
-                <div className="flex items-center gap-3">
-                  <span 
-                    className="px-3 py-1 rounded-lg text-base font-medium"
-                    style={{
-                      backgroundColor: getPerformanceColors(currentModel.primaryMetric, minMetric, maxMetric, isDarkMode).badgeColor,
-                      color: 'white'
-                    }}
-                  >
-                    {currentModel.primaryMetricName}: {currentModel.primaryMetricName === 'LLM Judge' ? currentModel.primaryMetric.toFixed(0) : currentModel.primaryMetric.toFixed(2)}
-                  </span>
-                  {/* Show additional metrics for unit test generation */}
-                  {(currentTask as string) === 'unit test generation' && currentModel.data.metrics && (
-                    <div className="text-sm" style={{ color: isDarkMode ? '#94a3b8' : '#64748b' }}>
-                      {Object.entries(currentModel.data.metrics)
-                        .filter(([key]) => key !== 'csr') // Don't repeat the primary metric
-                        .map(([key, value]) => {
-                          let displayValue = 'N/A';
-                          if (typeof value === 'number') {
-                            if (value < 0) {
-                              displayValue = 'N/A';
-                            } else if (key === 'line_coverage' || key === 'branch_coverage') {
-                              // These are already in percentage scale (0-100), don't multiply by 100
-                              displayValue = `${value.toFixed(1)}%`;
-                            } else {
-                              // CSR and other metrics are in 0-1 scale, multiply by 100
-                              displayValue = `${(value * 100).toFixed(1)}%`;
-                            }
-                          }
-                          return (
-                            <span key={key} className="mr-3">
-                              {key.replace('_', ' ')}: {displayValue}
-                            </span>
-                          );
-                        })}
-                    </div>
-                  )}
-                </div>
+                <span 
+                  className="px-3 py-1 rounded-lg text-sm font-medium"
+                  style={{
+                    backgroundColor: getPerformanceColors(leftModel.primaryMetric, minMetric, maxMetric, isDarkMode).badgeColor,
+                    color: 'white'
+                  }}
+                >
+                  {leftModel.primaryMetricName}: {leftModel.primaryMetricName === 'LLM Judge' ? leftModel.primaryMetric.toFixed(0) : leftModel.primaryMetric.toFixed(2)}
+                </span>
               </div>
-              <div className="text-base" style={{ color: isDarkMode ? '#94a3b8' : '#64748b' }}>
-                Rank: #{availableModels.findIndex(m => m.key === selectedModel) + 1} of {availableModels.length}
+              <div className="text-sm" style={{ color: isDarkMode ? '#94a3b8' : '#64748b' }}>
+                Rank: #{availableModels.findIndex(m => m.key === selectedModels[0]) + 1}
               </div>
             </div>
             
-            <div>
-              <h4 className="text-lg font-medium mb-3" style={{ color: isDarkMode ? '#94a3b8' : '#64748b' }}>
-                {(currentTask as string) === 'code translation' ? 'Generated Code:' :
-                 (currentTask as string) === 'code generation' ? 'Generated Solution:' :
-                 (currentTask as string) === 'unit test generation' ? 'Generated Tests:' :
-                 (currentTask as string) === 'code review' ? 'Generated Review:' :
-                 (currentTask as string) === 'code summarization' ? 'Generated Summary:' :
-                 (currentTask as string) === 'input prediction' ? 'Predicted Input:' :
-                 (currentTask as string) === 'output prediction' ? 'Predicted Output:' :
-                 (currentTask as string) === 'vulnerability detection' ? 'Vulnerability Analysis:' :
-                 'Generated Code:'}
-              </h4>
-              <div
-                onMouseDown={(e) => e.stopPropagation()}
-                style={{ cursor: 'text', pointerEvents: 'auto' }}
-              >
-                <CodeHighlighter
-                  code={(() => {
-                    // For vulnerability detection, convert numeric responses to meaningful text
-                    if ((currentTask as string) === 'vulnerability detection' && typeof currentModel.data.parsed_code === 'number') {
-                      return currentModel.data.parsed_code === 1 
-                        ? '(1) YES: A security vulnerability detected.' 
-                        : '(2) NO: No security vulnerability.';
-                    }
-                    // For other tasks, convert to string
-                    return String(currentModel.data.parsed_code);
-                  })()}
-                  language={getLanguageForHighlighting(currentQuestion, false)}
-                  isDarkMode={isDarkMode}
-                  className="text-base rounded overflow-x-auto whitespace-pre-wrap"
-                  customStyle={{ 
-                    border: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`,
-                    maxHeight: '400px',
-                    overflowY: 'auto',
-                    backgroundColor: getPerformanceColors(currentModel.primaryMetric, minMetric, maxMetric, isDarkMode).backgroundColor,
-                    cursor: 'text',
-                    pointerEvents: 'auto'
-                  }}
-                />
-              </div>
+            <h4 className="text-lg font-medium mb-3" style={{ color: isDarkMode ? '#94a3b8' : '#64748b' }}>
+              {(currentTask as string) === 'code translation' ? 'Generated Code:' :
+               (currentTask as string) === 'code generation' ? 'Generated Solution:' :
+               (currentTask as string) === 'unit test generation' ? 'Generated Tests:' :
+               (currentTask as string) === 'code review' ? 'Generated Review:' :
+               (currentTask as string) === 'code summarization' ? 'Generated Summary:' :
+               (currentTask as string) === 'input prediction' ? 'Predicted Input:' :
+               (currentTask as string) === 'output prediction' ? 'Predicted Output:' :
+               (currentTask as string) === 'vulnerability detection' ? 'Vulnerability Analysis:' :
+               'Generated Code:'}
+            </h4>
+            <div
+              onMouseDown={(e) => e.stopPropagation()}
+              style={{ cursor: 'text', pointerEvents: 'auto' }}
+            >
+              <CodeHighlighter
+                code={(() => {
+                  if ((currentTask as string) === 'vulnerability detection' && typeof leftModel.data.parsed_code === 'number') {
+                    return leftModel.data.parsed_code === 1 
+                      ? '(1) YES: A security vulnerability detected.' 
+                      : '(2) NO: No security vulnerability.';
+                  }
+                  return String(leftModel.data.parsed_code);
+                })()}
+                language={getLanguageForHighlighting(currentQuestion, false)}
+                isDarkMode={isDarkMode}
+                className="text-sm rounded overflow-x-auto whitespace-pre-wrap"
+                customStyle={{ 
+                  border: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`,
+                  maxHeight: '400px',
+                  overflowY: 'auto',
+                  backgroundColor: getPerformanceColors(leftModel.primaryMetric, minMetric, maxMetric, isDarkMode).backgroundColor,
+                  cursor: 'text',
+                  pointerEvents: 'auto'
+                }}
+              />
             </div>
           </div>
-        )}
-      </div>
+
+          {/* Right Model */}
+          <div 
+            className="p-6 rounded-lg border-2"
+            style={{ 
+              backgroundColor: isDarkMode ? '#1e293b' : '#f8fafc',
+              borderColor: getPerformanceColors(rightModel.primaryMetric, minMetric, maxMetric, isDarkMode).badgeColor
+            }}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <span className="text-xl font-semibold" style={{ color: isDarkMode ? '#e2e8f0' : '#374151' }}>
+                  {rightModel.name}
+                </span>
+                <span 
+                  className="px-3 py-1 rounded-lg text-sm font-medium"
+                  style={{
+                    backgroundColor: getPerformanceColors(rightModel.primaryMetric, minMetric, maxMetric, isDarkMode).badgeColor,
+                    color: 'white'
+                  }}
+                >
+                  {rightModel.primaryMetricName}: {rightModel.primaryMetricName === 'LLM Judge' ? rightModel.primaryMetric.toFixed(0) : rightModel.primaryMetric.toFixed(2)}
+                </span>
+              </div>
+              <div className="text-sm" style={{ color: isDarkMode ? '#94a3b8' : '#64748b' }}>
+                Rank: #{availableModels.findIndex(m => m.key === selectedModels[1]) + 1}
+              </div>
+            </div>
+            
+            <h4 className="text-lg font-medium mb-3" style={{ color: isDarkMode ? '#94a3b8' : '#64748b' }}>
+              {(currentTask as string) === 'code translation' ? 'Generated Code:' :
+               (currentTask as string) === 'code generation' ? 'Generated Solution:' :
+               (currentTask as string) === 'unit test generation' ? 'Generated Tests:' :
+               (currentTask as string) === 'code review' ? 'Generated Review:' :
+               (currentTask as string) === 'code summarization' ? 'Generated Summary:' :
+               (currentTask as string) === 'input prediction' ? 'Predicted Input:' :
+               (currentTask as string) === 'output prediction' ? 'Predicted Output:' :
+               (currentTask as string) === 'vulnerability detection' ? 'Vulnerability Analysis:' :
+               'Generated Code:'}
+            </h4>
+            <div
+              onMouseDown={(e) => e.stopPropagation()}
+              style={{ cursor: 'text', pointerEvents: 'auto' }}
+            >
+              <CodeHighlighter
+                code={(() => {
+                  if ((currentTask as string) === 'vulnerability detection' && typeof rightModel.data.parsed_code === 'number') {
+                    return rightModel.data.parsed_code === 1 
+                      ? '(1) YES: A security vulnerability detected.' 
+                      : '(2) NO: No security vulnerability.';
+                  }
+                  return String(rightModel.data.parsed_code);
+                })()}
+                language={getLanguageForHighlighting(currentQuestion, false)}
+                isDarkMode={isDarkMode}
+                className="text-sm rounded overflow-x-auto whitespace-pre-wrap"
+                customStyle={{ 
+                  border: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`,
+                  maxHeight: '400px',
+                  overflowY: 'auto',
+                  backgroundColor: getPerformanceColors(rightModel.primaryMetric, minMetric, maxMetric, isDarkMode).backgroundColor,
+                  cursor: 'text',
+                  pointerEvents: 'auto'
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

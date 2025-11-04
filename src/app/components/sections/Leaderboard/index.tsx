@@ -13,6 +13,7 @@ import { TimelineFilter, SecondaryFiltersBar } from './FilterComponents';
 import ModelComparisonModal from '@/app/components/ui/ModelComparisonModal';
 import { AnimatedResultsWrapper } from '@/app/components/ui/AnimatedResultsWrapper';
 import { ProgressiveLoadingIndicator } from '@/app/components/ui/ProgressiveLoadingIndicator';
+import ModelABComparison from './ModelABComparison';
 import { getAvailableLLMJudges as getSummarizationJudges } from '@/lib/tasks/codeSummarization';
 import { getAvailableLLMJudges as getReviewJudges } from '@/lib/tasks/codeReview';
 
@@ -912,6 +913,16 @@ interface LeaderboardProps {
               results={results}
             />
           </div>
+
+          {/* A/B Comparison Section - Only show for overall task */}
+          {currentTask === 'overall' && (
+            <div className="mt-6 mb-8">
+              <ModelABComparison 
+                isDarkMode={isDarkMode}
+                overallResults={sortedResults}
+              />
+            </div>
+          )}
 
           {/* Timeline Filter - positioned between filter panel and table, hidden in chart view and code questions view */}
           {filterConditions.shouldShowTimeline(currentTask) && viewMode === 'table' && (
