@@ -209,12 +209,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
 
   // Function to filter and randomly select questions
   const filterAndSelectQuestions = (data: CodeQuestionData[]) => {
-    console.log('🔍 Filtering questions:', {
-      totalQuestions: data.length,
-      selectedDatasets: selectedAbilities.dataset,
-      selectedModalities: selectedAbilities.modality,
-      currentTask
-    });
+    // Filtering questions based on current criteria
     
     // Apply filtering based on selected abilities
     let filteredData = data;
@@ -243,7 +238,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
                  (normalizedDataset === 'symprompt' && itemDataset === 'symprompt');
         });
       });
-      console.log(`📊 Dataset filter: ${beforeCount} → ${filteredData.length} questions`);
+      // Dataset filter applied
     }
     
     // Filter by modality (only for code translation)
@@ -254,7 +249,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
           item.modality === modality
         );
       });
-      console.log(`🔄 Modality filter: ${beforeCount} → ${filteredData.length} questions`);
+      // Modality filter applied
     }
     
     // Filter by language (for code generation, unit test generation, code review, code summarization, input/output prediction)
@@ -289,7 +284,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
           return itemLang === normalizedLang;
         });
       });
-      console.log(`🔄 Language filter: ${beforeCount} → ${filteredData.length} questions`);
+      // Language filter applied
     }
     
     // Filter by LLMJudge (for code review and code summarization)
@@ -308,12 +303,12 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
           return false;
         });
       });
-      console.log(`⚖️ LLMJudge filter: ${beforeCount} → ${filteredData.length} questions`);
+      // LLM Judge filter applied
     }
     
     // If no data matches filters, return empty array
     if (filteredData.length === 0) {
-      console.log('❌ No questions match the current filters');
+      // No questions match current filters
       return [];
     }
     
@@ -321,13 +316,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
     const shuffled = [...filteredData].sort(() => Math.random() - 0.5);
     const selected = shuffled.slice(0, Math.min(10, shuffled.length));
     
-    console.log(`✅ Selected ${selected.length} random questions from ${filteredData.length} filtered questions`);
-    console.log('📋 Selected question details:', selected.map(q => ({
-      id: q.id || q.question_key,
-      dataset: q.dataset,
-      modality: q.modality,
-      lang: q.lang
-    })));
+    // Random questions selected from filtered data
     
     return selected;
   };
@@ -452,7 +441,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
         setSelectedQuestion(0); // Reset to first question when data changes
         setIsLoading(false);
       } catch (error) {
-        console.error('Error loading question data:', error);
+        // Error loading question data
         setIsLoading(false);
       }
     };
@@ -527,13 +516,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
   
   // Debug logging for vulnerability detection
   if ((currentTask as string) === 'vulnerability detection') {
-    console.log('🔍 VD Current Question:', {
-      questionId: (currentQuestion as any).data_idx,
-      availableModelKeys: Object.keys(currentQuestion.models || {}),
-      modelCount: Object.keys(currentQuestion.models || {}).length,
-      resultsCount: results.length,
-      resultsModels: results.map(r => r.model || r.modelName)
-    });
+    // Processing vulnerability detection question
   }
   
   // Get models that have responses for this question and are in the current results
@@ -553,15 +536,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
     })
     .filter(model => {
       const hasMatch = results.some(result => result.model === model.name || result.modelName === model.name);
-      // Debug logging for vulnerability detection
-      if ((currentTask as string) === 'vulnerability detection') {
-        console.log('🔍 VD Model filtering:', {
-          modelKey: model.key,
-          modelName: model.name,
-          hasMatch,
-          availableResultModels: results.map(r => ({ model: r.model, modelName: r.modelName }))
-        });
-      }
+      // Model filtering for vulnerability detection
       return hasMatch;
     })
     .sort((a, b) => b.primaryMetric - a.primaryMetric); // Sort by primary metric descending
@@ -736,7 +711,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
                   setSelectedQuestion(0);
                   setIsLoading(false);
                 } catch (error) {
-                  console.error('Error loading question data:', error);
+                  // Error loading question data
                   setIsLoading(false);
                 }
               }}

@@ -7,6 +7,7 @@ import {
 } from './interfaces';
 import { TaskType, FilterOptions, ProcessedResult } from '../types';
 import { DataSourceFactory } from './DataSourceFactory';
+import { CacheManager } from '../cache/CacheManager';
 
 export type DataLoadStrategy = 'precomputed-first' | 'filesystem-first' | 'all-sources' | 'precomputed-only' | 'filesystem-only';
 
@@ -23,11 +24,24 @@ export class DataLoaderManager {
   private static instance: DataLoaderManager;
   private dataSources: IDataSource[] = [];
   private factory: DataSourceFactory;
+  private cacheManager: CacheManager;
   private isInitialized = false;
   private initializationPromise?: Promise<void>;
 
   private constructor() {
     this.factory = DataSourceFactory.getInstance();
+    this.cacheManager = CacheManager.getInstance({
+      enableEnhancedCache: true,
+      enableBrowserCache: true,
+      enableSessionCache: true,
+      preloadKeys: [
+        'precomputed:overall',
+        'precomputed:code-generation',
+        'precomputed:code-translation',
+        'precomputed:code-summarization',
+        'precomputed:code-review'
+      ]
+    });
   }
 
   static getInstance(): DataLoaderManager {
@@ -161,10 +175,19 @@ export class DataLoaderManager {
   }
 
   /**
-   * Get precomputed results for specific filters (optimized path)
+   * Get precomputed results for specific filters (optimized path with enhanced caching)
    */
   async getPrecomputedResults(task: TaskType, filters: FilterOptions): Promise<ProcessedResult[]> {
     await this.initialize();
+
+    // Create cache key
+    const cacheKey = `precomputed:${task}:${this.serializeFilters(filters)}`;
+    
+    // Try cache first
+    const cached = await this.cacheManager.get<ProcessedResult[]>(cacheKey);
+    if (cached) {
+      return cached;
+    }
 
     const precomputedSource = this.getPrecomputedDataSource();
     if (!precomputedSource || !await precomputedSource.isAvailable()) {
@@ -173,7 +196,13 @@ export class DataLoaderManager {
 
     try {
       // Use the new method that returns leaderboard-ready format
-      return await precomputedSource.getLeaderboardResults(task, filters) as ProcessedResult[];
+      const results = await precomputedSource.getLeaderboardResults(task, filters) as ProcessedResult[];
+      
+      // Cache the results with appropriate TTL
+      const ttl = this.getCacheTTLForTask(task);
+      await this.cacheManager.set(cacheKey, results, ttl);
+      
+      return results;
     } catch (error) {
       console.error('Error getting precomputed results:', error);
       return [];
@@ -221,13 +250,6 @@ export class DataLoaderManager {
     return healthStatuses;
   }
 
-  /**
-   * Clear all caches
-   */
-  async clearAllCaches(): Promise<void> {
-    const clearPromises = this.dataSources.map(source => source.clearCache());
-    await Promise.allSettled(clearPromises);
-  }
 
   /**
    * Get statistics about data sources
@@ -399,5 +421,94 @@ export class DataLoaderManager {
         errors
       }
     };
+  }
+
+  /**
+   * Clear all caches in all data sources and cache manager
+   */
+  async clearAllCaches(): Promise<void> {
+    const promises = this.dataSources.map(source => source.clearCache());
+    await Promise.all(promises);
+    
+    // Clear enhanced cache manager
+    await this.cacheManager.clear();
+  }
+
+  /**
+   * Get comprehensive cache statistics
+   */
+  getCacheStats() {
+    return this.cacheManager.getStats();
+  }
+
+  /**
+   * Preload important data into cache
+   */
+  async preloadCache(): Promise<void> {
+    await this.cacheManager.preload(async (key: string) => {
+      // Extract task and filters from cache key
+      const parts = key.split(':');
+      if (parts.length >= 2 && parts[0] === 'precomputed') {
+        const task = parts[1] as TaskType;
+        const filters: FilterOptions = {
+          tasks: [task],
+          datasets: [],
+          langs: [],
+          modalities: [],
+          knowledge: [],
+          robustness: [],
+          security: [],
+          framework: [],
+          showByDifficulty: false
+        };
+        
+        // Load without using cache to populate it
+        const precomputedSource = this.getPrecomputedDataSource();
+        if (precomputedSource && await precomputedSource.isAvailable()) {
+          return await precomputedSource.getLeaderboardResults(task, filters);
+        }
+      }
+      return null;
+    });
+  }
+
+  /**
+   * Cleanup expired cache entries
+   */
+  cleanupCaches(): void {
+    this.cacheManager.cleanup();
+  }
+
+  /**
+   * Serialize filters for cache key generation
+   */
+  private serializeFilters(filters: FilterOptions): string {
+    const normalized = {
+      tasks: filters.tasks?.sort() || [],
+      datasets: filters.datasets?.sort() || [],
+      langs: filters.langs?.sort() || [],
+      modalities: filters.modalities?.sort() || [],
+      knowledge: filters.knowledge?.sort() || [],
+      robustness: filters.robustness?.sort() || [],
+      security: filters.security?.sort() || [],
+      framework: filters.framework?.sort() || [],
+      llmJudges: filters.llmJudges?.sort() || [],
+      showByDifficulty: filters.showByDifficulty || false
+    };
+    
+    return JSON.stringify(normalized);
+  }
+
+  /**
+   * Get appropriate cache TTL for different task types
+   */
+  private getCacheTTLForTask(task: TaskType): number {
+    // Overall task results change less frequently
+    if (task === 'overall') {
+      return 2 * 60 * 60 * 1000; // 2 hours
+    }
+    
+    // Precomputed results are relatively stable
+    return 60 * 60 * 1000; // 1 hour
   }
 } 

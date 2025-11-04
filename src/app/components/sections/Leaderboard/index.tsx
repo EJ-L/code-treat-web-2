@@ -1,6 +1,7 @@
 import React, { FC, useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { FilterOptions, TaskType, Ability, ProcessedResult } from '@/lib/types';
 import { MODEL_PUBLISH_DATES, getBaseModelName } from '@/lib/constants';
+import { useProgressiveLoading } from '@/hooks/useProgressiveLoading';
 
 import FilterPanel from './FilterPanel';
 import ResultsTable from './ResultsTable';
@@ -11,6 +12,7 @@ import { ScatterChartRef } from '@/app/components/ui/ModelScatterChart';
 import { TimelineFilter, SecondaryFiltersBar } from './FilterComponents';
 import ModelComparisonModal from '@/app/components/ui/ModelComparisonModal';
 import { AnimatedResultsWrapper } from '@/app/components/ui/AnimatedResultsWrapper';
+import { ProgressiveLoadingIndicator } from '@/app/components/ui/ProgressiveLoadingIndicator';
 import { getAvailableLLMJudges as getSummarizationJudges } from '@/lib/tasks/codeSummarization';
 import { getAvailableLLMJudges as getReviewJudges } from '@/lib/tasks/codeReview';
 
@@ -51,10 +53,46 @@ interface LeaderboardProps {
   const [currentTask, setCurrentTask] = useState<TaskType>('overall');
   const [timelineRange, setTimelineRange] = useState<{ start: Date; end: Date } | null>(null);
   const [selectedAbilities, setSelectedAbilities] = useState<Partial<Ability>>({});
-  const [results, setResults] = useState<ProcessedResult[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setIsDataComplete] = useState(false);
+  // Use progressive loading hook instead of manual state management
+  const progressiveLoadingEnabled = true; // Feature flag for progressive loading
+  
+  // Create filter options for progressive loading
+  const filterOptions: FilterOptions = useMemo(() => ({
+    tasks: [currentTask],
+    datasets: (selectedAbilities.dataset && selectedAbilities.dataset.length > 0) ? selectedAbilities.dataset : [],
+    langs: [],
+    modalities: (selectedAbilities.modality && selectedAbilities.modality.length > 0) ? selectedAbilities.modality : [],
+    knowledge: (selectedAbilities.knowledge && selectedAbilities.knowledge.length > 0) ? selectedAbilities.knowledge : [],
+    robustness: (selectedAbilities.robustness && selectedAbilities.robustness.length > 0) ? selectedAbilities.robustness : [],
+    security: (selectedAbilities.privacy && selectedAbilities.privacy.length > 0) ? selectedAbilities.privacy : [],
+    llmJudges: (selectedAbilities.llmJudges && selectedAbilities.llmJudges.length > 0) ? selectedAbilities.llmJudges : undefined,
+    framework: (selectedAbilities.framework && selectedAbilities.framework.length > 0) ? selectedAbilities.framework : [],
+    showByDifficulty: false
+  }), [currentTask, selectedAbilities]);
+
+  // Progressive loading hook
+  const {
+    results: progressiveResults,
+    isLoading: progressiveIsLoading,
+    isDataComplete: progressiveIsDataComplete,
+    loadingProgress,
+    error: progressiveError
+  } = useProgressiveLoading(currentTask, filterOptions, {
+    batchSize: 15,
+    delayBetweenBatches: 30,
+    priorityModels: ['GPT-4', 'Claude', 'Gemini', 'Llama', 'DeepSeek', 'Qwen']
+  });
+
+  // Fallback state for non-progressive loading (backward compatibility)
+  const [fallbackResults, setFallbackResults] = useState<ProcessedResult[]>([]);
+  const [fallbackIsLoading, setFallbackIsLoading] = useState(true);
+  const [fallbackIsDataComplete, setFallbackIsDataComplete] = useState(false);
+
+  // Use progressive or fallback results based on feature flag
+  const results = progressiveLoadingEnabled ? progressiveResults : fallbackResults;
+  const isLoading = progressiveLoadingEnabled ? progressiveIsLoading : fallbackIsLoading;
+  const isDataComplete = progressiveLoadingEnabled ? progressiveIsDataComplete : fallbackIsDataComplete;
+
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(
     getDefaultSortConfig(initialTask || 'overall')
   );
@@ -295,24 +333,15 @@ interface LeaderboardProps {
 
 
 
-  // Load and process data using precomputed results or overall aggregation
+  // Fallback data loading (only when progressive loading is disabled)
   useEffect(() => {
+    if (progressiveLoadingEnabled) {
+      return; // Skip fallback loading when progressive loading is enabled
+    }
+
     const loadAndProcessData = async () => {
-        setIsLoading(true);
+        setFallbackIsLoading(true);
       try {
-        // Create filter options for precomputed results  
-        const filterOptions: FilterOptions = {
-          tasks: [currentTask],
-          datasets: (selectedAbilities.dataset && selectedAbilities.dataset.length > 0) ? selectedAbilities.dataset : [],
-          langs: [],
-          modalities: (selectedAbilities.modality && selectedAbilities.modality.length > 0) ? selectedAbilities.modality : [],
-          knowledge: (selectedAbilities.knowledge && selectedAbilities.knowledge.length > 0) ? selectedAbilities.knowledge : [],
-          robustness: (selectedAbilities.robustness && selectedAbilities.robustness.length > 0) ? selectedAbilities.robustness : [],
-          security: (selectedAbilities.privacy && selectedAbilities.privacy.length > 0) ? selectedAbilities.privacy : [],
-          llmJudges: (selectedAbilities.llmJudges && selectedAbilities.llmJudges.length > 0) ? selectedAbilities.llmJudges : undefined,
-          framework: (selectedAbilities.framework && selectedAbilities.framework.length > 0) ? selectedAbilities.framework : [],
-          showByDifficulty: false
-        };
 
         debug.leaderboard(`Loading data for task: ${currentTask}`, filterOptions);
 
@@ -604,9 +633,9 @@ interface LeaderboardProps {
               avgRank: model.totalRank / model.taskCount
             }));
           debug.leaderboard(`Sample model ranks (matches script logic):`, sampleModels);
-          setResults(overallResults);
-          setIsDataComplete(true);
-          setIsLoading(false);
+          setFallbackResults(overallResults);
+          setFallbackIsDataComplete(true);
+          setFallbackIsLoading(false);
               } else {
           // Use precomputed results for specific tasks
           const { getPrecomputedResults } = await import('@/lib/dataLoader');
@@ -614,31 +643,26 @@ interface LeaderboardProps {
           
           if (!results || results.length === 0) {
             debug.warn(`No precomputed results available for task: ${currentTask}`);
-                setResults([]);
-            setIsDataComplete(false);
-            setIsLoading(false);
+                setFallbackResults([]);
+            setFallbackIsDataComplete(false);
+            setFallbackIsLoading(false);
             return;
           }
 
           debug.leaderboard(`Loaded ${results.length} results for ${currentTask}`, results.slice(0, 3));
           debug.leaderboard(`Sample result object keys:`, results.length > 0 ? Object.keys(results[0]) : 'No results');
           
-          // Add specific debug for unit test generation
-          if (currentTask === 'unit test generation') {
-            console.log(`🔍 UNIT TEST DEBUG: Loaded ${results.length} results`);
-            console.log(`🔍 UNIT TEST DEBUG: Filter options:`, filterOptions);
-            console.log(`🔍 UNIT TEST DEBUG: Sample results:`, results.slice(0, 5));
-          }
+          // Unit test generation task loaded
           
-          setResults(results);
-          setIsDataComplete(true);
-                  setIsLoading(false);
+          setFallbackResults(results);
+          setFallbackIsDataComplete(true);
+                  setFallbackIsLoading(false);
                 }
       } catch (error) {
         debug.error('Error loading data:', error);
-          setResults([]);
-        setIsDataComplete(false);
-          setIsLoading(false);
+          setFallbackResults([]);
+        setFallbackIsDataComplete(false);
+          setFallbackIsLoading(false);
       }
     };
     
@@ -938,6 +962,30 @@ interface LeaderboardProps {
                 handleAbilityChange={handleAbilityChange}
                 isDarkMode={isDarkMode}
               />
+              
+              {/* Progressive Loading Indicator */}
+              {progressiveLoadingEnabled && (progressiveIsLoading || loadingProgress < 100) && (
+                <div className="mb-6">
+                  <ProgressiveLoadingIndicator
+                    progress={loadingProgress}
+                    isLoading={progressiveIsLoading}
+                    isDarkMode={isDarkMode}
+                  />
+                </div>
+              )}
+              
+              {/* Show error message if progressive loading fails */}
+              {progressiveLoadingEnabled && progressiveError && (
+                <div className={`mb-4 p-4 rounded-lg ${isDarkMode ? 'bg-red-900/20 border border-red-800 text-red-300' : 'bg-red-50 border border-red-200 text-red-700'}`}>
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                    </svg>
+                    <span className="font-medium">Loading Error:</span>
+                    <span className="ml-1">{progressiveError}</span>
+                  </div>
+                </div>
+              )}
               
               <ResultsTable 
               currentTask={currentTask}

@@ -24,13 +24,32 @@ export function DataLoader() {
         
         console.log('数据加载系统初始化完成');
         
-        // Preload data for better performance
+        // Get the data loader manager instance for enhanced caching
+        const { DataLoaderManager } = await import('@/lib/dataSources/DataLoaderManager');
+        const manager = DataLoaderManager.getInstance();
+        
+        // Preload important data into enhanced cache
+        await manager.preloadCache();
+        console.log('增强缓存预加载完成');
+        
+        // Preload data for better performance (fallback)
         await loadAllData({
           strategy: 'precomputed-first',
           useCache: true
         });
         
         console.log('数据预加载完成');
+        
+        // Setup periodic cache cleanup
+        const cleanupInterval = setInterval(() => {
+          manager.cleanupCaches();
+        }, 10 * 60 * 1000); // Every 10 minutes
+        
+        // Cleanup on unmount
+        return () => {
+          clearInterval(cleanupInterval);
+        };
+        
       } catch (error) {
         console.error('数据预加载失败:', error);
         // Reset on error so we can try again
