@@ -2,17 +2,21 @@ import { FC } from 'react';
 import { motion } from 'framer-motion';
 
 interface EnhancedLoadingProps {
-  type?: 'spinner' | 'dots' | 'pulse' | 'skeleton';
+  type?: 'spinner' | 'dots' | 'pulse' | 'skeleton' | 'progress' | 'wave';
   size?: 'sm' | 'md' | 'lg';
   text?: string;
   isDarkMode?: boolean;
+  progress?: number; // For progress type
+  showPercentage?: boolean;
 }
 
 const EnhancedLoading: FC<EnhancedLoadingProps> = ({
   type = 'spinner',
   size = 'md',
   text,
-  isDarkMode = false
+  isDarkMode = false,
+  progress = 0,
+  showPercentage = false
 }) => {
   const getSizeClasses = () => {
     switch (size) {
@@ -94,6 +98,45 @@ const EnhancedLoading: FC<EnhancedLoadingProps> = ({
     </div>
   );
 
+  const renderProgress = () => (
+    <div className="w-full max-w-md">
+      <div className={`w-full bg-gray-200 rounded-full h-2 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
+        <motion.div
+          className="bg-blue-600 h-2 rounded-full"
+          initial={{ width: 0 }}
+          animate={{ width: `${Math.min(progress, 100)}%` }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        />
+      </div>
+      {showPercentage && (
+        <div className={`text-center mt-2 text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+          {Math.round(progress)}%
+        </div>
+      )}
+    </div>
+  );
+
+  const renderWave = () => (
+    <div className="flex space-x-1">
+      {[0, 1, 2, 3, 4].map((i) => (
+        <motion.div
+          key={i}
+          className={`${size === 'sm' ? 'w-1 h-6' : size === 'lg' ? 'w-2 h-12' : 'w-1.5 h-8'} bg-blue-500 rounded-full`}
+          animate={{
+            scaleY: [1, 2, 1],
+            opacity: [0.7, 1, 0.7]
+          }}
+          transition={{
+            duration: 1,
+            repeat: Infinity,
+            delay: i * 0.1,
+            ease: "easeInOut"
+          }}
+        />
+      ))}
+    </div>
+  );
+
   const renderLoader = () => {
     switch (type) {
       case 'dots':
@@ -102,6 +145,10 @@ const EnhancedLoading: FC<EnhancedLoadingProps> = ({
         return renderPulse();
       case 'skeleton':
         return renderSkeleton();
+      case 'progress':
+        return renderProgress();
+      case 'wave':
+        return renderWave();
       case 'spinner':
       default:
         return renderSpinner();

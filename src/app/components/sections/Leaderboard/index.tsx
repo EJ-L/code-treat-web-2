@@ -105,7 +105,7 @@ interface LeaderboardProps {
   });
   const [resizingColumn, setResizingColumn] = useState<string | null>(null);
   const [isComparisonModalOpen, setIsComparisonModalOpen] = useState(false);
-  const [viewMode, setViewMode] = useState<'table' | 'scatter' | 'code-questions'>('table');
+  const [viewMode, setViewMode] = useState<'table' | 'scatter' | 'code-questions' | 'model-comparison'>('table');
   
   // Multi-leaderboard state
   const [selectedMultiTab, setSelectedMultiTab] = useState<string>('All');
@@ -182,14 +182,14 @@ interface LeaderboardProps {
       setSelectedAbilities({});
     }
     
-    // Reset viewMode to table if switching to a task that doesn't support chart view
-    if (!supportsChartView(task)) {
+    // Reset viewMode to table if switching to a task that doesn't support chart view or switching away from overall task
+    if (!supportsChartView(task) || (viewMode === 'model-comparison' && task !== 'overall' as TaskType)) {
       setViewMode('table');
     }
     
     // Close comparison modal when task changes
     setIsComparisonModalOpen(false);
-  }, [supportsChartView]);
+  }, [supportsChartView, currentTask, viewMode]);
 
   const handleAbilityChange = (key: keyof Ability, value: string) => {
     setSelectedAbilities(prev => {
@@ -911,18 +911,10 @@ interface LeaderboardProps {
               isMultiLeaderboard={isMultiLeaderboardTask(currentTask) && viewMode === 'table'}
               selectedMultiTab={selectedMultiTab}
               results={results}
+              viewMode={viewMode}
             />
           </div>
 
-          {/* A/B Comparison Section - Only show for overall task */}
-          {currentTask === 'overall' && (
-            <div className="mt-6 mb-8">
-              <ModelABComparison 
-                isDarkMode={isDarkMode}
-                overallResults={sortedResults}
-              />
-            </div>
-          )}
 
           {/* Timeline Filter - positioned between filter panel and table, hidden in chart view and code questions view */}
           {filterConditions.shouldShowTimeline(currentTask) && viewMode === 'table' && (

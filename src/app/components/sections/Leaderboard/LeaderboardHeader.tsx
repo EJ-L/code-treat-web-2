@@ -6,8 +6,8 @@ import { ScatterChartRef } from '@/app/components/ui/ModelScatterChart';
 interface LeaderboardHeaderProps {
   currentTask: TaskType;
   isDarkMode: boolean;
-  viewMode: 'table' | 'scatter' | 'code-questions';
-  setViewMode: (mode: 'table' | 'scatter' | 'code-questions') => void;
+  viewMode: 'table' | 'scatter' | 'code-questions' | 'model-comparison';
+  setViewMode: (mode: 'table' | 'scatter' | 'code-questions' | 'model-comparison') => void;
   setIsComparisonModalOpen: (isOpen: boolean) => void;
   shouldShowChartButton: boolean;
   csvData: { headers: { label: string; key: string }[]; data: Record<string, string | number>[] };
@@ -85,6 +85,42 @@ const LeaderboardHeader: FC<LeaderboardHeaderProps> = ({
         
         {/* Buttons Section - Responsive Layout */}
         <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-2 sm:gap-4">
+          {/* Model Comparison button - Only show for overall task */}
+          {currentTask === 'overall' && (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setViewMode(viewMode === 'model-comparison' ? 'table' : 'model-comparison');
+              }}
+              type="button"
+              className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 rounded-lg text-white font-medium text-sm sm:text-lg transition-all duration-200 hover:scale-105 hover:shadow-lg min-w-0"
+              style={{
+                background: viewMode === 'model-comparison' 
+                  ? 'linear-gradient(to right, #ec4899, #be185d)' 
+                  : 'linear-gradient(to right, #6366f1, #8b5cf6)',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              {viewMode === 'model-comparison' ? (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-6 sm:w-6" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V3zM3 9a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V9zM4 14a1 1 0 00-1 1v3a1 1 0 001 1h12a1 1 0 001-1v-3a1 1 0 00-1-1H4z"/>
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-6 sm:w-6" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/>
+                </svg>
+              )}
+              <span className="hidden xs:inline sm:inline">
+                {viewMode === 'model-comparison' ? 'Table View' : 'Model Comparison'}
+              </span>
+              <span className="xs:hidden sm:hidden">
+                {viewMode === 'model-comparison' ? 'Table' : 'Compare'}
+              </span>
+            </button>
+          )}
+
           {/* Hide compare button for overall task since there are no metrics to compare */}
           {currentTask !== 'overall' && (
             <button

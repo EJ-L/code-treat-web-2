@@ -1,6 +1,6 @@
 import { FC, useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDownIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 interface Option {
   value: string;
@@ -17,6 +17,9 @@ interface MultiSelectDropdownProps {
   maxDisplayedTags?: number;
   className?: string;
   disabled?: boolean;
+  searchable?: boolean;
+  placeholder?: string;
+  showSelectAll?: boolean;
 }
 
 const MultiSelectDropdown: FC<MultiSelectDropdownProps> = ({
@@ -27,12 +30,17 @@ const MultiSelectDropdown: FC<MultiSelectDropdownProps> = ({
   isDarkMode,
   maxDisplayedTags = 3,
   className = "",
-  disabled = false
+  disabled = false,
+  searchable = true,
+  placeholder,
+  showSelectAll = true
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [availableWidth, setAvailableWidth] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   
   // Measure available width for responsive truncation
   useEffect(() => {
@@ -70,12 +78,22 @@ const MultiSelectDropdown: FC<MultiSelectDropdownProps> = ({
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
+        setSearchTerm(''); // Clear search when closing
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Focus search input when dropdown opens
+  useEffect(() => {
+    if (isOpen && searchable && searchInputRef.current) {
+      setTimeout(() => {
+        searchInputRef.current?.focus();
+      }, 100);
+    }
+  }, [isOpen, searchable]);
 
   const handleToggleOption = (value: string) => {
     if (disabled) return;
@@ -103,9 +121,39 @@ const MultiSelectDropdown: FC<MultiSelectDropdownProps> = ({
     onSelectionChange([]);
   };
 
+  // Filter options based on search term
+  const filteredOptions = options.filter(option => {
+    if (option.disabled) return false;
+    if (!searchable || !searchTerm) return true;
+    return option.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
+           option.value.toLowerCase().includes(searchTerm.toLowerCase());
+  });
+
   // Check if option is available
   const availableOptions = options.filter(option => !option.disabled);
   const hasAvailableOptions = availableOptions.length > 0;
+
+  // Select all functionality
+  const handleSelectAll = () => {
+    if (disabled) return;
+    const allValues = filteredOptions.map(option => option.value);
+    const allSelected = allValues.every(value => selectedValues.includes(value));
+    
+    if (allSelected) {
+      // Deselect all filtered options
+      const newSelectedValues = selectedValues.filter(value => 
+        !allValues.includes(value)
+      );
+      onSelectionChange(newSelectedValues);
+    } else {
+      // Select all filtered options
+      const newSelectedValues = [...new Set([...selectedValues, ...allValues])];
+      onSelectionChange(newSelectedValues);
+    }
+  };
+
+  const areAllFilteredSelected = filteredOptions.length > 0 && 
+    filteredOptions.every(option => selectedValues.includes(option.value));
 
   // Helper function to create truncated available options display (when no selection)
   const getAvailableOptionsDisplay = () => {
@@ -190,28 +238,47 @@ const MultiSelectDropdown: FC<MultiSelectDropdownProps> = ({
               <span className={`ml-1 truncate font-bold ${
                 isDarkMode ? 'text-slate-500' : 'text-slate-400'
               }`}>
-                {getAvailableOptionsDisplay()}
+                {placeholder || getAvailableOptionsDisplay()}
               </span>
             </div>
           ) : (
             <div className="flex items-center">
-              <span className={`font-bold ${
-                isDarkMode ? 'text-slate-200' : 'text-slate-700'
-              }`}>
-                {selectedValues.length === 1 ? (
-                  // Show option name for single selection
-                  (() => {
-                    const option = options.find(opt => opt.value === selectedValues[0]);
-                    return option?.label || selectedValues[0];
-                  })()
-                ) : selectedValues.length === availableOptions.length ? (
-                  // Show "All filters" when all options are selected
-                  'All filters'
-                ) : (
-                  // Show "Selected (X/Y) options" for multiple selections
-                  `Selected (${selectedValues.length}/${availableOptions.length}) options`
-                )}
+              <span 
+                ref={labelRef}
+                className={`font-bold flex-shrink-0 mr-2 ${
+                  isDarkMode ? 'text-slate-300' : 'text-slate-600'
+                }`}
+              >
+                {label}:
               </span>
+              <div className="flex items-center min-w-0">
+                <span className={`font-bold ${
+                  isDarkMode ? 'text-slate-200' : 'text-slate-700'
+                }`}>
+                  {selectedValues.length === 1 ? (
+                    // Show option name for single selection
+                    (() => {
+                      const option = options.find(opt => opt.value === selectedValues[0]);
+                      return option?.label || selectedValues[0];
+                    })()
+                  ) : selectedValues.length === availableOptions.length ? (
+                    // Show "All filters" when all options are selected
+                    'All filters'
+                  ) : (
+                    // Show "Selected (X/Y) options" for multiple selections
+                    `${selectedValues.length} selected`
+                  )}
+                </span>
+                {selectedValues.length > 1 && (
+                  <span className={`ml-1 px-2 py-1 text-xs rounded-full ${
+                    isDarkMode 
+                      ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30' 
+                      : 'bg-blue-100 text-blue-700 border border-blue-200'
+                  }`}>
+                    {selectedValues.length}/{availableOptions.length}
+                  </span>
+                )}
+              </div>
             </div>
           )}
         </div>
@@ -254,44 +321,115 @@ const MultiSelectDropdown: FC<MultiSelectDropdownProps> = ({
             exit={{ opacity: 0, y: -8, scale: 0.95 }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
             className={`
-              absolute z-50 w-full mt-1 rounded-lg border shadow-lg max-h-60 overflow-y-auto
+              absolute z-50 w-full mt-1 rounded-lg border shadow-lg max-h-80 overflow-hidden
               ${isDarkMode
                 ? 'bg-slate-800 border-slate-600'
                 : 'bg-white border-slate-300'
               }
             `}
           >
-            <div className="py-1">
-              {availableOptions.map((option) => {
-                const isSelected = selectedValues.includes(option.value);
-                
-                return (
-                  <button
-                    key={option.value}
-                    type="button"
-                    onClick={() => handleToggleOption(option.value)}
-                    className={`
-                      w-full px-3 py-2 text-left text-lg font-bold transition-colors
-                      flex items-center justify-between
-                      ${isSelected
-                        ? isDarkMode
-                          ? 'bg-blue-600/20 text-blue-300'
-                          : 'bg-blue-50 text-blue-700'
-                        : isDarkMode
-                          ? 'text-slate-300 hover:bg-slate-700'
-                          : 'text-slate-700 hover:bg-slate-50'
-                      }
-                    `}
-                  >
-                    <span className="truncate">{option.label}</span>
-                    {isSelected && (
-                      <svg className="w-4 h-4 flex-shrink-0 ml-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    )}
-                  </button>
-                );
-              })}
+            {/* Search Input */}
+            {searchable && (
+              <div className={`p-3 border-b ${
+                isDarkMode ? 'border-slate-600' : 'border-slate-200'
+              }`}>
+                <div className="relative">
+                  <MagnifyingGlassIcon className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ${
+                    isDarkMode ? 'text-slate-400' : 'text-slate-500'
+                  }`} />
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Search options..."
+                    className={`w-full pl-10 pr-3 py-2 text-sm rounded-md border transition-colors ${
+                      isDarkMode
+                        ? 'bg-slate-700 border-slate-600 text-slate-200 placeholder-slate-400 focus:border-blue-500'
+                        : 'bg-white border-slate-300 text-slate-700 placeholder-slate-500 focus:border-blue-500'
+                    } focus:outline-none focus:ring-1 focus:ring-blue-500/20`}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Select All Button */}
+            {showSelectAll && filteredOptions.length > 1 && (
+              <div className={`p-2 border-b ${
+                isDarkMode ? 'border-slate-600' : 'border-slate-200'
+              }`}>
+                <button
+                  type="button"
+                  onClick={handleSelectAll}
+                  className={`w-full px-3 py-2 text-left text-sm font-medium rounded-md transition-colors flex items-center justify-between ${
+                    areAllFilteredSelected
+                      ? isDarkMode
+                        ? 'bg-blue-600/20 text-blue-300 hover:bg-blue-600/30'
+                        : 'bg-blue-50 text-blue-700 hover:bg-blue-100'
+                      : isDarkMode
+                        ? 'text-slate-300 hover:bg-slate-700'
+                        : 'text-slate-700 hover:bg-slate-50'
+                  }`}
+                >
+                  <span>
+                    {areAllFilteredSelected ? 'Deselect All' : 'Select All'}
+                    {searchTerm && ` (${filteredOptions.length} filtered)`}
+                  </span>
+                  <span className={`text-xs px-2 py-1 rounded-full ${
+                    isDarkMode ? 'bg-slate-600 text-slate-300' : 'bg-slate-200 text-slate-600'
+                  }`}>
+                    {filteredOptions.filter(opt => selectedValues.includes(opt.value)).length}/{filteredOptions.length}
+                  </span>
+                </button>
+              </div>
+            )}
+
+            {/* Options List */}
+            <div className="max-h-48 overflow-y-auto py-1">
+              {filteredOptions.length === 0 ? (
+                <div className={`px-3 py-4 text-center text-sm ${
+                  isDarkMode ? 'text-slate-400' : 'text-slate-500'
+                }`}>
+                  {searchTerm ? 'No options match your search' : 'No options available'}
+                </div>
+              ) : (
+                filteredOptions.map((option) => {
+                  const isSelected = selectedValues.includes(option.value);
+                  
+                  return (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => handleToggleOption(option.value)}
+                      className={`
+                        w-full px-3 py-2 text-left text-sm font-medium transition-colors
+                        flex items-center justify-between hover:scale-[1.01] transform
+                        ${isSelected
+                          ? isDarkMode
+                            ? 'bg-blue-600/20 text-blue-300 hover:bg-blue-600/30'
+                            : 'bg-blue-50 text-blue-700 hover:bg-blue-100'
+                          : isDarkMode
+                            ? 'text-slate-300 hover:bg-slate-700'
+                            : 'text-slate-700 hover:bg-slate-50'
+                        }
+                      `}
+                    >
+                      <span className="truncate">{option.label}</span>
+                      {isSelected && (
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <svg className="w-4 h-4 flex-shrink-0 ml-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        </motion.div>
+                      )}
+                    </button>
+                  );
+                })
+              )}
             </div>
           </motion.div>
         )}

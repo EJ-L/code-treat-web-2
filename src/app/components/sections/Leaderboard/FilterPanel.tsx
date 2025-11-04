@@ -22,6 +22,7 @@ interface FilterPanelProps {
   isMultiLeaderboard?: boolean;
   selectedMultiTab?: string;
   results?: ProcessedResult[]; // Add results to determine actual datasets being shown
+  viewMode?: 'table' | 'scatter' | 'code-questions' | 'model-comparison';
 }
 
 const FilterPanel: FC<FilterPanelProps> = ({
@@ -29,7 +30,8 @@ const FilterPanel: FC<FilterPanelProps> = ({
   selectedAbilities,
   isDarkMode,
   isMultiLeaderboard = false,
-  results = []
+  results = [],
+  viewMode = 'table'
 }) => {
 
 
@@ -97,8 +99,8 @@ const FilterPanel: FC<FilterPanelProps> = ({
 
   return (
     <div className={`w-full max-w-7xl mx-auto ${isMultiLeaderboard ? 'space-y-1' : 'space-y-1'}`}>
-      {/* Overall info section */}
-      {filterConditions.shouldShowOverallInfo(currentTask) && (
+      {/* Overall info section - hide in model comparison mode */}
+      {filterConditions.shouldShowOverallInfo(currentTask) && viewMode !== 'model-comparison' && (
         <Card className={`${
           isDarkMode ? 'bg-[#1a2333]' : 'bg-white/90'
         } backdrop-blur-sm border ${

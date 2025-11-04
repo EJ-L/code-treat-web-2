@@ -10,8 +10,10 @@ import { getModelUrl } from '@/lib/constants';
 import { AnimatedTableRow } from '@/app/components/ui/AnimatedTableRow';
 import ModelScatterChart, { ScatterChartRef } from '@/app/components/ui/ModelScatterChart';
 import CodeQuestionsView from './CodeQuestionsView';
+import ModelComparisonView from './ModelABComparison';
 
 import MultiSelectDropdown from '@/app/components/ui/MultiSelectDropdown';
+import SkeletonLoader from '@/app/components/ui/SkeletonLoader';
 import { FilterState } from '@/lib/filterHelpers';
 
 interface ResultsTableProps {
@@ -45,8 +47,8 @@ interface ResultsTableProps {
   handleAbilityChange?: (key: keyof Ability, value: string) => void;
   availableLLMJudges?: string[];
   // View mode props
-  viewMode: 'table' | 'scatter' | 'code-questions';
-  setViewMode: (mode: 'table' | 'scatter' | 'code-questions') => void;
+  viewMode: 'table' | 'scatter' | 'code-questions' | 'model-comparison';
+  setViewMode: (mode: 'table' | 'scatter' | 'code-questions' | 'model-comparison') => void;
   // Multi-leaderboard props
   isMultiLeaderboard?: boolean;
   selectedMultiTab?: string;
@@ -576,6 +578,9 @@ const ResultsTable: FC<ResultsTableProps> = ({
                         isDarkMode={isDarkMode}
                         maxDisplayedTags={1} // Reduce tags on mobile
                         className="min-w-0 flex-1"
+                        searchable={options.length > 5} // Enable search for dropdowns with many options
+                        placeholder={`Select ${filter.label.toLowerCase()}...`}
+                        showSelectAll={options.length > 2}
                       />
                     );
                   })}
@@ -602,16 +607,19 @@ const ResultsTable: FC<ResultsTableProps> = ({
                         const currentSelections = getCurrentSelections(filter.key);
                         
                         return (
-                          <MultiSelectDropdown
-                            key={filter.key}
-                            label={filter.label}
-                            options={options}
-                            selectedValues={currentSelections}
-                            onSelectionChange={(values) => handleMultiSelectChange(filter.key, values)}
-                            isDarkMode={isDarkMode}
-                            maxDisplayedTags={1} // Reduce tags on mobile
-                            className="min-w-0"
-                          />
+                      <MultiSelectDropdown
+                        key={filter.key}
+                        label={filter.label}
+                        options={options}
+                        selectedValues={currentSelections}
+                        onSelectionChange={(values) => handleMultiSelectChange(filter.key, values)}
+                        isDarkMode={isDarkMode}
+                        maxDisplayedTags={1} // Reduce tags on mobile
+                        className="min-w-0"
+                        searchable={options.length > 5} // Enable search for dropdowns with many options
+                        placeholder={`Select ${filter.label.toLowerCase()}...`}
+                        showSelectAll={options.length > 2}
+                      />
                         );
                       })}
                     </div>
@@ -641,28 +649,15 @@ const ResultsTable: FC<ResultsTableProps> = ({
         onMouseDown={handleMouseDown}
       >
         {isLoading ? (
-          // Show loading state only when actually loading
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '80px 20px'
-          }}>
-            <div style={{
-              width: '40px',
-              height: '40px',
-              border: '4px solid #3b82f6',
-              borderTop: '4px solid transparent',
-              borderRadius: '50%',
-              animation: 'spin 1s linear infinite',
-              marginBottom: '16px'
-            }}></div>
-            <span style={{
-              color: isDarkMode ? '#cbd5e1' : '#475569',
-              fontSize: '18px',
-              fontWeight: '500'
-            }}>Loading results...</span>
+          // Show enhanced loading state with skeleton
+          <div className="p-6">
+            <SkeletonLoader
+              type="table"
+              rows={8}
+              columns={6}
+              isDarkMode={isDarkMode}
+              animated={true}
+            />
           </div>
         ) : sortedResults.length === 0 ? (
           // Show no results message when not loading but no data
@@ -746,7 +741,7 @@ const ResultsTable: FC<ResultsTableProps> = ({
               selectedMultiTab={selectedMultiTab}
             />
           </div>
-        ) : (
+        ) : viewMode === 'code-questions' ? (
           // Show code questions view
           <div style={{ width: '100%' }}>
           <CodeQuestionsView
@@ -755,6 +750,14 @@ const ResultsTable: FC<ResultsTableProps> = ({
             isDarkMode={isDarkMode}
             selectedAbilities={selectedAbilities as Ability}
           />
+          </div>
+        ) : (
+          // Show model comparison view
+          <div style={{ width: '100%' }}>
+            <ModelComparisonView
+              isDarkMode={isDarkMode}
+              overallResults={sortedResults}
+            />
           </div>
         )}
       </div>

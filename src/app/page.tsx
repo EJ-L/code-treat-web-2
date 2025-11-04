@@ -4,6 +4,8 @@ import { Ability, TaskType } from '@/lib/types';
 import { DataLoader } from '@/app/components/DataLoader';
 import Background from '@/app/components/layout/Background';
 import Sidebar from '@/app/components/layout/Sidebar';
+import SkipLink from '@/app/components/ui/SkipLink';
+import AccessibilityProvider from '@/app/components/providers/AccessibilityProvider';
 
 import OverviewPage from '@/app/components/pages/OverviewPage';
 import TasksPage from '@/app/components/pages/TasksPage';
@@ -113,6 +115,7 @@ export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [currentTask, setCurrentTask] = useState<TaskType>('overall');
 
+
   // URL synchronization - update hash when section changes
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -200,32 +203,43 @@ export default function Home() {
   };
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-[#09101f] text-white' : 'bg-slate-50 text-black'}`}>
-      {/* Background */}
-      <Background isDarkMode={isDarkMode} />
+    <AccessibilityProvider>
+      <div className={`min-h-screen ${isDarkMode ? 'bg-[#09101f] text-white' : 'bg-slate-50 text-black'}`}>
+        {/* Skip Link for Accessibility */}
+        <SkipLink isDarkMode={isDarkMode} />
+        
+        {/* Background */}
+        <Background isDarkMode={isDarkMode} />
 
-      <div className="flex min-h-screen">
-        {/* Sidebar */}
-        <Sidebar 
-          isDarkMode={isDarkMode}
-          setIsDarkMode={setIsDarkMode}
-          currentSection={currentSection}
-          onSectionChange={handleSectionChange}
-          isOpen={isSidebarOpen}
-          onToggle={handleSidebarToggle}
-          taskAbilities={taskAbilities}
-          currentTask={currentTask}
-          onTaskChange={handleTaskChange}
-        />
+        <div className="flex min-h-screen">
+          {/* Sidebar */}
+          <Sidebar 
+            isDarkMode={isDarkMode}
+            setIsDarkMode={setIsDarkMode}
+            currentSection={currentSection}
+            onSectionChange={handleSectionChange}
+            isOpen={isSidebarOpen}
+            onToggle={handleSidebarToggle}
+            taskAbilities={taskAbilities}
+            currentTask={currentTask}
+            onTaskChange={handleTaskChange}
+          />
 
-        {/* Main Content */}
-        <div className="flex-1 xl:ml-80 min-h-screen w-full xl:w-auto pt-20 xl:pt-0">
-          {renderCurrentPage()}
+          {/* Main Content */}
+          <main 
+            id="main-content"
+            className="flex-1 xl:ml-80 min-h-screen w-full xl:w-auto pt-20 xl:pt-0"
+            tabIndex={-1}
+            role="main"
+            aria-label="Main content"
+          >
+            {renderCurrentPage()}
+          </main>
         </div>
-      </div>
 
-      {/* Preload data in the background */}
-      <DataLoader />
-    </div>
+        {/* Preload data in the background */}
+        <DataLoader />
+      </div>
+    </AccessibilityProvider>
   );
 }
