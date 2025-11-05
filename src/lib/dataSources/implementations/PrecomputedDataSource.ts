@@ -55,7 +55,6 @@ export class PrecomputedDataSource extends BaseDataSource implements IPrecompute
         'code review',
         'vulnerability detection',
         'multi-modality',
-        'interaction-2-code',
         'code-robustness',
         'mr-web',
         'unit test generation',
@@ -579,9 +578,9 @@ export class PrecomputedDataSource extends BaseDataSource implements IPrecompute
         if (typeof value === 'string' && value !== '-' && !isNaN(Number(value))) {
           const numValue = Number(value);
           
-          // For pass@k metrics, keep as percentage but ensure 1 decimal places
+          // For pass@k metrics, keep as numbers for proper sorting
           if (key.includes('pass@') || key.includes('_pass@')) {
-            leaderboardResult[key] = numValue.toFixed(1);
+            leaderboardResult[key] = numValue;
           } else if (key === 'csr') {
             // CSR is already in 0-100 scale in precomputed data, just format to 1 decimal place
             leaderboardResult[key] = numValue.toFixed(1);
@@ -591,15 +590,21 @@ export class PrecomputedDataSource extends BaseDataSource implements IPrecompute
           } else if (key === 'CMS' || key === 'CLIP') {
             // CMS and CLIP: multiply by 100 to get 100 scale
             leaderboardResult[key] = (numValue * 100).toFixed(1);
+          } else if (key === 'Accuracy' || key === 'Precision' || key === 'Recall' || key === 'F1 Score') {
+            // Keep important sorting metrics as numbers
+            leaderboardResult[key] = numValue;
+          } else if (key === 'LLM Judge' || key === 'llmjudge') {
+            // For LLM Judge, always show with .0 for integers for consistency
+            leaderboardResult[key] = numValue.toFixed(1);
           } else {
             // Keep other numeric values formatted to 1 decimal place
             leaderboardResult[key] = numValue.toFixed(1);
           }
         } else if (typeof value === 'number') {
-          // For pass@k metrics, keep as percentage but ensure 1 decimal places
+          // For pass@k metrics, keep as numbers for proper sorting
           if (key.includes('pass@') || key.includes('_pass@')) {
-            // Format percentage with 1 decimal places
-            leaderboardResult[key] = value.toFixed(1);
+            // Keep as number for proper sorting
+            leaderboardResult[key] = value;
           } else if (key === 'rank') {
             // Keep rank as integer (no decimal)
             leaderboardResult[key] = value;
@@ -612,6 +617,12 @@ export class PrecomputedDataSource extends BaseDataSource implements IPrecompute
           } else if (key === 'CMS' || key === 'CLIP') {
             // CMS and CLIP: multiply by 100 to get 100 scale
             leaderboardResult[key] = (value * 100).toFixed(1);
+          } else if (key === 'Accuracy' || key === 'Precision' || key === 'Recall' || key === 'F1 Score') {
+            // Keep important sorting metrics as numbers
+            leaderboardResult[key] = value;
+          } else if (key === 'LLM Judge' || key === 'llmjudge') {
+            // For LLM Judge, always show with .0 for integers for consistency
+            leaderboardResult[key] = value.toFixed(1);
           } else if (Number.isInteger(value)) {
             // Show other integers with .0 for consistency
             leaderboardResult[key] = value.toFixed(1);
@@ -630,7 +641,16 @@ export class PrecomputedDataSource extends BaseDataSource implements IPrecompute
 
     debug.dataSource(`Converted ${entries.length} entries to leaderboard format. Sample:`, converted[0]);
     
-    return converted as ProcessedResult[];
+    // Sort by rank to ensure proper leaderboard order
+    const sorted = converted.sort((a, b) => {
+      const rankA = typeof a.rank === 'number' ? a.rank : parseInt(String(a.rank)) || Infinity;
+      const rankB = typeof b.rank === 'number' ? b.rank : parseInt(String(b.rank)) || Infinity;
+      return rankA - rankB;
+    });
+    
+    debug.dataSource(`Sorted ${sorted.length} results by rank. Top 3:`, sorted.slice(0, 3).map(r => ({ model: r.model, rank: r.rank })));
+    
+    return sorted as ProcessedResult[];
   }
 
   private extractDatasetFromCombination(combination: string): string {

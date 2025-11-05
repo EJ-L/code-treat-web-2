@@ -20,7 +20,6 @@ const TASK_DIRECTORIES: Record<string, string> = {
   'output prediction': 'data/code-example/output-prediction',
   'unit test generation': 'data/code-example/unit-test-generation',
   'multi-modality': 'data/precomputed/multi-modality',
-  'interaction-2-code': 'data/precomputed/interaction-2-code',
   'code-robustness': 'data/precomputed/code-robustness',
   'mr-web': 'data/precomputed/mr-web',
 };

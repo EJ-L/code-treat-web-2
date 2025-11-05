@@ -61,7 +61,7 @@
   }
 }
 
-/* 自定义滚动条样式 */
+/* Custom scrollbar styles */
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
@@ -98,7 +98,7 @@
   }
 }
 
-/* 动画相关样式 */
+/* Animation styles */
 @layer components {
   .animate-gradient {
     background-size: 200% 200%;
@@ -201,9 +201,9 @@
   }
 }
 
-/* 组件样式 */
+/* Component styles */
 @layer components {
-  /* Card 组件样式 */
+  /* Card component styles */
   .card {
     border-radius: var(--radius);
     border: 1px solid hsl(var(--border));
@@ -242,7 +242,7 @@
     background-image: linear-gradient(to bottom right, rgb(30 41 59 / 0.9), rgb(30 41 59 / 0.5));
   }
 
-  /* 按钮样式 */
+  /* Button styles */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -327,7 +327,7 @@
     color: hsl(var(--accent-foreground));
   }
 
-  /* 表格样式 */
+  /* Table styles */
   .table-header {
     background-color: hsl(var(--muted) / 0.5);
     color: hsl(var(--muted-foreground));
@@ -356,7 +356,7 @@
     background-color: hsl(var(--muted));
   }
 
-  /* 输入框样式 */
+  /* Input styles */
   .input {
     display: flex;
     height: 2.5rem;
@@ -379,7 +379,7 @@
     opacity: 0.5;
   }
 
-  /* 过滤器和标签样式 */
+  /* Filter and tag styles */
   .filter-tag {
     display: inline-flex;
     align-items: center;
@@ -406,7 +406,7 @@
   }
 }
 
-/* 加载状态样式 */
+/* Loading state styles */
 @layer components {
   .loading-skeleton {
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -602,7 +602,7 @@
   }
 }
 
-/* 响应式布局辅助类 */
+/* Responsive layout utilities */
 @layer utilities {
   .container {
     margin-left: auto;

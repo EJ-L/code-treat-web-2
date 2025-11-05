@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from 'react';
 import { TaskType, ProcessedResult, Ability } from '@/lib/types';
-import hljs from 'highlight.js';
+import { CodeHighlighter as ModernCodeHighlighter } from '@/app/components/ui/CodeHighlighter';
 
 interface CodeQuestionsViewProps {
   currentTask: TaskType;
@@ -61,7 +61,7 @@ const getPrimaryMetric = (modelData: { metric?: number; metrics?: { [key: string
   return { value: 0, name: 'Score' };
 };
 
-// Custom syntax highlighter component using highlight.js
+// Modern syntax highlighter component using react-syntax-highlighter
 const CodeHighlighter: FC<{
   code: string;
   language?: string;
@@ -69,38 +69,12 @@ const CodeHighlighter: FC<{
   customStyle?: React.CSSProperties;
   className?: string;
 }> = ({ code, language, isDarkMode, customStyle, className }) => {
-  const [highlightedCode, setHighlightedCode] = useState<string>('');
-
-  useEffect(() => {
-    if (language && language !== 'text') {
-      try {
-        const highlighted = hljs.highlight(code, { language }).value;
-        setHighlightedCode(highlighted);
-      } catch (error) {
-        // If specific language fails, try auto-detection
-        try {
-          const highlighted = hljs.highlightAuto(code).value;
-          setHighlightedCode(highlighted);
-        } catch (autoError) {
-          // Fallback to plain text
-          setHighlightedCode(code);
-        }
-      }
-    } else {
-      // Auto-detect language
-      try {
-        const highlighted = hljs.highlightAuto(code).value;
-        setHighlightedCode(highlighted);
-      } catch (error) {
-        setHighlightedCode(code);
-      }
-    }
-  }, [code, language]);
-
   return (
-    <pre 
-      className={`hljs ${isDarkMode ? 'hljs-dark' : 'hljs-light'} ${className || ''}`}
-      style={{
+    <ModernCodeHighlighter
+      code={code}
+      language={language}
+      isDarkMode={isDarkMode}
+      customStyle={{
         padding: '16px',
         borderRadius: '8px',
         fontSize: '16px',
@@ -108,12 +82,9 @@ const CodeHighlighter: FC<{
         overflow: 'auto',
         ...customStyle
       }}
-    >
-      <code 
-        dangerouslySetInnerHTML={{ __html: highlightedCode }}
-        style={{ fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace' }}
-      />
-    </pre>
+      className={className}
+      showLineNumbers={false}
+    />
   );
 };
 

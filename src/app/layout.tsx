@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import { DataLoader } from '@/app/components/DataLoader'
 import { Analytics } from '@vercel/analytics/next'
+import { ErrorBoundary } from '@/app/components/ui/ErrorBoundary'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -44,10 +45,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
         className={`${inter.className} min-h-screen font-sans antialiased bg-background text-foreground 
         flex flex-col selection:bg-primary/10 selection:text-primary`}
       >
-        <DataLoader />
-        <main className="flex-1 flex flex-col">
-          {children}
-        </main>
+        <ErrorBoundary>
+          <DataLoader />
+          <main className="flex-1 flex flex-col">
+            {children}
+          </main>
+        </ErrorBoundary>
         <Analytics />
       </body>
     </html>

@@ -249,7 +249,7 @@ export const BASE_HEADERS: Record<string, HeaderConfig> = {
     defaultWidth: 220,
     minWidth: 100
   },
-  // Interaction-2-code metrics
+  // Code-web metrics
   'SSIM': {
     key: 'SSIM',
     label: 'SSIM',

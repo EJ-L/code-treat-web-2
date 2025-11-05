@@ -1,7 +1,7 @@
 import { ProcessedResult, FilterOptions, LLMJudgeScores, ResultEntry, Metrics } from '../types';
 
 export function processCodeSummarization(results: ResultEntry[], filters: FilterOptions): ProcessedResult[] {
-  // 添加调试日志：输入数据
+  // Debug logging: input data
   console.log('Code Summarization - Input data:', {
     totalResults: results.length,
     sampleResult: results[0],
@@ -9,7 +9,7 @@ export function processCodeSummarization(results: ResultEntry[], filters: Filter
   });
 
   const filteredResults = results.filter((result) => {
-    // 1. 检查任务类型
+    // 1. Check task type
     if (result.task !== 'code summarization') {
       console.log('Filtered out due to task:', {
         task: result.task,
@@ -18,7 +18,7 @@ export function processCodeSummarization(results: ResultEntry[], filters: Filter
       return false;
     }
     
-    // 2. 检查数据集
+    // 2. Check dataset
     if (filters.datasets?.length > 0 && !filters.datasets.includes(result.dataset)) {
       console.log('Filtered out due to dataset:', {
         dataset: result.dataset,
@@ -28,7 +28,7 @@ export function processCodeSummarization(results: ResultEntry[], filters: Filter
       return false;
     }
     
-    // 3. 检查语言
+    // 3. Check language
     if (filters.langs?.length > 0) {
       const resultLang = result.lang?.toLowerCase();
       if (!resultLang || !filters.langs.map(l => l.toLowerCase()).includes(resultLang)) {
@@ -41,7 +41,7 @@ export function processCodeSummarization(results: ResultEntry[], filters: Filter
       }
     }
     
-    // 4. 检查 LLM Judge 过滤器
+    // 4. Check LLM Judge filters
     if (filters.llmJudges?.length) {
       const llmJudge = result.metrics?.LLMJudge;
       if (!llmJudge || typeof llmJudge !== 'object') {
@@ -52,7 +52,7 @@ export function processCodeSummarization(results: ResultEntry[], filters: Filter
         return false;
       }
       
-      // 检查是否包含任何指定的 judge
+      // Check if contains any specified judge
       const hasSelectedJudge = filters.llmJudges.some(judge => 
         (llmJudge as LLMJudgeScores)[judge] !== undefined
       );
@@ -69,7 +69,7 @@ export function processCodeSummarization(results: ResultEntry[], filters: Filter
     return true;
   });
 
-  // 添加调试日志：过滤后的结果
+  // Debug logging: filtered results
   console.log('Code Summarization - Filtered results:', {
     totalFilteredResults: filteredResults.length,
     sampleFilteredResult: filteredResults[0]
@@ -157,7 +157,7 @@ function calculateLLMJudgeScore(llmJudge: Metrics['LLMJudge'] | undefined, selec
 export function aggregateCodeSummarizationResults(results: ProcessedResult[], _?: string[]): ProcessedResult[] {
   const groupedResults = new Map<string, ProcessedResult[]>();
   
-  // 按模型分组
+  // Group by model
   results.forEach(result => {
     const key = result.modelName;
     if (!groupedResults.has(key)) {
@@ -166,7 +166,7 @@ export function aggregateCodeSummarizationResults(results: ProcessedResult[], _?
     groupedResults.get(key)!.push(result);
   });
   
-  // 计算每个模型的平均值
+  // Calculate average for each model
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return Array.from(groupedResults.entries()).map(([_, modelResults]) => {
     const baseResult = { ...modelResults[0] };

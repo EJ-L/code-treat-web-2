@@ -8,11 +8,11 @@ export function DataLoader() {
 
   useEffect(() => {
     const loadData = async () => {
-      // 避免重复加载
+      // Avoid duplicate loading
       if (hasLoaded.current) return;
       
       hasLoaded.current = true;
-      console.log('开始初始化数据加载系统...');
+      console.log('Starting data loader initialization...');
       
       try {
         // Initialize the data loading system first
@@ -22,7 +22,7 @@ export function DataLoader() {
           enableCaching: true
         });
         
-        console.log('数据加载系统初始化完成');
+        console.log('Completed');
         
         // Get the data loader manager instance for enhanced caching
         const { DataLoaderManager } = await import('@/lib/dataSources/DataLoaderManager');
@@ -30,15 +30,12 @@ export function DataLoader() {
         
         // Preload important data into enhanced cache
         await manager.preloadCache();
-        console.log('增强缓存预加载完成');
+        console.log('Completed');
         
         // Preload data for better performance (fallback)
-        await loadAllData({
-          strategy: 'precomputed-first',
-          useCache: true
-        });
+        await loadAllData();
         
-        console.log('数据预加载完成');
+        console.log('Completed');
         
         // Setup periodic cache cleanup
         const cleanupInterval = setInterval(() => {
@@ -51,7 +48,7 @@ export function DataLoader() {
         };
         
       } catch (error) {
-        console.error('数据预加载失败:', error);
+        console.error('Data preloading failed:', error);
         // Reset on error so we can try again
         hasLoaded.current = false;
       }

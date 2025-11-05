@@ -85,7 +85,7 @@ export function processCodeReview(results: ResultEntry[], filters: FilterOptions
       if (!hasSelectedJudge && result.metrics.LLMJudge) {
         const llmJudge = result.metrics.LLMJudge;
         
-        // 检查是否包含任何指定的judge
+        // Check 是否包含任何指定的judge
         hasSelectedJudge = filters.llmJudges.some(judge => {
           if (typeof llmJudge === 'object') {
             return llmJudge[judge] !== undefined;
@@ -115,7 +115,7 @@ export function processCodeReview(results: ResultEntry[], filters: FilterOptions
 
   // 创建包含所有必需属性的完整 ProcessedResult
   const processedResults: ProcessedResult[] = filteredResults.map(result => {
-    // 检查并记录处理中的数据
+    // Check 并记录处理中的数据
     // console.log(`Processing result for model ${result.model_name}:`, {
     //   metricsKeys: result.metrics ? Object.keys(result.metrics) : 'No metrics',
     // });
@@ -153,7 +153,7 @@ export function processCodeReview(results: ResultEntry[], filters: FilterOptions
           // 跳过已处理的键
           if (judgeKeys.includes(key) || key === 'LLMJudge') continue;
           
-          // 检查值是否是数字或数字数组
+          // Check 值是否是数字或数字数组
           if (typeof value === 'number' || Array.isArray(value)) {
             const score = calculateDirectJudgeScore(value);
             if (score !== null) {
@@ -311,7 +311,7 @@ export function aggregateCodeReviewResults(results: ProcessedResult[]): Processe
   
   const groupedResults = new Map<string, ProcessedResult[]>();
   
-  // 按模型分组
+  // Group by model
   results.forEach(result => {
     const key = result.modelName;
     if (!groupedResults.has(key)) {
@@ -322,7 +322,7 @@ export function aggregateCodeReviewResults(results: ProcessedResult[]): Processe
   
   // console.log(`Grouped into ${groupedResults.size} model groups`);
   
-  // 计算每个模型的平均值
+  // Calculate average for each model
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const aggregatedResults = Array.from(groupedResults.entries()).map(([_, modelResults]) => {
     const baseResult = { ...modelResults[0] };
@@ -345,16 +345,16 @@ export function aggregateCodeReviewResults(results: ProcessedResult[]): Processe
 
 // 获取所有可用的LLM Judges
 export function getAvailableLLMJudges(results: ResultEntry[] | ProcessedResult[]): string[] {
-  // 过滤出所有code review任务的结果
+  // Filter 出所有code review任务的结果
   const codeReviewResults = results.filter(result => result.task === 'code review');
   // console.log(`Found ${codeReviewResults.length} code review entries for judge detection`);
   
   const judges = new Set<string>();
   
-  // 检查直接在metrics中的评委键
+  // Check 直接在metrics中的评委键
   codeReviewResults.forEach(result => {
     if ('metrics' in result && result.metrics) {
-      // 检查metrics中是否直接有judge键（如'gpt-4'）
+      // Check metrics中是否直接有judge键（如'gpt-4'）
       Object.keys(result.metrics).forEach(key => {
         // 只添加可能是judge的键
         if (key.toLowerCase().includes('gpt') || 

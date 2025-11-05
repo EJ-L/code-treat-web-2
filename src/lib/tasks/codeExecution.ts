@@ -24,7 +24,7 @@ export function processCodeExecution(results: ProcessedResult[], filters: Filter
       const lang = (result.lang || '').toLowerCase();
       const allowedLangs = filters.langs.map(l => l.toLowerCase());
 
-      // 检查语言是否匹配选定的语言
+      // Check 语言是否匹配选定的语言
       const isLanguageMatched = allowedLangs.some(l => {
         const normalizedLang = l.replace(/[^a-z]/g, ''); // 移除非字母字符
         const normalizedResultLang = lang.replace(/[^a-z]/g, '');
@@ -51,7 +51,7 @@ export function aggregateCodeExecutionResults(results: ProcessedResult[]): Proce
   
   const groupedResults = new Map<string, ProcessedResult[]>();
   
-  // 按模型分组
+  // Group by model
   results.forEach(result => {
     const key = result.modelName;
     if (!groupedResults.has(key)) {
@@ -60,7 +60,7 @@ export function aggregateCodeExecutionResults(results: ProcessedResult[]): Proce
     groupedResults.get(key)!.push(result);
   });
   
-  // 计算每个模型的平均值
+  // Calculate average for each model
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const aggregatedResults = Array.from(groupedResults.entries()).map(([_, modelResults]) => {
     const validResults = {
@@ -70,7 +70,7 @@ export function aggregateCodeExecutionResults(results: ProcessedResult[]): Proce
     
     const avgResult = { ...modelResults[0] };
     
-    // 计算平均值
+    // Calculate average
     avgResult.executionAccuracy = validResults.executionAccuracy.length > 0
       ? validResults.executionAccuracy.reduce((sum, r) => sum + r.executionAccuracy!, 0) / validResults.executionAccuracy.length
       : null;

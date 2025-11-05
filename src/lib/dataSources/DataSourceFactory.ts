@@ -49,12 +49,13 @@ export class DataSourceFactory implements IDataSourceFactory {
 
   /**
    * Create all available data sources
+   * Prioritize local data sources over remote ones
    */
   createAllDataSources(): IDataSource[] {
     return [
       this.createPrecomputedDataSource(),
-      this.createFileSystemDataSource(),
-      this.createGitHubDataSource()
+      this.createFileSystemDataSource()
+      // Removed GitHub data source to use only local data
     ];
   }
 

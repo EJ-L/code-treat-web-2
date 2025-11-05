@@ -1,7 +1,7 @@
 import { ProcessedResult, FilterOptions } from '../types';
 
 export function processInputPrediction(results: ProcessedResult[], filters: FilterOptions): ProcessedResult[] {
-  console.log('开始处理输入预测任务:', {
+  console.log('Starting processing', {
     totalResults: results.length,
     availableDatasets: [...new Set(results.map(r => r.dataset))]
   });
@@ -32,7 +32,7 @@ export function processInputPrediction(results: ProcessedResult[], filters: Filt
         .map(modality => modality.toLowerCase());
       
       if (modalityPatterns.length > 0) {
-        // 检查结果是否满足任意一个选定的模态
+        // Check 结果是否满足任意一个选定的模态
         const stringsToCheck: string[] = [];
         if (result.modelName) stringsToCheck.push(result.modelName.toLowerCase());
         if (result.dataset) stringsToCheck.push(result.dataset.toLowerCase());
@@ -100,7 +100,7 @@ export function processInputPrediction(results: ProcessedResult[], filters: Filt
     });
   }
 
-  console.log('输入预测任务处理完成:', {
+  console.log('Completed processing', {
     totalFilteredResults: filteredResults.length,
     remainingDatasets: [...new Set(filteredResults.map(r => r.dataset))]
   });
@@ -113,7 +113,7 @@ export function aggregateInputPredictionResults(results: ProcessedResult[]): Pro
 
   const groupedResults = new Map<string, ProcessedResult[]>();
   
-  // 按模型分组
+  // Group by model
   results.forEach(result => {
     const key = result.modelName;
     if (!groupedResults.has(key)) {
@@ -122,12 +122,12 @@ export function aggregateInputPredictionResults(results: ProcessedResult[]): Pro
     groupedResults.get(key)!.push(result);
   });
   
-  // 计算每个模型的平均值
+  // Calculate average for each model
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const aggregatedResults = Array.from(groupedResults.entries()).map(([_, modelResults]) => {
     const baseResult = { ...modelResults[0] };
     
-    // 计算标准指标的平均值
+    // Calculate average for standard metrics
     const metrics = ['pass1', 'pass3', 'pass5'] as const;
     metrics.forEach(metric => {
       const validResults = modelResults.filter(r => r[metric] !== null);
@@ -136,7 +136,7 @@ export function aggregateInputPredictionResults(results: ProcessedResult[]): Pro
       }
     });
 
-    // 计算难度特定指标
+    // Calculate difficulty-specific metrics
     // Easy difficulty
     const validEasyPass1Results = modelResults.filter(r => r.easyPass1 !== null);
     if (validEasyPass1Results.length > 0) {
@@ -185,17 +185,32 @@ export function aggregateInputPredictionResults(results: ProcessedResult[]): Pro
       baseResult.hardPass5 = validHardPass5Results.reduce((sum, r) => sum + r.hardPass5!, 0) / validHardPass5Results.length;
     }
     
-    // 重置非相关指标为null
+    // Reset non-relevant metrics to null
     baseResult.codebleu = null;
     baseResult.llmjudge = null;
     baseResult.executionAccuracy = null;
     
+    // Clear the original rank since it will be recalculated based on aggregated metrics
+    baseResult.rank = 0;
+    
     return baseResult;
   });
-
-  console.log('聚合完成:', {
-    totalResults: aggregatedResults.length
+  
+  // Sort by pass1 performance (descending) and assign new ranks
+  const sortedResults = aggregatedResults.sort((a, b) => {
+    const aValue = a.pass1 !== null ? a.pass1 : -Infinity;
+    const bValue = b.pass1 !== null ? b.pass1 : -Infinity;
+    return bValue - aValue; // descending order
+  });
+  
+  // Assign new ranks based on sorted order
+  sortedResults.forEach((result, index) => {
+    result.rank = index + 1;
   });
 
-  return aggregatedResults;
+  console.log('Completed processing', {
+    totalResults: sortedResults.length
+  });
+
+  return sortedResults;
 } 

@@ -30,7 +30,7 @@ export function processCodeTranslation(results: ProcessedResult[], filters: Filt
       const entryModality = (result.modality || '').toLowerCase();
       const allowedModalities = filters.modalities.map(mod => mod.toLowerCase());
 
-      // 检查模态是否匹配选定的语言对
+      // Check 模态是否匹配选定的语言对
       const isModalityMatched = allowedModalities.some(modality => {
         return entryModality === modality;
       });
@@ -82,14 +82,14 @@ export function processCodeTranslation(results: ProcessedResult[], filters: Filt
 }
 
 export function aggregateCodeTranslationResults(results: ProcessedResult[]): ProcessedResult[] {
-  // 检查输入结果是否为空
+  // Check 输入结果是否为空
   if (!results || results.length === 0) {
     return [];
   }
   
   const groupedResults = new Map<string, ProcessedResult[]>();
   
-  // 按模型分组
+  // Group by model
   results.forEach(result => {
     const key = result.modelName;
     if (!groupedResults.has(key)) {
@@ -98,7 +98,7 @@ export function aggregateCodeTranslationResults(results: ProcessedResult[]): Pro
     groupedResults.get(key)!.push(result);
   });
   
-  // 计算每个模型的平均值
+  // Calculate average for each model
   const aggregatedResults = Array.from(groupedResults.entries()).map(([modelName, modelResults]) => {
     const validResults = {
       pass1: modelResults.filter(r => r.pass1 !== null),
@@ -109,7 +109,7 @@ export function aggregateCodeTranslationResults(results: ProcessedResult[]): Pro
     
     const avgResult = { ...modelResults[0] };
     
-    // 计算平均值
+    // Calculate average
     avgResult.pass1 = validResults.pass1.length > 0
       ? validResults.pass1.reduce((sum, r) => sum + r.pass1!, 0) / validResults.pass1.length
       : null;

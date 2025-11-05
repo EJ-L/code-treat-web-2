@@ -194,14 +194,40 @@ export function getTaskSpecificColumnWidth(task: TaskType, key: string): string 
 }
 
 // Default sort configuration
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function getDefaultSortConfig(task: TaskType): { key: string; direction: 'asc' | 'desc' } {
-  // Use rank sorting for all tasks to unify initial load and rank reset behavior
-  // This ensures the initial leaderboard display matches what users see when they click rank to "reset"
-  const defaultKey = 'rank';
+  // Each task should default to its primary metric for proper leaderboard behavior
+  let defaultKey: string;
   
-  // Only the overall leaderboard keeps rank as default since it's already rank-based
-  // All other leaderboards now use rank to show the original precomputed rankings
+  switch (task) {
+    case 'overall':
+      defaultKey = 'rank'; // Overall uses rank since it's aggregated
+      break;
+    case 'code generation':
+    case 'code translation':
+    case 'input prediction':
+    case 'output prediction':
+      defaultKey = 'pass@1'; // Code tasks use pass@1 as primary metric
+      break;
+    case 'code summarization':
+    case 'code review':
+      defaultKey = 'LLM Judge'; // Review tasks use LLM Judge scores
+      break;
+    case 'vulnerability detection':
+      defaultKey = 'P-C'; // Vulnerability detection uses P-C (PrimeVulPairs - P-C)
+      break;
+    case 'unit test generation':
+      defaultKey = 'line_coverage'; // Unit test generation uses line coverage
+      break;
+    case 'multi-modality':
+      defaultKey = 'CMS'; // Multi-modality uses CMS for All
+      break;
+    case 'code-robustness':
+      defaultKey = 'MPS'; // Code-Robustness uses MPS
+      break;
+    default:
+      defaultKey = 'rank'; // Fallback to rank for unknown tasks
+      break;
+  }
   
   return {
     key: defaultKey,
@@ -237,6 +263,16 @@ export function sortResults(
   if (!sortConfig) return data;
 
   const sortableData = [...data];
+  
+  // Debug: Log sorting details for overall task
+  const isOverallTask = data.length > 0 && (data[0] as any)?.task === 'overall';
+  if (isOverallTask) {
+    console.log(`🔄 DEBUG: Sorting ${data.length} results by ${sortConfig.key} (${sortConfig.direction})`);
+    console.log('   First 3 items before sorting:');
+    data.slice(0, 3).forEach((item, index) => {
+      console.log(`   ${index + 1}. ${(item as any).model || (item as any).modelName} - ${sortConfig.key}: ${(item as any)[sortConfig.key]} - rank: ${(item as any).rank}`);
+    });
+  }
   
   // Store original ranks before any sorting (use originalRank if available, fallback to rank)
   // But only if originalRank doesn't exist yet - this preserves the first time ranks are set
@@ -299,10 +335,22 @@ export function sortResults(
   });
 
   // Update ranks to reflect new sort order for non-rank columns
-  return sortableData.map((item, index) => ({
+  const finalResults = sortableData.map((item, index) => ({
     ...item,
-    rank: index + 1
+    // For overall task, preserve original ranks when not sorting by rank
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    rank: isOverallTask && sortConfig.key !== 'rank' ? (item as any).originalRank : index + 1
   }));
+
+  // Debug: Log final results for overall task
+  if (isOverallTask) {
+    console.log('   First 3 items after sorting:');
+    finalResults.slice(0, 3).forEach((item, index) => {
+      console.log(`   ${index + 1}. ${(item as any).model || (item as any).modelName} - ${sortConfig.key}: ${(item as any)[sortConfig.key]} - rank: ${(item as any).rank}`);
+    });
+  }
+
+  return finalResults;
 }
 
 // Handle sort configuration changes

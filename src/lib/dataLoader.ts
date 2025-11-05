@@ -1,5 +1,7 @@
 import { ResultEntry, ProcessedResult, TaskType, FilterOptions } from './types';
 import { DataLoaderManager, DataLoaderConfig } from './dataSources/DataLoaderManager';
+import { createDataLoader, handleAsyncError } from './errors/errorHandler';
+import { DataLoadError } from './errors/AppError';
 
 // Global instance of the data loader manager
 const dataLoaderManager = DataLoaderManager.getInstance();
@@ -15,17 +17,15 @@ export async function initializeDataLoader(config?: DataLoaderConfig): Promise<v
 }
 
 /**
- * Load all available data
+ * Load all available data with proper error handling
  */
-export async function loadAllData(config?: DataLoaderConfig): Promise<ResultEntry[]> {
-  try {
+export const loadAllData = createDataLoader(
+  async (config?: DataLoaderConfig): Promise<ResultEntry[]> => {
     const result = await dataLoaderManager.loadAll(config);
     return result.data;
-  } catch (error) {
-    console.error('Failed to load all data:', error);
-    return getMockData(); // Fallback to mock data
-  }
-}
+  },
+  'all data'
+);
 
 /**
  * Load data for a specific task
@@ -194,7 +194,7 @@ export function processResult(entry: ResultEntry): ProcessedResult {
     'Recall': typeof entry.metrics['Recall'] === 'number' ? entry.metrics['Recall'] : null,
     'F1 Score': typeof entry.metrics['F1 Score'] === 'number' ? entry.metrics['F1 Score'] : null,
     
-    // Code-web and interaction-2-code metrics
+    // Code-web metrics
     'CLIP': typeof entry.metrics['CLIP'] === 'number' ? entry.metrics['CLIP'] : null,
     'Compilation': typeof entry.metrics['Compilation'] === 'number' ? entry.metrics['Compilation'] : null,
     'SSIM': typeof entry.metrics['SSIM'] === 'number' ? entry.metrics['SSIM'] : null,
@@ -268,7 +268,6 @@ export function getAvailableTasks(): string[] {
     'input prediction',
     'output prediction',
     'multi-modality',
-    'interaction-2-code',
     'code-robustness',
     'mr-web',
   ];

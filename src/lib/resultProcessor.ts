@@ -9,9 +9,14 @@ import { processCodeReview, aggregateCodeReviewResults } from './tasks/codeRevie
 import { processInputPrediction, aggregateInputPredictionResults } from './tasks/inputPrediction';
 import { processOutputPrediction, aggregateOutputPredictionResults } from './tasks/outputPrediction';
 import { processUnitTestGeneration, aggregateUnitTestGenerationResults } from './tasks/unitTestGeneration';
+import { processOverall } from './tasks/overall';
 import { MODEL_URLS } from './constants';
 
-// 辅助函数：标准化语言名称
+/**
+ * Helper function: Normalize language names to a consistent format
+ * Removes special characters and converts to lowercase
+ * Handles special cases like C# -> csharp
+ */
 export const normalizeLanguage = (lang: string): string => {
   const normalized = lang.toLowerCase().replace(/[^a-z0-9]/g, '');
   if (normalized === 'c#' || normalized === 'csharp') {
@@ -20,7 +25,10 @@ export const normalizeLanguage = (lang: string): string => {
   return normalized;
 };
 
-// 辅助函数：格式化显示的语言名称
+/**
+ * Helper function: Format language names for display
+ * Converts internal language names to user-friendly display names
+ */
 export const formatLanguageDisplay = (lang: string): string => {
   if (lang.toLowerCase() === 'csharp') {
     return 'C#';
@@ -28,21 +36,21 @@ export const formatLanguageDisplay = (lang: string): string => {
   return lang;
 };
 
-// 辅助函数：根据语言过滤结果并计算平均值
+// Helper function: 根据语言过滤结果并计算平均值
 const filterAndAggregateByLanguages = (results: ProcessedResult[], selectedLangs: string[]): ProcessedResult[] => {
   // Language filtering started
 
   if (!selectedLangs.length) return results;
 
-  // 预先处理language数组
+  // Pre-process language数组
   const langPatterns = selectedLangs.map(l => l.toLowerCase());
   
-  // 按模型分组
+  // Group by model
   const modelGroups = new Map<string, ProcessedResult[]>();
   
   results.forEach(result => {
     const resultLang = result.lang.toLowerCase();
-    // 检查结果语言是否匹配选定的语言
+    // Check 结果语言是否匹配选定的语言
     if (langPatterns.includes(resultLang)) {
       const key = result.modelName;
       if (!modelGroups.has(key)) {
@@ -99,14 +107,18 @@ export async function processResults(task: TaskType, filters: FilterOptions): Pr
   
   // Fallback to original real-time processing
   
-  // 加载所有数据
+  // Load all data
   const data = await loadAllData();
   
-  // Task processing started
+  // Check if data is null and handle it
+  if (!data || data.length === 0) {
+    console.warn(`No data available for task: ${task}`);
+    return [];
+  }
   
   let processedResults: ProcessedResult[];
   
-  // 根据任务类型选择处理器
+  // Choose processor based on task type
   switch (task.toLowerCase()) {
     case 'code generation':
       processedResults = aggregateCodeGenerationResults(processCodeGeneration(data.map(processResult), filters));
@@ -151,9 +163,8 @@ export async function processResults(task: TaskType, filters: FilterOptions): Pr
       break;
       
     case 'overall':
-      // Overall task should use precomputed data or the correct ranking implementation
-      // This fallback should never be reached since we have precomputed data and progressive loading
-      throw new Error('Overall task should use precomputed data or progressive loading, not real-time processing');
+      // Use the restored overall processing function
+      processedResults = await processOverall(data.map(processResult), filters);
       break;
       
     case 'multi-modality':
@@ -261,7 +272,7 @@ export async function processResults(task: TaskType, filters: FilterOptions): Pr
 
   // Task processing completed
 
-  // 应用所有过滤器
+  // Apply all filters
   let filteredResults = processedResults;
 
   // 1. 数据集过滤 (同级 OR 关系)
@@ -361,33 +372,52 @@ export async function processResults(task: TaskType, filters: FilterOptions): Pr
     // Security filtering completed
   }
 
-  // 新增：Modality过滤 (同级 OR 关系，跨级 AND 关系)
+  // Modality filtering (OR relationship within same level, AND relationship across levels)
   if (filters.modalities && filters.modalities.length > 0) {
-    // 移除过多的日志，只保留必要的开始和结束日志
-    // Modality filtering applied
+    console.log('Code Summarization - Modality filtering applied:', {
+      modalityFilters: filters.modalities,
+      beforeFilterCount: filteredResults.length
+    });
     
-    // 预先处理modalities数组以避免每次过滤时都要处理
+    // Pre-process modalities array to avoid processing every time during filtering
     const modalityPatterns = filters.modalities
       .filter(modality => modality)
       .map(modality => modality.toLowerCase());
     
     if (modalityPatterns.length > 0) {
       filteredResults = filteredResults.filter(result => {
-        // 创建要检查的字符串数组，避免每次都要检查对象是否存在
+        // Create strings to check array, avoiding checking object existence every time
         const stringsToCheck: string[] = [];
         if (result.modelName) stringsToCheck.push(result.modelName.toLowerCase());
         if (result.dataset) stringsToCheck.push(result.dataset.toLowerCase());
         if (result.task) stringsToCheck.push(result.task.toLowerCase());
         if (result.lang) stringsToCheck.push(result.lang.toLowerCase());
         
-        // 使用some进行短路操作
-        return modalityPatterns.some(pattern => 
+        // Use some for short-circuit operation
+        const matches = modalityPatterns.some(pattern => 
           stringsToCheck.some(str => str.includes(pattern))
         );
+        
+        if (!matches) {
+          console.log('Filtered out due to modality:', {
+            modalityPatterns,
+            stringsToCheck,
+            modelName: result.modelName
+          });
+        }
+        
+        return matches;
       });
     }
     
-    // Modality filtering completed
+    console.log('Code Summarization - Modality filtering completed:', {
+      afterFilterCount: filteredResults.length
+    });
+  } else {
+    console.log('Code Summarization - No modality filtering applied:', {
+      modalityFilters: filters.modalities,
+      resultCount: filteredResults.length
+    });
   }
 
   // 7. LLM Judge 过滤 (同级 OR 关系，跨级 AND 关系)
@@ -424,7 +454,7 @@ export async function processResults(task: TaskType, filters: FilterOptions): Pr
   return filteredResults;
 }
 
-// 格式化结果为显示格式
+// Format results for display
 export function formatResults(results: ProcessedResult[], filters?: FilterOptions): Array<Record<string, string | number>> {
   // Formatting results for display
 

@@ -177,8 +177,12 @@ const TableCell: FC<TableCellProps> = ({
           
           if (typeof value === 'number') {
             // Special handling for percentage values
-            if (['pass@1', 'pass@3', 'pass@5', 'CodeBLEU', 'Execution', 'Accuracy', 'Precision', 'Recall', 'F1 Score', 'P-C', 'P-V', 'P-B', 'P-R', 'csr'].includes(header.key)) {
+            // Note: pass@k metrics are already in 0-100 scale from precomputed data, don't multiply again
+            if (['CodeBLEU', 'Execution', 'Accuracy', 'Precision', 'Recall', 'F1 Score', 'P-C', 'P-V', 'P-B', 'P-R', 'csr'].includes(header.key)) {
               return (value * 100).toFixed(1);
+            } else if (header.key.includes('pass@') || header.key.includes('_pass@')) {
+              // Pass@k metrics are already in 0-100 scale from precomputed data
+              return value.toFixed(1);
             } else if (header.key === 'llmjudge' || header.key === 'LLMJudge' || header.key === 'LLM Judge') {
               // For LLM Judge, the precomputed values are already percentages as strings
               // Only apply conversion if it's a raw score (number between 0-5)

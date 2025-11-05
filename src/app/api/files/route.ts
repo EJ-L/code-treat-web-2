@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
 
-// 添加动态配置
+// Add dynamic configuration
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
 
@@ -25,7 +25,6 @@ const ALLOWED_DIRECTORIES = [
   'data/precomputed/vulnerability-detection',
   'data/precomputed/unit-test-generation',
   'data/precomputed/multi-modality',
-  'data/precomputed/interaction-2-code',
   'data/precomputed/code-robustness',
   'data/precomputed/mr-web',
   'data/precomputed/overall'
@@ -72,7 +71,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid path' }, { status: 403 });
     }
 
-    // 获取工作目录的根路径
+    // Get root path of working directory
     const rootDir = process.cwd();
     const cleanDirectory = directory.replace(/\.\./g, '').replace(/\\/g, '/');
     const fullPath = path.resolve(rootDir, cleanDirectory); // Use path.resolve for absolute path
@@ -83,7 +82,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid path' }, { status: 403 });
     }
 
-    // 如果没有指定文件，则返回目录列表
+    // Return directory list if no file specified
     if (!file) {
       try {
         const files = await fs.readdir(fullPath);
@@ -95,7 +94,7 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // 如果指定了文件，则读取文件内容
+    // Read file content if file is specified
     const cleanFile = file.replace(/\.\./g, '').replace(/\\/g, '/');
     const filePath = path.resolve(fullPath, cleanFile); // Use path.resolve
     
@@ -106,7 +105,7 @@ export async function GET(request: NextRequest) {
     }
     
     try {
-      // 检查文件是否存在
+      // Check 文件是否存在
       await fs.access(filePath);
     } catch {
       return NextResponse.json({ error: 'File not found' }, { status: 404 });
