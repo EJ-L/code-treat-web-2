@@ -178,8 +178,12 @@ const TableCell: FC<TableCellProps> = ({
           if (typeof value === 'number') {
             // Special handling for percentage values
             // Note: pass@k metrics are already in 0-100 scale from precomputed data, don't multiply again
-            if (['CodeBLEU', 'Execution', 'Accuracy', 'Precision', 'Recall', 'F1 Score', 'P-C', 'P-V', 'P-B', 'P-R', 'csr'].includes(header.key)) {
+            // Note: vulnerability detection metrics (Accuracy, Precision, Recall, F1 Score, P-C, P-V, P-B, P-R) are also already in 0-100 scale
+            if (['CodeBLEU', 'Execution', 'csr'].includes(header.key)) {
               return (value * 100).toFixed(1);
+            } else if (['Accuracy', 'Precision', 'Recall', 'F1 Score', 'P-C', 'P-V', 'P-B', 'P-R'].includes(header.key)) {
+              // Vulnerability detection metrics are already in 0-100 scale, just format them
+              return value.toFixed(1);
             } else if (header.key.includes('pass@') || header.key.includes('_pass@')) {
               // Pass@k metrics are already in 0-100 scale from precomputed data
               return value.toFixed(1);
