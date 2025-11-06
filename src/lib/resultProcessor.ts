@@ -92,17 +92,24 @@ const filterAndAggregateByLanguages = (results: ProcessedResult[], selectedLangs
 };
 
 export async function processResults(task: TaskType, filters: FilterOptions): Promise<ProcessedResult[]> {
-  // Try to use precomputed data first
-  try {
-    const precomputedResults = await getPrecomputedResults(task, filters);
-    
-    if (precomputedResults.length > 0) {
-      // Return precomputed results directly - formatResults will handle them
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return precomputedResults as any[];
+  
+  // For overall task, skip precomputed results and use our direct consolidated loading
+  if (task.toLowerCase() === 'overall') {
+    console.log('🔍 Overall task detected - using direct consolidated file loading');
+    // Skip precomputed results and go directly to our overall processor
+  } else {
+    // For other tasks, try precomputed data first
+    try {
+      const precomputedResults = await getPrecomputedResults(task, filters);
+      
+      if (precomputedResults.length > 0) {
+        // Return precomputed results directly - formatResults will handle them
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return precomputedResults as any[];
+      }
+    } catch {
+      // Failed to load precomputed data, falling back to real-time processing
     }
-      } catch {
-    // Failed to load precomputed data, falling back to real-time processing
   }
   
   // Fallback to original real-time processing

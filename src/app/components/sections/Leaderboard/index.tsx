@@ -258,10 +258,19 @@ interface LeaderboardProps {
       });
     }
     
-    // Apply timeline filtering first
+    // Apply baseline filtering first - remove "Code Summarization Human Baseline" from overall leaderboard
     let filtered = results;
-    if (timelineRange) {
+    if (currentTask === 'overall') {
       filtered = results.filter(result => {
+        const modelName = result.model || result.modelName || '';
+        return !modelName.includes('Code Summarization Human Baseline');
+      });
+      console.log(`🔍 DEBUG: Filtered out Code Summarization Human Baseline: ${results.length} -> ${filtered.length} results`);
+    }
+    
+    // Apply timeline filtering
+    if (timelineRange) {
+      filtered = filtered.filter(result => {
         if (!result.model) return true; // Include if no model name
         let modelReleaseDate = MODEL_PUBLISH_DATES[result.model];
         

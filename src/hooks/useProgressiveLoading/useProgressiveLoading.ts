@@ -94,37 +94,44 @@ export function useProgressiveLoading(
       debug.dataLoader(`Starting progressive loading for task: ${currentTask}`);
 
       if (currentTask === 'overall') {
-        // Load overall data (aggregate from multiple tasks)
+        // For overall task, load data directly using the result processor
+        debug.dataLoader('Overall task detected - loading data using result processor');
         try {
-          const overallResults = await loadTaskDataProgressively(
-            filterOptions,
-            signal,
-            updateProgress
-          );
-
+          // Use the result processor which handles overall task correctly
+          const { processResults } = await import('@/lib/resultProcessor');
+          const overallResults = await processResults(currentTask, filterOptions);
+          
           if (overallResults && overallResults.length > 0 && !signal.aborted) {
-            debug.dataLoader(`Loaded ${overallResults.length} overall results, starting batch loading`);
-            await loadResultsInBatches(
-              overallResults,
-              signal,
-              batchSize,
-              delayBetweenBatches,
-              priorityModels,
-              50, // Start from 50% for batch loading
-              setState
-            );
+            debug.dataLoader(`Loaded ${overallResults.length} overall results via result processor`);
+            setState(prev => ({
+              ...prev,
+              results: overallResults,
+              isLoading: false,
+              isDataComplete: true,
+              loadingProgress: 100
+            }));
           } else if (!signal.aborted) {
             debug.dataLoader('No overall results to display');
             setState(prev => ({
               ...prev,
+              results: [],
               isLoading: false,
               isDataComplete: true,
               loadingProgress: 100
             }));
           }
         } catch (error) {
-          debug.dataLoader('Error in overall data loading:', error);
-          throw error;
+          debug.dataLoader('Error loading overall data via result processor:', error);
+          if (!signal.aborted) {
+            setState(prev => ({
+              ...prev,
+              results: [],
+              isLoading: false,
+              isDataComplete: true,
+              loadingProgress: 100,
+              error: error instanceof Error ? error : new Error('Failed to load overall data')
+            }));
+          }
         }
       } else {
         // Load specific task data
