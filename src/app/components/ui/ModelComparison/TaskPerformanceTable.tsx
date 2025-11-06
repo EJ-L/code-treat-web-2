@@ -12,11 +12,11 @@ export const TaskPerformanceTable: React.FC<TaskPerformanceTableProps> = ({
   taskInfo
 }) => {
   const getTableHeaderStyles = (isDarkMode: boolean): string => {
-    return `px-8 py-6 text-left text-lg font-bold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`;
+    return `px-4 sm:px-8 py-4 sm:py-6 text-left text-base sm:text-lg font-bold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`;
   };
 
   const getTableCellStyles = (isBetter: boolean, isDarkMode: boolean): string => {
-    const baseStyles = 'px-8 py-8 text-center transition-all duration-300';
+    const baseStyles = 'px-4 sm:px-8 py-4 sm:py-8 text-center transition-all duration-300';
     const betterStyles = isBetter
       ? (isDarkMode ? 'bg-green-900/30 text-green-300 font-bold' : 'bg-green-50 text-green-800 font-bold')
       : (isDarkMode ? 'text-gray-300' : 'text-gray-700');
@@ -37,7 +37,7 @@ export const TaskPerformanceTable: React.FC<TaskPerformanceTableProps> = ({
   return (
     <div className={`rounded-lg border ${isDarkMode ? 'border-slate-700 bg-slate-800/20' : 'border-gray-200 bg-white/60'} overflow-hidden`}>
       <div className={`px-6 py-4 ${isDarkMode ? 'bg-slate-800/30' : 'bg-gray-50/70'} border-b ${isDarkMode ? 'border-slate-700' : 'border-gray-200'}`}>
-        <h3 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+        <h3 className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
           Task Performance Comparison
         </h3>
       </div>

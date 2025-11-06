@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useCallback } from 'react';
 import { TaskType, ProcessedResult, Ability } from '@/lib/types';
 import { CodeHighlighter as ModernCodeHighlighter } from '@/app/components/ui/CodeHighlighter';
 
@@ -179,7 +179,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
   const [isLoading, setIsLoading] = useState(true);
 
   // Function to filter and randomly select questions
-  const filterAndSelectQuestions = (data: CodeQuestionData[]) => {
+  const filterAndSelectQuestions = useCallback((data: CodeQuestionData[]) => {
     // Filtering questions based on current criteria
     
     // Apply filtering based on selected abilities
@@ -187,7 +187,6 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
     
     // Filter by dataset
     if (selectedAbilities.dataset && selectedAbilities.dataset.length > 0) {
-      const beforeCount = filteredData.length;
       filteredData = filteredData.filter((item: CodeQuestionData) => {
         const itemDataset = item.dataset.toLowerCase();
         return selectedAbilities.dataset!.some(dataset => {
@@ -214,7 +213,6 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
     
     // Filter by modality (only for code translation)
     if ((currentTask as string) === 'code translation' && selectedAbilities.modality && selectedAbilities.modality.length > 0) {
-      const beforeCount = filteredData.length;
       filteredData = filteredData.filter((item: CodeQuestionData) => {
         return selectedAbilities.modality!.some(modality => 
           item.modality === modality
@@ -231,7 +229,6 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
          (currentTask as string) === 'input prediction' ||
          (currentTask as string) === 'output prediction') && 
         selectedAbilities.modality && selectedAbilities.modality.length > 0) {
-      const beforeCount = filteredData.length;
       filteredData = filteredData.filter((item: CodeQuestionData) => {
         return selectedAbilities.modality!.some(lang => {
           const normalizedLang = lang.toLowerCase();
@@ -261,7 +258,6 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
     // Filter by LLMJudge (for code review and code summarization)
     if (((currentTask as string) === 'code review' || (currentTask as string) === 'code summarization') && 
         selectedAbilities.llmJudges && selectedAbilities.llmJudges.length > 0) {
-      const beforeCount = filteredData.length;
       filteredData = filteredData.filter((item: CodeQuestionData) => {
         // Check if any model in this question has responses from the selected LLM judges
         return Object.values(item.models || {}).some(modelData => {
@@ -290,7 +286,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
     // Random questions selected from filtered data
     
     return selected;
-  };
+  }, [selectedAbilities.dataset, selectedAbilities.modality, selectedAbilities.llmJudges, currentTask]);
 
   useEffect(() => {
     const loadQuestionData = async () => {
@@ -312,7 +308,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
 
       try {
         let dataUrl = '';
-        let dataProcessor: (data: any) => CodeQuestionData[] = (data) => data;
+        let dataProcessor: (data: unknown) => CodeQuestionData[] = (data) => data as CodeQuestionData[];
 
         // Determine the data source and processor based on task
         if (currentTask === 'code translation') {
@@ -322,14 +318,16 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
           dataProcessor = (data) => {
             // Convert the nested structure to flat array
             const flatData: CodeQuestionData[] = [];
-            Object.keys(data).forEach(dataset => {
-              if (Array.isArray(data[dataset])) {
-                data[dataset].forEach((item: any) => {
+            const dataObj = data as Record<string, unknown[]>;
+            Object.keys(dataObj).forEach(dataset => {
+              if (Array.isArray(dataObj[dataset])) {
+                dataObj[dataset].forEach((item: unknown) => {
+                  const typedItem = item as Record<string, unknown>;
                   flatData.push({
-                    ...item,
+                    ...typedItem,
                     dataset: dataset,
-                    lang: item.modality?.toLowerCase() || item.lang // Normalize language field
-                  });
+                    lang: (typedItem.modality as string)?.toLowerCase() || (typedItem.lang as string) // Normalize language field
+                  } as CodeQuestionData);
                 });
               }
             });
@@ -339,33 +337,35 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
           dataUrl = '/data/code-example/unit-test-generation/combined_data.json';
           dataProcessor = (data) => {
             // Unit test generation data is already in flat array format
-            return Array.isArray(data) ? data : [];
+            return Array.isArray(data) ? data as CodeQuestionData[] : [];
           };
         } else if (currentTask === 'code review') {
           dataUrl = '/data/code-example/code-review/combined_data.json';
           dataProcessor = (data) => {
             // Code review data is already in flat array format
-            return Array.isArray(data) ? data : [];
+            return Array.isArray(data) ? data as CodeQuestionData[] : [];
           };
         } else if (currentTask === 'code summarization') {
           dataUrl = '/data/code-example/code-summarization/combined_data.json';
           dataProcessor = (data) => {
             // Code summarization data is already in flat array format
-            return Array.isArray(data) ? data : [];
+            return Array.isArray(data) ? data as CodeQuestionData[] : [];
           };
         } else if (currentTask === 'input prediction') {
           dataUrl = '/data/code-example/input-prediction/combined_data.json';
           dataProcessor = (data) => {
             // Convert the nested structure to flat array
             const flatData: CodeQuestionData[] = [];
-            Object.keys(data).forEach(dataset => {
-              if (Array.isArray(data[dataset])) {
-                data[dataset].forEach((item: any) => {
+            const dataObj = data as Record<string, unknown[]>;
+            Object.keys(dataObj).forEach(dataset => {
+              if (Array.isArray(dataObj[dataset])) {
+                dataObj[dataset].forEach((item: unknown) => {
+                  const typedItem = item as Record<string, unknown>;
                   flatData.push({
-                    ...item,
+                    ...typedItem,
                     dataset: dataset,
-                    lang: item.lang // Use existing lang field
-                  });
+                    lang: typedItem.lang as string // Use existing lang field
+                  } as CodeQuestionData);
                 });
               }
             });
@@ -376,14 +376,16 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
           dataProcessor = (data) => {
             // Convert the nested structure to flat array
             const flatData: CodeQuestionData[] = [];
-            Object.keys(data).forEach(dataset => {
-              if (Array.isArray(data[dataset])) {
-                data[dataset].forEach((item: any) => {
+            const dataObj = data as Record<string, unknown[]>;
+            Object.keys(dataObj).forEach(dataset => {
+              if (Array.isArray(dataObj[dataset])) {
+                dataObj[dataset].forEach((item: unknown) => {
+                  const typedItem = item as Record<string, unknown>;
                   flatData.push({
-                    ...item,
+                    ...typedItem,
                     dataset: dataset,
-                    lang: item.lang // Use existing lang field
-                  });
+                    lang: typedItem.lang as string // Use existing lang field
+                  } as CodeQuestionData);
                 });
               }
             });
@@ -393,7 +395,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
           dataUrl = '/data/code-example/vulnerability-detection/combined_data.json';
           dataProcessor = (data) => {
             // Vulnerability detection data is already in flat array format
-            return Array.isArray(data) ? data : [];
+            return Array.isArray(data) ? data as CodeQuestionData[] : [];
           };
         } else {
           setIsLoading(false);
@@ -411,14 +413,14 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
         setQuestionData(selectedQuestions);
         setSelectedQuestion(0); // Reset to first question when data changes
         setIsLoading(false);
-      } catch (error) {
+      } catch {
         // Error loading question data
         setIsLoading(false);
       }
     };
 
     loadQuestionData();
-  }, [currentTask, selectedAbilities.dataset, selectedAbilities.modality, selectedAbilities.llmJudges]);
+  }, [currentTask, selectedAbilities.dataset, selectedAbilities.modality, selectedAbilities.llmJudges, filterAndSelectQuestions]);
 
   if (isLoading) {
     return (
@@ -558,7 +560,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
 
   return (
     <div 
-      className="w-full max-w-7xl mx-auto p-6"
+      className="w-full max-w-7xl mx-auto p-4 sm:p-6"
       style={{
         pointerEvents: 'auto',
         cursor: 'default'
@@ -568,8 +570,8 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
     >
       {/* Question Navigation */}
       <div className="mb-8">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-3xl font-bold" style={{ color: isDarkMode ? '#e2e8f0' : '#374151' }}>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+          <h2 className="text-lg sm:text-2xl lg:text-3xl font-bold pt-4 sm:pt-0" style={{ color: isDarkMode ? '#e2e8f0' : '#374151' }}>
             {(currentTask as string) === 'code translation' ? 'Code Translation - Side by Side' :
              (currentTask as string) === 'code generation' ? 'Code Generation - Side by Side' :
              (currentTask as string) === 'unit test generation' ? 'Unit Test Generation - Side by Side' :
@@ -580,7 +582,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
              (currentTask as string) === 'vulnerability detection' ? 'Vulnerability Detection - Side by Side' :
              'Code Questions - Side by Side'}
           </h2>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <button
               onMouseDown={(e) => e.stopPropagation()}
               onClick={async () => {
@@ -588,7 +590,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
                 try {
                   // Use the same logic as in useEffect
                   let dataUrl = '';
-                  let dataProcessor: (data: any) => CodeQuestionData[] = (data) => data;
+                  let dataProcessor: (data: unknown) => CodeQuestionData[] = (data) => data as CodeQuestionData[];
 
                   if (currentTask === 'code translation') {
                     dataUrl = '/data/code-example/code-translation/example_data.json';
@@ -596,15 +598,17 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
                     dataUrl = '/data/code-example/code-generation/combined_data.json';
                     dataProcessor = (data) => {
                       const flatData: CodeQuestionData[] = [];
-                      Object.keys(data).forEach(dataset => {
-                        if (Array.isArray(data[dataset])) {
-                          data[dataset].forEach((item: any) => {
-                            flatData.push({
-                              ...item,
-                              dataset: dataset,
-                              lang: item.modality?.toLowerCase() || item.lang // Normalize language field
-                            });
-                          });
+                      const dataObj = data as Record<string, unknown[]>;
+                      Object.keys(dataObj).forEach(dataset => {
+                        if (Array.isArray(dataObj[dataset])) {
+                      dataObj[dataset].forEach((item: unknown) => {
+                        const typedItem = item as Record<string, unknown>;
+                        flatData.push({
+                          ...typedItem,
+                          dataset: dataset,
+                          lang: (typedItem.modality as string)?.toLowerCase() || (typedItem.lang as string) // Normalize language field
+                        } as CodeQuestionData);
+                      });
                         }
                       });
                       return flatData;
@@ -613,34 +617,36 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
                     dataUrl = '/data/code-example/unit-test-generation/combined_data.json';
                     dataProcessor = (data) => {
                       // Unit test generation data is already in flat array format
-                      return Array.isArray(data) ? data : [];
+                      return Array.isArray(data) ? data as CodeQuestionData[] : [];
                     };
                   } else if (currentTask === 'code review') {
                     dataUrl = '/data/code-example/code-review/combined_data.json';
                     dataProcessor = (data) => {
                       // Code review data is already in flat array format
-                      return Array.isArray(data) ? data : [];
+                      return Array.isArray(data) ? data as CodeQuestionData[] : [];
                     };
                   } else if (currentTask === 'code summarization') {
                     dataUrl = '/data/code-example/code-summarization/combined_data.json';
                     dataProcessor = (data) => {
                       // Code summarization data is already in flat array format
-                      return Array.isArray(data) ? data : [];
+                      return Array.isArray(data) ? data as CodeQuestionData[] : [];
                     };
                   } else if (currentTask === 'input prediction') {
                     dataUrl = '/data/code-example/input-prediction/combined_data.json';
                     dataProcessor = (data) => {
                       // Convert the nested structure to flat array
                       const flatData: CodeQuestionData[] = [];
-                      Object.keys(data).forEach(dataset => {
-                        if (Array.isArray(data[dataset])) {
-                          data[dataset].forEach((item: any) => {
-                            flatData.push({
-                              ...item,
-                              dataset: dataset,
-                              lang: item.lang // Use existing lang field
-                            });
-                          });
+                      const dataObj = data as Record<string, unknown[]>;
+                      Object.keys(dataObj).forEach(dataset => {
+                        if (Array.isArray(dataObj[dataset])) {
+                        dataObj[dataset].forEach((item: unknown) => {
+                          const typedItem = item as Record<string, unknown>;
+                          flatData.push({
+                            ...typedItem,
+                            dataset: dataset,
+                            lang: typedItem.lang as string // Use existing lang field
+                          } as CodeQuestionData);
+                        });
                         }
                       });
                       return flatData;
@@ -650,15 +656,17 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
                     dataProcessor = (data) => {
                       // Convert the nested structure to flat array
                       const flatData: CodeQuestionData[] = [];
-                      Object.keys(data).forEach(dataset => {
-                        if (Array.isArray(data[dataset])) {
-                          data[dataset].forEach((item: any) => {
-                            flatData.push({
-                              ...item,
-                              dataset: dataset,
-                              lang: item.lang // Use existing lang field
-                            });
-                          });
+                      const dataObj = data as Record<string, unknown[]>;
+                      Object.keys(dataObj).forEach(dataset => {
+                        if (Array.isArray(dataObj[dataset])) {
+                        dataObj[dataset].forEach((item: unknown) => {
+                          const typedItem = item as Record<string, unknown>;
+                          flatData.push({
+                            ...typedItem,
+                            dataset: dataset,
+                            lang: typedItem.lang as string // Use existing lang field
+                          } as CodeQuestionData);
+                        });
                         }
                       });
                       return flatData;
@@ -667,7 +675,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
                     dataUrl = '/data/code-example/vulnerability-detection/combined_data.json';
                     dataProcessor = (data) => {
                       // Vulnerability detection data is already in flat array format
-                      return Array.isArray(data) ? data : [];
+                      return Array.isArray(data) ? data as CodeQuestionData[] : [];
                     };
                   } else {
                     setIsLoading(false);
@@ -685,24 +693,25 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
                   setQuestionData(selectedQuestions);
                   setSelectedQuestion(0);
                   setIsLoading(false);
-                } catch (error) {
+                } catch {
                   // Error loading question data
                   setIsLoading(false);
                 }
               }}
-              className="px-4 py-2 rounded-lg text-base font-medium transition-colors"
+              className="px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base font-medium transition-colors"
               style={{
                 backgroundColor: isDarkMode ? '#3b82f6' : '#2563eb',
                 color: '#ffffff'
               }}
             >
-              🔄 Refresh Questions
+              <span className="hidden sm:inline">🔄 Refresh Questions</span>
+              <span className="sm:hidden">🔄 Refresh</span>
             </button>
             <button
               onMouseDown={(e) => e.stopPropagation()}
               onClick={() => setSelectedQuestion(Math.max(0, selectedQuestion - 1))}
               disabled={selectedQuestion === 0}
-              className="px-4 py-2 rounded-lg text-base font-medium transition-colors disabled:opacity-50"
+              className="px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base font-medium transition-colors disabled:opacity-50"
               style={{
                 backgroundColor: isDarkMode ? '#374151' : '#f3f4f6',
                 color: isDarkMode ? '#e2e8f0' : '#374151',
@@ -711,14 +720,14 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
             >
               Previous
             </button>
-            <span className="text-base font-medium" style={{ color: isDarkMode ? '#94a3b8' : '#64748b' }}>
+            <span className="text-sm sm:text-base font-medium" style={{ color: isDarkMode ? '#94a3b8' : '#64748b' }}>
               {selectedQuestion + 1} of {questionData.length}
             </span>
             <button
               onMouseDown={(e) => e.stopPropagation()}
               onClick={() => setSelectedQuestion(Math.min(questionData.length - 1, selectedQuestion + 1))}
               disabled={selectedQuestion === questionData.length - 1}
-              className="px-4 py-2 rounded-lg text-base font-medium transition-colors disabled:opacity-50"
+              className="px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base font-medium transition-colors disabled:opacity-50"
               style={{
                 backgroundColor: isDarkMode ? '#374151' : '#f3f4f6',
                 color: isDarkMode ? '#e2e8f0' : '#374151',
@@ -780,7 +789,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
               Question ID:
             </span>
             <div className="text-lg font-semibold break-all" style={{ color: isDarkMode ? '#e2e8f0' : '#374151' }}>
-              {(currentQuestion as any).data_idx || currentQuestion.id || currentQuestion.question_key || currentQuestion.prompt_id || 'N/A'}
+              {(currentQuestion as CodeQuestionData & { data_idx?: number }).data_idx || currentQuestion.id || currentQuestion.question_key || currentQuestion.prompt_id || 'N/A'}
             </div>
           </div>
         </div>
@@ -812,7 +821,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
             }}
             onMouseDown={(e) => e.stopPropagation()}
           >
-            {currentQuestion.wrapped_text || (currentQuestion as any)['code/function'] || 'No content available'}
+            {currentQuestion.wrapped_text || (currentQuestion as CodeQuestionData & { 'code/function'?: string })['code/function'] || 'No content available'}
           </div>
         </div>
       </div>

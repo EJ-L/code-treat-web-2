@@ -1,5 +1,5 @@
 import React, { FC, useState, useMemo, useEffect } from 'react';
-import { loadModelComparisonCSV, parseModelComparisonCSV, ModelComparisonData } from '@/lib/csvLoader';
+import { loadModelComparisonCSV, parseModelComparisonCSV } from '@/lib/csvLoader';
 import { ProcessedResult } from '@/lib/types';
 import { ModelSelector, ModelData } from '@/app/components/ui/ModelSelector';
 import { 
@@ -120,7 +120,7 @@ const ModelABComparison: FC<ModelABComparisonProps> = ({
   }
 
   return (
-    <div className={`container mx-auto px-4 py-8 ${isDarkMode ? 'bg-slate-50/5' : 'bg-gray-50/30'} rounded-lg`}>
+    <div className={`container mx-auto px-4 py-6 sm:py-8 ${isDarkMode ? 'bg-slate-50/5' : 'bg-gray-50/30'} rounded-lg`}>
       {/* Header */}
       <ComparisonHeader isDarkMode={isDarkMode} />
 

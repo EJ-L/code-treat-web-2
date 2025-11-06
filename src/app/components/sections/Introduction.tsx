@@ -61,12 +61,12 @@ const Introduction: FC<IntroductionProps> = ({ isDarkMode }) => {
         >
           <div className="space-y-8">
             <div className="space-y-12 max-w-4xl mx-auto">
-              <p className={`text-lg text-center leading-relaxed ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className={`text-base sm:text-lg text-center leading-relaxed ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 <strong className={`${isDarkMode ? 'text-blue-300' : 'text-blue-600'}`}>TREAT</strong> introduces 
                 the first holistic evaluation framework for Large Language Models in code intelligence tasks.
               </p>
               
-              <p className={`text-xl leading-relaxed text-justify ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <p className={`text-lg sm:text-xl leading-relaxed text-justify ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 Our framework features <strong className={`${isDarkMode ? 'text-blue-300' : 'text-blue-600'}`}>Multi-Task Holistic Evaluation</strong> spanning 
                 the entire software development lifecycle, <strong className={`${isDarkMode ? 'text-blue-300' : 'text-blue-600'}`}>Multi-Language & Multi-Modality</strong> assessment 
                 incorporating visual design and software implementation, <strong className={`${isDarkMode ? 'text-blue-300' : 'text-blue-600'}`}>Systematic Robustness Testing</strong> through 
@@ -76,7 +76,7 @@ const Introduction: FC<IntroductionProps> = ({ isDarkMode }) => {
             </div>
 
             <div className={`p-8 rounded-lg ${isDarkMode ? 'bg-blue-900/20 border border-blue-500/20' : 'bg-blue-50 border border-blue-200'}`}>
-              <p className={`text-lg ${isDarkMode ? 'text-blue-200' : 'text-blue-800'}`}>
+              <p className={`text-base sm:text-lg ${isDarkMode ? 'text-blue-200' : 'text-blue-800'}`}>
                 <strong>Key Finding:</strong> Through evaluation of 25+ state-of-the-art models, we reveal 
                 significant performance variations across tasks and severe robustness issues with 15.5% 
                 average performance decline under code perturbations.

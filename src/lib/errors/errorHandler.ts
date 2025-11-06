@@ -7,8 +7,9 @@ import { AppError, DataLoadError, NetworkError } from './AppError';
 /**
  * Wraps async functions to handle errors gracefully
  */
-export const handleAsyncError = <T extends any[], R>(
+export const handleAsyncError = <T extends unknown[], R>(
   fn: (...args: T) => Promise<R>,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fallbackValue?: R
 ) => {
   return async (...args: T): Promise<R | null> => {
@@ -46,7 +47,7 @@ export const handleAsyncError = <T extends any[], R>(
 /**
  * Wraps async functions with retry logic
  */
-export const withRetry = <T extends any[], R>(
+export const withRetry = <T extends unknown[], R>(
   fn: (...args: T) => Promise<R>,
   maxRetries: number = 3,
   delayMs: number = 1000
@@ -161,7 +162,7 @@ export const createNetworkRequest = <T>(
 /**
  * Error boundary helper for logging errors
  */
-export const logError = (error: Error, errorInfo?: any): void => {
+export const logError = (error: Error, errorInfo?: Record<string, unknown>): void => {
   console.error('Error caught by error boundary:', {
     error: {
       name: error.name,

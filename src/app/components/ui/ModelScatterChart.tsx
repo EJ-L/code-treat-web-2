@@ -89,7 +89,7 @@ type ScatterChartProps = {
   // Optional props for showing leaderboard timeline range as reference lines
   leaderboardTimelineRange?: { start: Date; end: Date } | null;
   // Multi-leaderboard tab selection for code-robustness task
-  selectedMultiTab?: string;
+  // selectedMultiTab?: string; // Removed
 };
 
 export interface ScatterChartRef {
@@ -161,8 +161,8 @@ const ModelScatterChart = forwardRef<ScatterChartRef, ScatterChartProps>(({
   onMetricChange, 
   isDarkMode,
   currentTask,
-  leaderboardTimelineRange,
-  selectedMultiTab
+  leaderboardTimelineRange
+  // selectedMultiTab // Removed
 }, ref) => {
   const [hoveredPoint, setHoveredPoint] = useState<ScatterDataPoint | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -177,7 +177,7 @@ const ModelScatterChart = forwardRef<ScatterChartRef, ScatterChartProps>(({
   
   // Check if CoT filtering is enabled (only for specific datasets)
   // Disabled for code-robustness as requested
-  const cotFilterEnabled = false; // currentTask === 'code-robustness' && selectedMultiTab && ['All', 'CRUXEval', 'LiveCodeBench (CE)'].includes(selectedMultiTab);
+  const cotFilterEnabled = false;
   
   // Zoom and pan state
   const [zoomState, setZoomState] = useState<ZoomState | null>(null);

@@ -112,7 +112,20 @@ export const AccessibilityProvider: FC<AccessibilityProviderProps> = ({ children
     // Handle escape key
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        releaseFocus();
+        // Call releaseFocus directly without dependency
+        const { container: currentContainer, previousFocus } = focusTrapRef.current;
+        
+        const typedContainer = currentContainer as HTMLElement & { _focusTrapCleanup?: () => void };
+        if (currentContainer && typedContainer._focusTrapCleanup) {
+          typedContainer._focusTrapCleanup();
+          delete typedContainer._focusTrapCleanup;
+        }
+
+        if (previousFocus) {
+          previousFocus.focus();
+        }
+
+        focusTrapRef.current = { container: null, previousFocus: null };
       }
     };
 
@@ -120,7 +133,7 @@ export const AccessibilityProvider: FC<AccessibilityProviderProps> = ({ children
     document.addEventListener('keydown', handleEscape);
 
     // Store cleanup function
-    (container as any)._focusTrapCleanup = () => {
+    (container as HTMLElement & { _focusTrapCleanup?: () => void })._focusTrapCleanup = () => {
       container.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('keydown', handleEscape);
     };
@@ -130,9 +143,10 @@ export const AccessibilityProvider: FC<AccessibilityProviderProps> = ({ children
   const releaseFocus = useCallback(() => {
     const { container, previousFocus } = focusTrapRef.current;
     
-    if (container && (container as any)._focusTrapCleanup) {
-      (container as any)._focusTrapCleanup();
-      delete (container as any)._focusTrapCleanup;
+    const typedContainer = container as HTMLElement & { _focusTrapCleanup?: () => void };
+    if (container && typedContainer._focusTrapCleanup) {
+      typedContainer._focusTrapCleanup();
+      delete typedContainer._focusTrapCleanup;
     }
 
     if (previousFocus) {

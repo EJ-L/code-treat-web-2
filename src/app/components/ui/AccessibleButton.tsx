@@ -1,4 +1,4 @@
-import { FC, ReactNode, forwardRef } from 'react';
+import { ReactNode, forwardRef } from 'react';
 import { motion, MotionProps } from 'framer-motion';
 
 interface AccessibleButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {

@@ -5,8 +5,8 @@ import { ComparisonHeaderProps } from './types';
  * Header component for model comparison section
  */
 export const ComparisonHeader: React.FC<ComparisonHeaderProps> = ({ isDarkMode }) => (
-  <div className="text-center mb-8">
-    <h2 className={`text-3xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+  <div className="text-center mb-8 pt-4 sm:pt-0">
+    <h2 className={`text-2xl sm:text-3xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
       Model Performance Comparison
     </h2>
     <div className={`text-m leading-relaxed max-w-4xl mx-auto ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>

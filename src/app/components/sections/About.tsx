@@ -24,7 +24,7 @@ const About: FC<AboutProps> = ({ isDarkMode }) => {
           <div className={`${isDarkMode ? 'bg-[#0f1729]/80' : 'bg-white/90'} backdrop-blur-sm p-8 rounded-xl border ${isDarkMode ? 'border-blue-500/20' : 'border-slate-200'} shadow-sm max-w-7xl w-full`}>
             <div className="space-y-4 text-center">
               <div>
-                <p className={`text-lg ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                <p className={`text-base sm:text-lg ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                   For questions, suggestions, or collaboration opportunities, please reach out to us at{' '}
                   <a 
                     href="mailto:ejli@cse.cuhk.edu.hk,lyu@cse.cuhk.edu.hk" 

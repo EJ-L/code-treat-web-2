@@ -9,7 +9,6 @@ import {
 } from './leaderboardConfig';
 
 // Column width management
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function initializeColumnWidths(
   task: TaskType, 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -133,7 +132,7 @@ export function getStickyStyles(task: TaskType, key: string): string {
 export function getStickyLeftPosition(task: TaskType, key: string, columnWidths: Record<string, number>): string {
   if (!shouldUseSticky(task)) {
     if (key === 'model') {
-      return `${columnWidths['rank'] || 150}px`;
+      return `${columnWidths['rank'] || 80}px`;
     }
     if (key === 'rank') {
       return '0px';
@@ -265,22 +264,22 @@ export function sortResults(
   const sortableData = [...data];
   
   // Debug: Log sorting details for overall task
-  const isOverallTask = data.length > 0 && (data[0] as any)?.task === 'overall';
+  const isOverallTask = data.length > 0 && (data[0] as Record<string, unknown>)?.task === 'overall';
   if (isOverallTask) {
     console.log(`🔄 DEBUG: Sorting ${data.length} results by ${sortConfig.key} (${sortConfig.direction})`);
     console.log('   First 3 items before sorting:');
     data.slice(0, 3).forEach((item, index) => {
-      console.log(`   ${index + 1}. ${(item as any).model || (item as any).modelName} - ${sortConfig.key}: ${(item as any)[sortConfig.key]} - rank: ${(item as any).rank}`);
+      const typedItem = item as Record<string, unknown>;
+      console.log(`   ${index + 1}. ${typedItem.model || typedItem.modelName} - ${sortConfig.key}: ${typedItem[sortConfig.key]} - rank: ${typedItem.rank}`);
     });
   }
   
   // Store original ranks before any sorting (use originalRank if available, fallback to rank)
   // But only if originalRank doesn't exist yet - this preserves the first time ranks are set
   sortableData.forEach((item, index) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if ((item as any).originalRank === undefined) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (item as any).originalRank = (item as any).rank || (index + 1);
+    const typedItem = item as Record<string, unknown> & { originalRank?: number; rank?: number };
+    if (typedItem.originalRank === undefined) {
+      typedItem.originalRank = typedItem.rank || (index + 1);
     }
   });
   
@@ -289,21 +288,20 @@ export function sortResults(
   if (sortConfig.key === 'rank') {
     sortableData.sort((a, b) => {
       // Use current rank instead of originalRank for sorting
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const aRank = parseValueForSorting((a as any).rank);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const bRank = parseValueForSorting((b as any).rank);
+      const typedA = a as Record<string, unknown> & { rank?: number };
+      const typedB = b as Record<string, unknown> & { rank?: number };
+      const aRank = parseValueForSorting(typedA.rank);
+      const bRank = parseValueForSorting(typedB.rank);
       
       // Always sort rank in ascending order for "reset" behavior
       return aRank - bRank;
     });
     
     // Keep current ranks when sorting by rank (don't restore originalRank)
-    return sortableData.map((item, index) => ({
+    return sortableData.map((item) => ({
       ...item,
       // Keep the current rank as-is, which should be the filtered continuous rank
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      rank: (item as any).rank
+      rank: (item as Record<string, unknown> & { rank?: number }).rank
     }));
   }
   
@@ -321,10 +319,10 @@ export function sortResults(
     }
 
     // Get values for comparison, handling all metrics including difficulty-based ones
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const aValue = parseValueForSorting((a as any)[sortConfig.key]);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const bValue = parseValueForSorting((b as any)[sortConfig.key]);
+    const typedA = a as Record<string, unknown>;
+    const typedB = b as Record<string, unknown>;
+    const aValue = parseValueForSorting(typedA[sortConfig.key] as string | number | undefined);
+    const bValue = parseValueForSorting(typedB[sortConfig.key] as string | number | undefined);
     
     // Sort direction
     if (sortConfig.direction === 'asc') {
@@ -338,15 +336,15 @@ export function sortResults(
   const finalResults = sortableData.map((item, index) => ({
     ...item,
     // For overall task, preserve original ranks when not sorting by rank
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    rank: isOverallTask && sortConfig.key !== 'rank' ? (item as any).originalRank : index + 1
+    rank: isOverallTask && sortConfig.key !== 'rank' ? (item as Record<string, unknown> & { originalRank?: number }).originalRank : index + 1
   }));
 
   // Debug: Log final results for overall task
   if (isOverallTask) {
     console.log('   First 3 items after sorting:');
     finalResults.slice(0, 3).forEach((item, index) => {
-      console.log(`   ${index + 1}. ${(item as any).model || (item as any).modelName} - ${sortConfig.key}: ${(item as any)[sortConfig.key]} - rank: ${(item as any).rank}`);
+      const typedItem = item as Record<string, unknown>;
+      console.log(`   ${index + 1}. ${typedItem.model || typedItem.modelName} - ${sortConfig.key}: ${typedItem[sortConfig.key]} - rank: ${typedItem.rank}`);
     });
   }
 

@@ -533,6 +533,7 @@ export const CodeRobustnessMetrics: FC<CodeRobustnessMetricsProps> = ({ isDarkMo
 
 
 // Helper function to calculate task-specific date bounds with buffers
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function calculateTaskSpecificDateBounds(results: ProcessedResult[]): { min: Date; max: Date } {
   if (!results || results.length === 0) {
     // Fallback dates if no results available
@@ -641,7 +642,7 @@ export const OverallInfo: FC<OverallInfoProps> = ({ isDarkMode }) => {
   return (
     <div className="w-full mb-3">
       <div className="flex items-center justify-center h-4">
-        <p className={`${isDarkMode ? 'text-slate-200' : 'text-slate-700'} text-xl md:text-lg text-center leading-relaxed m-0`}>
+        <p className={`${isDarkMode ? 'text-slate-200' : 'text-slate-700'} text-sm sm:text-base md:text-lg text-center leading-relaxed m-0`}>
           Showing overall results based on the{' '}
           <span 
             className="relative cursor-help underline decoration-dotted underline-offset-4 hover:decoration-solid transition-all duration-200 font-semibold"
@@ -650,7 +651,7 @@ export const OverallInfo: FC<OverallInfoProps> = ({ isDarkMode }) => {
           >
             average
             {showAverageDetails && (
-              <span className={`absolute z-[9999] w-80 p-3 rounded-lg shadow-lg border text-sm leading-relaxed transition-all duration-200 left-1/2 transform -translate-x-1/2 bottom-full mb-8
+              <span className={`absolute z-[9999] w-64 sm:w-80 p-3 rounded-lg shadow-lg border text-sm leading-relaxed transition-all duration-200 left-1/2 transform -translate-x-1/2 bottom-full mb-8
                 ${isDarkMode 
                   ? 'bg-slate-800 border-slate-600 text-slate-200' 
                   : 'bg-white border-gray-300 text-gray-700'
@@ -669,7 +670,7 @@ export const OverallInfo: FC<OverallInfoProps> = ({ isDarkMode }) => {
           >
             tasks
             {showTasksDetails && (
-              <span className={`absolute z-[9999] w-80 p-3 rounded-lg shadow-lg border text-sm leading-relaxed transition-all duration-200 left-1/2 transform -translate-x-1/2 bottom-full mb-8
+              <span className={`absolute z-[9999] w-64 sm:w-80 p-3 rounded-lg shadow-lg border text-sm leading-relaxed transition-all duration-200 left-1/2 transform -translate-x-1/2 bottom-full mb-8
                 ${isDarkMode 
                   ? 'bg-slate-800 border-slate-600 text-slate-200' 
                   : 'bg-white border-gray-300 text-gray-700'

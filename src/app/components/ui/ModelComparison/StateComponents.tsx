@@ -93,8 +93,8 @@ export const SameModelWarning: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode
  * Select models prompt component
  */
 export const SelectModelsPrompt: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => (
-  <div className={`text-center py-16 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-    <div className="text-2xl mb-4 font-semibold">Select two models to compare</div>
-    <div className="text-lg">Choose models from the dropdowns above to see detailed performance comparison and visualizations</div>
+  <div className={`text-center py-8 sm:py-16 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+    <div className="text-xl sm:text-2xl mb-4 font-semibold">Select two models to compare</div>
+    <div className="text-base sm:text-lg px-4">Choose models from the dropdowns above to see detailed performance comparison and visualizations</div>
   </div>
 );

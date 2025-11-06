@@ -2,7 +2,7 @@
  * Type definitions for progressive loading hook
  */
 
-import { ProcessedResult, TaskType, FilterOptions } from '@/lib/types';
+import { ProcessedResult, TaskType } from '@/lib/types';
 
 export interface ProgressiveLoadingState {
   results: ProcessedResult[];

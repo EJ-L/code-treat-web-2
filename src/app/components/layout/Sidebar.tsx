@@ -1,7 +1,7 @@
 "use client";
 import { FC } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SunIcon, MoonIcon, XMarkIcon, Bars3Icon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
+import { SunIcon, MoonIcon, XMarkIcon, Bars3Icon } from '@heroicons/react/24/outline';
 import WebpageIcon from '../ui/WebpageIcon';
 import { TaskType, Ability } from '@/lib/types';
 
@@ -287,7 +287,7 @@ const Sidebar: FC<SidebarProps> = ({
               animate={{ x: 0 }}
               exit={{ x: -320 }}
               transition={{ type: 'spring', damping: 25, stiffness: 250 }}
-              className="xl:hidden fixed left-0 top-0 w-80 h-screen z-50 shadow-2xl"
+              className="xl:hidden fixed left-0 top-0 w-64 sm:w-72 h-screen z-50 shadow-2xl"
             >
               {sidebarContent}
             </motion.div>

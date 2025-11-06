@@ -272,7 +272,7 @@ export class CacheManager {
                   localStorage.removeItem(key);
                 }
               }
-            } catch (error) {
+            } catch {
               // Remove invalid entries
               localStorage.removeItem(key);
             }
@@ -293,7 +293,7 @@ export class CacheManager {
     }
 
     this.clear();
-    CacheManager.instance = null as any;
+    CacheManager.instance = null as unknown as CacheManager;
   }
 
   private async doPreload(loader: (key: string) => Promise<unknown>): Promise<void> {
@@ -354,7 +354,7 @@ export class CacheManager {
       }
 
       return parsed.value;
-    } catch (error) {
+    } catch {
       return null;
     }
   }
@@ -387,7 +387,7 @@ export class CacheManager {
       }
 
       return parsed.value;
-    } catch (error) {
+    } catch {
       return null;
     }
   }

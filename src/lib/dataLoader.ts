@@ -1,7 +1,7 @@
 import { ResultEntry, ProcessedResult, TaskType, FilterOptions } from './types';
 import { DataLoaderManager, DataLoaderConfig } from './dataSources/DataLoaderManager';
-import { createDataLoader, handleAsyncError } from './errors/errorHandler';
-import { DataLoadError } from './errors/AppError';
+import { createDataLoader } from './errors/errorHandler';
+// import { DataLoadError } from './errors/AppError'; // Unused
 
 // Global instance of the data loader manager
 const dataLoaderManager = DataLoaderManager.getInstance();
@@ -225,6 +225,7 @@ export function processResult(entry: ResultEntry): ProcessedResult {
 /**
  * Mock data for fallback scenarios
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getMockData(): ResultEntry[] {
   return [
     {

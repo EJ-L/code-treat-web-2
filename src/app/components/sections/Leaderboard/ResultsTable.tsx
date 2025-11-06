@@ -3,7 +3,6 @@ import { FC, useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import { TaskType, ProcessedResult, Ability } from '@/lib/types';
 import { FilterConfig } from '@/lib/filterConfig';
 import { HeaderConfig, getTaskHeaders } from '@/lib/leaderboardConfig';
-import { getFilteredTableHeaders } from '@/lib/leaderboardHelpers';
 import TableHeader from './TableHeader';
 import TableCell from './TableCell';
 import { getModelUrl } from '@/lib/constants';
@@ -82,7 +81,6 @@ const ResultsTable: FC<ResultsTableProps> = ({
   isDarkMode,
   onColumnWidthChange,
   timelineRange,
-  onTimelineChange,
   taskAbilities = {},
   selectedAbilities = {},
   handleAbilityChange,
@@ -738,7 +736,6 @@ const ResultsTable: FC<ResultsTableProps> = ({
               isDarkMode={isDarkMode}
               currentTask={currentTask}
               leaderboardTimelineRange={timelineRange}
-              selectedMultiTab={selectedMultiTab}
             />
           </div>
         ) : viewMode === 'code-questions' ? (

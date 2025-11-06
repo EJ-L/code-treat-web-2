@@ -23,6 +23,7 @@ const ResponsiveContainer: FC<ResponsiveContainerProps> = ({
   className = '',
   maxWidth = 'full',
   padding = 'md',
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isDarkMode = false,
   enableTouchOptimization = true
 }) => {

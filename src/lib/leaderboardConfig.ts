@@ -25,16 +25,16 @@ export const BASE_HEADERS: Record<string, HeaderConfig> = {
     label: 'Rank',
     width: 'w-32',
     description: '',
-    defaultWidth: 150,
-    minWidth: 100
+    defaultWidth: 80,
+    minWidth: 60
   },
   model: {
     key: 'model',
     label: 'Model Name',
     width: 'w-192',
     description: '',
-    defaultWidth: 300,
-    minWidth: 300
+    defaultWidth: 200,
+    minWidth: 150
   },
   // Pass metrics
   'pass@1': {

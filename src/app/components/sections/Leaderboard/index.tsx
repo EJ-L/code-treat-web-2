@@ -13,7 +13,6 @@ import { TimelineFilter, SecondaryFiltersBar } from './FilterComponents';
 import ModelComparisonModal from '@/app/components/ui/ModelComparisonModal';
 import { AnimatedResultsWrapper } from '@/app/components/ui/AnimatedResultsWrapper';
 import { ProgressiveLoadingIndicator } from '@/app/components/ui/ProgressiveLoadingIndicator';
-import ModelABComparison from './ModelABComparison';
 import { getAvailableLLMJudges as getSummarizationJudges } from '@/lib/tasks/codeSummarization';
 import { getAvailableLLMJudges as getReviewJudges } from '@/lib/tasks/codeReview';
 
@@ -75,7 +74,7 @@ interface LeaderboardProps {
   const {
     results: progressiveResults,
     isLoading: progressiveIsLoading,
-    isDataComplete: progressiveIsDataComplete,
+    // isDataComplete: progressiveIsDataComplete, // Unused
     loadingProgress,
     error: progressiveError
   } = useProgressiveLoading(currentTask, filterOptions, {
@@ -87,12 +86,11 @@ interface LeaderboardProps {
   // Fallback state for non-progressive loading (backward compatibility)
   const [fallbackResults, setFallbackResults] = useState<ProcessedResult[]>([]);
   const [fallbackIsLoading, setFallbackIsLoading] = useState(true);
-  const [fallbackIsDataComplete, setFallbackIsDataComplete] = useState(false);
+  // const [fallbackIsDataComplete, setFallbackIsDataComplete] = useState(false); // Unused
 
   // Use progressive or fallback results based on feature flag
   const results = progressiveLoadingEnabled ? progressiveResults : fallbackResults;
   const isLoading = progressiveLoadingEnabled ? progressiveIsLoading : fallbackIsLoading;
-  const isDataComplete = progressiveLoadingEnabled ? progressiveIsDataComplete : fallbackIsDataComplete;
 
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(
     getDefaultSortConfig(initialTask || 'overall')
@@ -189,7 +187,7 @@ interface LeaderboardProps {
     
     // Close comparison modal when task changes
     setIsComparisonModalOpen(false);
-  }, [supportsChartView, currentTask, viewMode]);
+  }, [supportsChartView, viewMode]);
 
   const handleAbilityChange = (key: keyof Ability, value: string) => {
     setSelectedAbilities(prev => {
@@ -281,22 +279,21 @@ interface LeaderboardProps {
       debug.leaderboard(`Timeline filtered: ${filtered.length}/${results.length} results`);
     }
     
-    // Only normalize ranks if there are gaps due to filtering, preserve original rankings otherwise
-    // Check if we need to normalize ranks (if there are gaps or if ranks are missing)
+    // For overall task, preserve original ranking logic - never normalize ranks
+    // For other tasks, only normalize if ranks are completely missing
     const hasValidRanks = filtered.every(result => result.rank && typeof result.rank === 'number');
-    const hasSequentialRanks = hasValidRanks && filtered.every((result, index) => result.rank === index + 1);
     
     // Debug: Log rank validation for overall task
     if (currentTask === 'overall') {
       console.log('🔍 DEBUG: Rank validation for overall task:');
       console.log(`   Has valid ranks: ${hasValidRanks}`);
-      console.log(`   Has sequential ranks: ${hasSequentialRanks}`);
       console.log(`   Timeline range active: ${!!timelineRange}`);
+      console.log('   Preserving original ranking logic for overall task');
     }
     
-    // Only normalize if ranks are missing or not sequential due to filtering
-    if (!hasValidRanks || (!hasSequentialRanks && timelineRange)) {
-      console.log('⚠️ DEBUG: Normalizing ranks due to missing/non-sequential ranks');
+    // Only normalize ranks if they are completely missing (not for overall task with timeline filtering)
+    if (!hasValidRanks && currentTask !== 'overall') {
+      console.log('⚠️ DEBUG: Normalizing ranks due to missing ranks (non-overall task)');
       filtered = filtered.map((result, index) => ({
         ...result,
         rank: index + 1
@@ -385,7 +382,7 @@ interface LeaderboardProps {
           const { processResults } = await import('@/lib/resultProcessor');
           const overallResults = await processResults(currentTask, filterOptions);
           setFallbackResults(overallResults);
-          setFallbackIsDataComplete(true);
+          // setFallbackIsDataComplete(true); // Unused
           setFallbackIsLoading(false);
         } else {
           // Use precomputed results for specific tasks
@@ -395,7 +392,7 @@ interface LeaderboardProps {
           if (!results || results.length === 0) {
             debug.warn(`No precomputed results available for task: ${currentTask}`);
                 setFallbackResults([]);
-            setFallbackIsDataComplete(false);
+            // setFallbackIsDataComplete(false); // Unused
             setFallbackIsLoading(false);
             return;
           }
@@ -406,31 +403,29 @@ interface LeaderboardProps {
           // Unit test generation task loaded
           
           setFallbackResults(results);
-          setFallbackIsDataComplete(true);
+          // setFallbackIsDataComplete(true); // Unused
                   setFallbackIsLoading(false);
                 }
       } catch (error) {
         debug.error('Error loading data:', error);
           setFallbackResults([]);
-        setFallbackIsDataComplete(false);
+        // setFallbackIsDataComplete(false); // Unused
           setFallbackIsLoading(false);
       }
     };
     
     loadAndProcessData();
   }, [
-    // Only run this effect when progressive loading is disabled
-    // When progressive loading is enabled, this effect should never run
-    ...(progressiveLoadingEnabled ? [] : [
-      currentTask, 
-      selectedAbilities.dataset, 
-      selectedAbilities.modality, 
-      selectedAbilities.knowledge, 
-      selectedAbilities.robustness, 
-      selectedAbilities.privacy, 
-      selectedAbilities.llmJudges, 
-      selectedAbilities.framework
-    ])
+    currentTask,
+    filterOptions,
+    progressiveLoadingEnabled,
+    selectedAbilities.dataset, 
+    selectedAbilities.modality, 
+    selectedAbilities.knowledge, 
+    selectedAbilities.robustness, 
+    selectedAbilities.privacy, 
+    selectedAbilities.llmJudges, 
+    selectedAbilities.framework
   ]);
 
   // Get filtered table headers using new helper

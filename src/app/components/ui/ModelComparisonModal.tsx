@@ -140,8 +140,9 @@ const ModelComparisonModal = ({
         className={`w-full max-w-5xl ${isDarkMode ? 'bg-[#0f1729]' : 'bg-white'} rounded-xl shadow-xl overflow-hidden`}
       >
         <div className={`p-4 border-b ${isDarkMode ? 'border-slate-700' : 'border-slate-200'} flex justify-between items-center`}>
-          <h2 className={`text-xl font-semibold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
-            Compare Models (select up to 5)
+          <h2 className={`text-lg sm:text-xl font-semibold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+            <span className="hidden sm:inline">Compare Models (select up to 5)</span>
+            <span className="sm:hidden">Compare Models</span>
           </h2>
           <button 
             onClick={handleCloseModal}

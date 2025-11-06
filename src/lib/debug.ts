@@ -33,7 +33,7 @@ class DebugLogger {
           const parsed = JSON.parse(storedConfig);
           this.config = { ...this.config, ...parsed };
         }
-      } catch (error) {
+      } catch {
         // Ignore localStorage errors
       }
     }
@@ -54,7 +54,7 @@ class DebugLogger {
     if (typeof window !== 'undefined') {
       try {
         localStorage.setItem('debug-config', JSON.stringify(this.config));
-      } catch (error) {
+      } catch {
         // Ignore localStorage errors
       }
     }

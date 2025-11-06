@@ -101,7 +101,7 @@ export async function processResults(task: TaskType, filters: FilterOptions): Pr
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return precomputedResults as any[];
     }
-  } catch (error) {
+      } catch {
     // Failed to load precomputed data, falling back to real-time processing
   }
   
@@ -554,15 +554,15 @@ export function formatResults(results: ProcessedResult[], filters?: FilterOption
     formattedResult['llmjudge'] = result.llmjudge !== null ? ((result.llmjudge / 5) * 100).toFixed(1) : '-';
     formattedResult['Execution'] = result.executionAccuracy !== null ? (result.executionAccuracy * 100).toFixed(1) : '-';
 
-    // Add vulnerability detection metrics
-    formattedResult['P-C'] = result['P-C'] !== null && result['P-C'] !== undefined ? (result['P-C'] * 100).toFixed(1) : '-';
-    formattedResult['P-V'] = result['P-V'] !== null && result['P-V'] !== undefined ? (result['P-V'] * 100).toFixed(1) : '-';
-    formattedResult['P-B'] = result['P-B'] !== null && result['P-B'] !== undefined ? (result['P-B'] * 100).toFixed(1) : '-';
-    formattedResult['P-R'] = result['P-R'] !== null && result['P-R'] !== undefined ? (result['P-R'] * 100).toFixed(1) : '-';
-    formattedResult['Accuracy'] = result.Accuracy !== null && result.Accuracy !== undefined ? (result.Accuracy * 100).toFixed(1) : '-';
-    formattedResult['Precision'] = result.Precision !== null && result.Precision !== undefined ? (result.Precision * 100).toFixed(1) : '-';
-    formattedResult['Recall'] = result.Recall !== null && result.Recall !== undefined ? (result.Recall * 100).toFixed(1) : '-';
-    formattedResult['F1 Score'] = result['F1 Score'] !== null && result['F1 Score'] !== undefined ? (result['F1 Score'] * 100).toFixed(1) : '-';
+    // Add vulnerability detection metrics (already in percentage format, no need to multiply by 100)
+    formattedResult['P-C'] = result['P-C'] !== null && result['P-C'] !== undefined ? Number(result['P-C']).toFixed(1) : '-';
+    formattedResult['P-V'] = result['P-V'] !== null && result['P-V'] !== undefined ? Number(result['P-V']).toFixed(1) : '-';
+    formattedResult['P-B'] = result['P-B'] !== null && result['P-B'] !== undefined ? Number(result['P-B']).toFixed(1) : '-';
+    formattedResult['P-R'] = result['P-R'] !== null && result['P-R'] !== undefined ? Number(result['P-R']).toFixed(1) : '-';
+    formattedResult['Accuracy'] = result.Accuracy !== null && result.Accuracy !== undefined ? Number(result.Accuracy).toFixed(1) : '-';
+    formattedResult['Precision'] = result.Precision !== null && result.Precision !== undefined ? Number(result.Precision).toFixed(1) : '-';
+    formattedResult['Recall'] = result.Recall !== null && result.Recall !== undefined ? Number(result.Recall).toFixed(1) : '-';
+    formattedResult['F1 Score'] = result['F1 Score'] !== null && result['F1 Score'] !== undefined ? Number(result['F1 Score']).toFixed(1) : '-';
 
     // Add custom metrics for new tasks
     // multi-modality metrics

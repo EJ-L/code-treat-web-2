@@ -224,12 +224,12 @@ export function useProgressiveLoading(
     }, 100);
 
     return cleanup;
-  }, [currentTask, filterOptions, enableProgressiveLoading]); // Remove function dependencies to prevent infinite loops
+  }, [currentTask, JSON.stringify(filterOptions), enableProgressiveLoading]); // Remove function dependencies to prevent infinite loops
 
   // Cleanup on unmount
   useEffect(() => {
     return cleanup;
-  }, []); // Empty dependency array - cleanup function doesn't need to be in dependencies
+  }, []); // Remove cleanup dependency to prevent infinite loops
 
   return {
     results: state.results,
