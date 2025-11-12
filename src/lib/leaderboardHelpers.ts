@@ -193,7 +193,7 @@ export function getTaskSpecificColumnWidth(task: TaskType, key: string): string 
 }
 
 // Default sort configuration
-export function getDefaultSortConfig(task: TaskType): { key: string; direction: 'asc' | 'desc' } {
+export function getDefaultSortConfig(task: TaskType, selectedTab?: string): { key: string; direction: 'asc' | 'desc' } {
   // Each task should default to its primary metric for proper leaderboard behavior
   let defaultKey: string;
   
@@ -212,7 +212,13 @@ export function getDefaultSortConfig(task: TaskType): { key: string; direction: 
       defaultKey = 'LLM Judge'; // Review tasks use LLM Judge scores
       break;
     case 'vulnerability detection':
-      defaultKey = 'P-C'; // Vulnerability detection uses P-C (PrimeVulPairs - P-C)
+      // For vulnerability detection, use Accuracy for All and PrimeVul tabs
+      // Use P-C for PrimeVulPairs tab
+      if (selectedTab === 'PrimeVulPairs') {
+        defaultKey = 'P-C'; // PrimeVulPairs uses P-C metric
+      } else {
+        defaultKey = 'Accuracy'; // All and PrimeVul use Accuracy
+      }
       break;
     case 'unit test generation':
       defaultKey = 'line_coverage'; // Unit test generation uses line coverage

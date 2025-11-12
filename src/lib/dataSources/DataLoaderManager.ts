@@ -180,8 +180,10 @@ export class DataLoaderManager {
   async getPrecomputedResults(task: TaskType, filters: FilterOptions): Promise<ProcessedResult[]> {
     await this.initialize();
 
-    // Create cache key
-    const cacheKey = `precomputed:${task}:${this.serializeFilters(filters)}`;
+    // Create cache key with version to bust stale cache entries after merging logic fix
+    // Version 2: includes difficulty metrics merged properly
+    const CACHE_VERSION = 'v2';
+    const cacheKey = `precomputed:${CACHE_VERSION}:${task}:${this.serializeFilters(filters)}`;
     
     // Try cache first
     const cached = await this.cacheManager.get<ProcessedResult[]>(cacheKey);

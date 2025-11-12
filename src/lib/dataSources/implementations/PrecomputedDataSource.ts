@@ -188,7 +188,6 @@ export class PrecomputedDataSource extends BaseDataSource implements IPrecompute
       
       if (!regularData && !difficultyData) {
         debug.dataSource(`No precomputed data available for task: ${task}`);
-        console.log(`❌ No precomputed data available for task: ${task}`);
         return this.createResult([], this.metadata.name, Date.now() - startTime, false, [`No precomputed data available for task: ${task}`]);
       }
       
@@ -210,8 +209,6 @@ export class PrecomputedDataSource extends BaseDataSource implements IPrecompute
       
       if (!matchingCombination) {
         debug.dataSource('No matching combination found for filters', filters);
-        console.log(`❌ No matching combination found for filters:`, filters);
-        console.log(`📋 Available combinations:`, Object.keys(precomputedData.filterMappings));
         return this.createResult([], this.metadata.name, Date.now() - startTime, false, ['No matching combination found for filters']);
       }
 
@@ -280,9 +277,12 @@ export class PrecomputedDataSource extends BaseDataSource implements IPrecompute
       data: {}
     };
 
-    // Start with all models from regular data
+    // Start with all models from regular data - deep copy to avoid mutation
     for (const [modelName, modelData] of Object.entries(regularData!.data)) {
-      mergedData.data[modelName] = { ...modelData };
+      mergedData.data[modelName] = {};
+      for (const [combination, combinationData] of Object.entries(modelData)) {
+        mergedData.data[modelName][combination] = { ...combinationData };
+      }
     }
 
     // Add difficulty metrics to existing models using direct name matching
@@ -293,7 +293,11 @@ export class PrecomputedDataSource extends BaseDataSource implements IPrecompute
           for (const [combination, combinationData] of Object.entries(modelData)) {
             if (mergedData.data[difficultyModelName][combination]) {
               // Add difficulty-specific metrics to the existing combination
-              Object.assign(mergedData.data[difficultyModelName][combination], combinationData);
+              // Use spread operator to merge instead of Object.assign to ensure new object
+              mergedData.data[difficultyModelName][combination] = {
+                ...mergedData.data[difficultyModelName][combination],
+                ...combinationData
+              };
             } else {
               // If combination doesn't exist in regular data, add it
               mergedData.data[difficultyModelName][combination] = { ...combinationData };
@@ -301,7 +305,10 @@ export class PrecomputedDataSource extends BaseDataSource implements IPrecompute
           }
         } else {
           // If model doesn't exist in regular data, add it with difficulty data
-          mergedData.data[difficultyModelName] = { ...modelData };
+          mergedData.data[difficultyModelName] = {};
+          for (const [combination, combinationData] of Object.entries(modelData)) {
+            mergedData.data[difficultyModelName][combination] = { ...combinationData };
+          }
         }
       }
     }
@@ -313,10 +320,8 @@ export class PrecomputedDataSource extends BaseDataSource implements IPrecompute
     const taskKey = task.replace(/\s+/g, '-');
     const cacheKey = showByDifficulty ? `${taskKey}_difficulty` : taskKey;
     
-    // Clear cache to ensure fresh data after renewal
-    if (this.precomputedCache.has(cacheKey)) {
-      this.precomputedCache.delete(cacheKey);
-    }
+    // Always clear cache to ensure fresh data (especially after code changes)
+    this.precomputedCache.delete(cacheKey);
     
     try {
       // Determine the correct consolidated file name
@@ -327,7 +332,9 @@ export class PrecomputedDataSource extends BaseDataSource implements IPrecompute
         fileName = `${taskKey}_consolidated.json`;
       }
       
-      const response = await fetch(`/api/direct-files?file=data/precomputed/${fileName}`, {
+      // Add cache-busting timestamp to ensure fresh data after code changes
+      const cacheBuster = Date.now();
+      const response = await fetch(`/api/direct-files?file=data/precomputed/${fileName}&v=${cacheBuster}`, {
         cache: 'no-cache',
         headers: {
           'Cache-Control': 'no-cache',
@@ -361,7 +368,7 @@ export class PrecomputedDataSource extends BaseDataSource implements IPrecompute
       reasoning: userFilters.reasoning || [],
       dataset: userFilters.datasets || []
     };
-
+    
     debug.dataSource('Finding matching combination:', {
       original: userFilters,
       effective: effectiveUserFilters
@@ -540,7 +547,6 @@ export class PrecomputedDataSource extends BaseDataSource implements IPrecompute
    * Convert ResultEntry objects to the format expected by the Leaderboard component
    */
   private convertResultEntriesToLeaderboardFormat(entries: ResultEntry[]): ProcessedResult[] {
-    
     const converted = entries.map(entry => {
       const leaderboardResult: Record<string, unknown> = {
         modelId: entry.id,

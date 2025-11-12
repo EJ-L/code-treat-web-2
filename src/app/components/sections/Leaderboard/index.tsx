@@ -57,18 +57,22 @@ interface LeaderboardProps {
   const progressiveLoadingEnabled = true; // Feature flag for progressive loading
   
   // Create filter options for progressive loading
-  const filterOptions: FilterOptions = useMemo(() => ({
-    tasks: [currentTask],
-    datasets: (selectedAbilities.dataset && selectedAbilities.dataset.length > 0) ? selectedAbilities.dataset : [],
-    langs: [],
-    modalities: (selectedAbilities.modality && selectedAbilities.modality.length > 0) ? selectedAbilities.modality : [],
-    knowledge: (selectedAbilities.knowledge && selectedAbilities.knowledge.length > 0) ? selectedAbilities.knowledge : [],
-    robustness: (selectedAbilities.robustness && selectedAbilities.robustness.length > 0) ? selectedAbilities.robustness : [],
-    security: (selectedAbilities.privacy && selectedAbilities.privacy.length > 0) ? selectedAbilities.privacy : [],
-    llmJudges: (selectedAbilities.llmJudges && selectedAbilities.llmJudges.length > 0) ? selectedAbilities.llmJudges : undefined,
-    framework: (selectedAbilities.framework && selectedAbilities.framework.length > 0) ? selectedAbilities.framework : [],
-    showByDifficulty: false
-  }), [currentTask, selectedAbilities]);
+  const filterOptions: FilterOptions = useMemo(() => {
+    const options = {
+      tasks: [currentTask],
+      datasets: (selectedAbilities.dataset && selectedAbilities.dataset.length > 0) ? selectedAbilities.dataset : [],
+      langs: [],
+      modalities: (selectedAbilities.modality && selectedAbilities.modality.length > 0) ? selectedAbilities.modality : [],
+      knowledge: (selectedAbilities.knowledge && selectedAbilities.knowledge.length > 0) ? selectedAbilities.knowledge : [],
+      robustness: (selectedAbilities.robustness && selectedAbilities.robustness.length > 0) ? selectedAbilities.robustness : [],
+      security: (selectedAbilities.privacy && selectedAbilities.privacy.length > 0) ? selectedAbilities.privacy : [],
+      llmJudges: (selectedAbilities.llmJudges && selectedAbilities.llmJudges.length > 0) ? selectedAbilities.llmJudges : undefined,
+      framework: (selectedAbilities.framework && selectedAbilities.framework.length > 0) ? selectedAbilities.framework : [],
+      showByDifficulty: false
+    };
+    
+    return options;
+  }, [currentTask, selectedAbilities]);
 
   // Progressive loading hook
   const {
@@ -93,7 +97,7 @@ interface LeaderboardProps {
   const isLoading = progressiveLoadingEnabled ? progressiveIsLoading : fallbackIsLoading;
 
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(
-    getDefaultSortConfig(initialTask || 'overall')
+    getDefaultSortConfig(initialTask || 'overall', 'All')
   );
   const [availableLLMJudges, setAvailableLLMJudges] = useState<string[]>([]);
 
@@ -120,13 +124,16 @@ interface LeaderboardProps {
   useEffect(() => {
     if (initialTask) {
       setCurrentTask(initialTask);
-      setSortConfig(getDefaultSortConfig(initialTask));
       
       // Reset multi-leaderboard tab when task changes
       const config = getMultiLeaderboardConfig(initialTask);
+      const defaultTab = config ? config.overallTab : 'All';
+      setSelectedMultiTab(defaultTab);
+      
+      // Set sort config with the default tab
+      setSortConfig(getDefaultSortConfig(initialTask, defaultTab));
+      
       if (config) {
-        setSelectedMultiTab(config.overallTab);
-        
         // Special case: For code-robustness "All" tab, apply specialized filter on initial load
         if (initialTask === 'code-robustness' && config.overallTab === 'All') {
           setSelectedAbilities({
@@ -159,13 +166,16 @@ interface LeaderboardProps {
 
   const handleTaskChange = useCallback((task: TaskType) => {
     setCurrentTask(task);
-    setSortConfig(getDefaultSortConfig(task));
     
     // Reset multi-leaderboard tab when task changes
     const config = getMultiLeaderboardConfig(task);
+    const defaultTab = config ? config.overallTab : 'All';
+    setSelectedMultiTab(defaultTab);
+    
+    // Set sort config with the default tab
+    setSortConfig(getDefaultSortConfig(task, defaultTab));
+    
     if (config) {
-      setSelectedMultiTab(config.overallTab);
-      
       // Special case: For code-robustness "All" tab, apply specialized filter
       if (task === 'code-robustness' && config.overallTab === 'All') {
         setSelectedAbilities({
@@ -250,14 +260,6 @@ interface LeaderboardProps {
   const sortedResults = useMemo(() => {
     if (!results.length) return [];
     
-    // Debug: Log initial results for overall task
-    if (currentTask === 'overall') {
-      console.log('🌐 DEBUG: Initial results for overall task (top 5):');
-      results.slice(0, 5).forEach((result, index) => {
-        console.log(`${index + 1}. ${result.model || result.modelName} - Rank: ${result.rank}`);
-      });
-    }
-    
     // Apply baseline filtering first - remove "Code Summarization Human Baseline" from overall leaderboard
     let filtered = results;
     if (currentTask === 'overall') {
@@ -265,7 +267,6 @@ interface LeaderboardProps {
         const modelName = result.model || result.modelName || '';
         return !modelName.includes('Code Summarization Human Baseline');
       });
-      console.log(`🔍 DEBUG: Filtered out Code Summarization Human Baseline: ${results.length} -> ${filtered.length} results`);
     }
     
     // Apply timeline filtering
@@ -292,17 +293,8 @@ interface LeaderboardProps {
     // For other tasks, only normalize if ranks are completely missing
     const hasValidRanks = filtered.every(result => result.rank && typeof result.rank === 'number');
     
-    // Debug: Log rank validation for overall task
-    if (currentTask === 'overall') {
-      console.log('🔍 DEBUG: Rank validation for overall task:');
-      console.log(`   Has valid ranks: ${hasValidRanks}`);
-      console.log(`   Timeline range active: ${!!timelineRange}`);
-      console.log('   Preserving original ranking logic for overall task');
-    }
-    
     // Only normalize ranks if they are completely missing (not for overall task with timeline filtering)
     if (!hasValidRanks && currentTask !== 'overall') {
-      console.log('⚠️ DEBUG: Normalizing ranks due to missing ranks (non-overall task)');
       filtered = filtered.map((result, index) => ({
         ...result,
         rank: index + 1
@@ -311,14 +303,6 @@ interface LeaderboardProps {
     
     const sorted = sortResults(filtered, sortConfig);
     
-    // Debug: Log final sorted results for overall task
-    if (currentTask === 'overall') {
-      console.log('🎯 DEBUG: Final sorted results for overall task (top 10):');
-      sorted.slice(0, 10).forEach((result, index) => {
-        console.log(`${index + 1}. ${result.model || result.modelName} - Rank: ${result.rank} - Sort Config: ${sortConfig?.key}:${sortConfig?.direction}`);
-      });
-    }
-    
     debug.leaderboard(`Sorted ${sorted.length} results. Sample sorted:`, sorted.slice(0, 3));
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return sorted as any;
@@ -326,17 +310,28 @@ interface LeaderboardProps {
 
   // Handle sorting using new helper
   const handleSort = useCallback((key: string) => {
-    // Special handling for rank column - sort by original rank values
+    // Special handling for rank column - reset to default sort config for the task
+    // (except for overall task which uses rank as default)
     if (key === 'rank') {
-      setSortConfig({ key: 'rank', direction: 'asc' });
+      if (currentTask === 'overall') {
+        // Overall task uses rank as default, so just sort by rank ascending
+        setSortConfig({ key: 'rank', direction: 'asc' });
+      } else {
+        // For other tasks, reset to the default sort config (e.g., pass@1 descending for input prediction)
+        // Pass selectedMultiTab to get tab-specific default sort config
+        setSortConfig(getDefaultSortConfig(currentTask, selectedMultiTab));
+      }
     } else {
       setSortConfig(prev => handleSortChange(prev, key));
     }
-  }, []);
+  }, [currentTask, selectedMultiTab]);
 
   // Handle multi-leaderboard tab change
   const handleMultiTabChange = useCallback((tab: string) => {
     setSelectedMultiTab(tab);
+    
+    // Reset sort config to default for the new tab to prevent sorting by metrics that don't exist in the new tab
+    setSortConfig(getDefaultSortConfig(currentTask, tab));
     
     // Clear existing filters when switching tabs
     setSelectedAbilities({});
@@ -344,6 +339,7 @@ interface LeaderboardProps {
     // Apply tab-specific filtering
     if (tab !== 'All') {
       const config = getMultiLeaderboardConfig(currentTask);
+      
       if (config) {
         const filterKey = config.extractedFilter;
         

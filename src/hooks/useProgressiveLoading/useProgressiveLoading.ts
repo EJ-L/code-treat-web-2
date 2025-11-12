@@ -123,13 +123,16 @@ export function useProgressiveLoading(
         } catch (error) {
           debug.dataLoader('Error loading overall data via result processor:', error);
           if (!signal.aborted) {
+            const errorMessage = error instanceof Error 
+              ? error.message 
+              : 'Failed to load overall data';
             setState(prev => ({
               ...prev,
               results: [],
               isLoading: false,
               isDataComplete: true,
               loadingProgress: 100,
-              error: error instanceof Error ? error : new Error('Failed to load overall data')
+              error: errorMessage
             }));
           }
         }
