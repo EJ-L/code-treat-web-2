@@ -6,7 +6,10 @@ const { execSync } = require('child_process');
 const directoriesToRemove = [
   '.next',
   '.vercel',
-  'node_modules/.cache'
+  'node_modules/.cache',
+  '.next/cache',
+  '.next/server/chunks',
+  '.next/static/chunks'
 ];
 
 console.log('Cleaning cache before build...');

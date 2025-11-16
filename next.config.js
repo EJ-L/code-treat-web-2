@@ -3,6 +3,29 @@ const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   
+  // Optimize output file tracing to exclude cache and unnecessary files
+  outputFileTracingExcludes: {
+    '*': [
+      'node_modules/@swc/core-linux-x64-gnu',
+      'node_modules/@swc/core-linux-x64-musl',
+      'node_modules/@esbuild/linux-x64',
+      '.next/cache/**/*',
+      '.next/server/chunks/**/*',
+      'node_modules/.cache/**/*',
+      '.vercel/**/*',
+      'scripts/**/*',
+      'data/**/*',
+      'new_dataset/**/*'
+    ]
+  },
+  
+  outputFileTracingIncludes: {
+    '/api/**/*': ['./public/data/**/*']
+  },
+  
+  // Configure output to minimize function size
+  output: 'standalone',
+  
   // Security headers
   async headers() {
     return [
