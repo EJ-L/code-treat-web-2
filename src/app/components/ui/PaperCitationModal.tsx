@@ -81,19 +81,19 @@ const PaperCitationModal: FC<PaperCitationModalProps> = ({ isOpen, onClose, isDa
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", duration: 0.3 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4"
           >
             <div className={`
-              relative w-full max-w-4xl max-h-[80vh] overflow-auto rounded-xl shadow-2xl
+              relative w-full max-w-4xl max-h-[95vh] overflow-auto rounded-xl shadow-2xl
               ${isDarkMode ? 'bg-[#0f1729] border border-slate-700/50' : 'bg-white border border-slate-200'}
             `}>
               {/* Header */}
               <div className={`
-                sticky top-0 px-6 py-4 border-b z-10
+                sticky top-0 px-3 sm:px-6 py-3 sm:py-4 border-b z-10
                 ${isDarkMode ? 'bg-[#0f1729] border-slate-700/50' : 'bg-white border-slate-200'}
               `}>
                 <div className="flex items-center justify-between">
-                  <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">
                     Leaderboard Papers
                   </h2>
                   <button
@@ -114,8 +114,8 @@ const PaperCitationModal: FC<PaperCitationModalProps> = ({ isOpen, onClose, isDa
               </div>
 
               {/* Content */}
-              <div className="p-6">
-                <p className={`text-lg mb-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+              <div className="p-3 sm:p-6">
+                <p className={`text-sm sm:text-base md:text-lg mb-4 sm:mb-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                   Our leaderboards are based on research from multiple papers. Click on any paper below to view the full research:
                 </p>
                 
@@ -127,7 +127,7 @@ const PaperCitationModal: FC<PaperCitationModalProps> = ({ isOpen, onClose, isDa
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
                       className={`
-                        p-6 rounded-lg border transition-all duration-200 hover:shadow-lg
+                        p-3 sm:p-6 rounded-lg border transition-all duration-200 hover:shadow-lg
                         ${isDarkMode 
                           ? 'bg-[#151d2a] border-slate-700/50 hover:border-blue-500/30' 
                           : 'bg-slate-50 border-slate-200 hover:border-blue-300/50'
@@ -136,22 +136,22 @@ const PaperCitationModal: FC<PaperCitationModalProps> = ({ isOpen, onClose, isDa
                     >
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-3">
-                            <span className="px-3 py-1.5 rounded-full text-sm font-semibold bg-gradient-to-r from-blue-500 to-purple-500 text-white">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-3">
+                            <span className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-gradient-to-r from-blue-500 to-purple-500 text-white w-fit">
                               {paper.name}
                             </span>
-                            <span className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                            <span className={`text-xs sm:text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                               {paper.authors} • {paper.venue} {paper.year}
                             </span>
                           </div>
-                          <h3 className={`text-lg font-semibold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                          <h3 className={`text-base sm:text-lg font-semibold mb-2 sm:mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                             {paper.title}
                           </h3>
-                          <p className={`text-sm leading-relaxed mb-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                          <p className={`text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                             {paper.description}
                           </p>
                           
-                          <div className="flex items-center gap-3">
+                          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
                             <motion.a
                               href={paper.url}
                               target="_blank"
@@ -159,7 +159,7 @@ const PaperCitationModal: FC<PaperCitationModalProps> = ({ isOpen, onClose, isDa
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                               className={`
-                                inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 group
+                                inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 group w-full sm:w-auto
                                 ${isDarkMode 
                                   ? 'bg-blue-900/50 text-blue-200 hover:bg-blue-800/60 border border-blue-700/50' 
                                   : 'bg-blue-100 text-blue-700 hover:bg-blue-200 border border-blue-200'
@@ -185,7 +185,7 @@ const PaperCitationModal: FC<PaperCitationModalProps> = ({ isOpen, onClose, isDa
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                                 className={`
-                                  inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 group
+                                  inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 group w-full sm:w-auto
                                   ${isDarkMode 
                                     ? 'bg-orange-900/50 text-orange-200 hover:bg-orange-800/60 border border-orange-700/50' 
                                     : 'bg-orange-100 text-orange-700 hover:bg-orange-200 border border-orange-200'
@@ -209,7 +209,7 @@ const PaperCitationModal: FC<PaperCitationModalProps> = ({ isOpen, onClose, isDa
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                                 className={`
-                                  inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 group
+                                  inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 group w-full sm:w-auto
                                   ${isDarkMode 
                                     ? 'bg-purple-900/50 text-purple-200 hover:bg-purple-800/60 border border-purple-700/50' 
                                     : 'bg-purple-100 text-purple-700 hover:bg-purple-200 border border-purple-200'

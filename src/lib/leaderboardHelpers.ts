@@ -2,6 +2,7 @@ import { TaskType } from './types';
 import { 
   getTaskHeaders, 
   getColumnWidth, 
+  getMobileColumnWidth,
   shouldUseSticky,
   getDefaultSortDirection,
   HeaderConfig,
@@ -19,6 +20,21 @@ export function initializeColumnWidths(
   
   headers.forEach(header => {
     newWidths[header.key] = getColumnWidth(task, header.key);
+  });
+  
+  return newWidths;
+}
+
+export function initializeMobileColumnWidths(
+  task: TaskType, 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  showByDifficulty: boolean = false
+): Record<string, number> {
+  const headers = getTaskHeaders(task);
+  const newWidths: Record<string, number> = {};
+  
+  headers.forEach(header => {
+    newWidths[header.key] = getMobileColumnWidth(task, header.key);
   });
   
   return newWidths;

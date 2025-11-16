@@ -10,33 +10,33 @@ interface HeroProps {
 const Hero: FC<HeroProps> = ({ isDarkMode, onNavigateToTask }) => {
   const [isPaperModalOpen, setIsPaperModalOpen] = useState(false);
   return (
-    <main className="relative flex-grow flex flex-col items-center justify-center text-center px-4 pb-16" id="home">
-      <div className="relative mt-[180px]">
+    <main className="relative flex-grow flex flex-col items-center justify-center text-center px-2 sm:px-4 pb-8 sm:pb-16" id="home">
+      <div className="relative mt-[120px] sm:mt-[180px]">
         <motion.h1 
-          className="text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 mb-16"
+          className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 mb-8 sm:mb-12 md:mb-16"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
           Code TREAT
         </motion.h1>
-        <div className="flex flex-wrap justify-center gap-4">
+        <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-2 sm:gap-4 max-w-lg sm:max-w-none mx-auto">
           <motion.button
             onClick={() => setIsPaperModalOpen(true)}
-            className={`relative inline-flex items-center px-6 py-4 text-lg text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg
-              overflow-hidden group hover:scale-105 transition-transform cursor-pointer`}
+            className={`relative inline-flex items-center px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base md:text-lg text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg
+              overflow-hidden group hover:scale-105 transition-transform cursor-pointer w-full sm:w-auto`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-3 sm:gap-6 justify-center">
               <span className="relative z-10 flex items-center justify-center">
                 <svg 
                   aria-hidden="true" 
                   focusable="false" 
-                  className="w-5 h-5" 
+                  className="w-4 h-4 sm:w-5 sm:h-5" 
                   role="img" 
                   xmlns="http://www.w3.org/2000/svg" 
                   viewBox="0 0 384 512"
@@ -59,20 +59,20 @@ const Hero: FC<HeroProps> = ({ isDarkMode, onNavigateToTask }) => {
             href="https://anonymous.4open.science/r/Code-TREAT-887A/README.md"
             target="_blank"
             rel="noopener noreferrer"
-            className={`relative inline-flex items-center px-6 py-4 text-lg text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg
-              overflow-hidden group hover:scale-105 transition-transform cursor-pointer`}
+            className={`relative inline-flex items-center px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base md:text-lg text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg
+              overflow-hidden group hover:scale-105 transition-transform cursor-pointer w-full sm:w-auto`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-3 sm:gap-6 justify-center">
               <span className="relative z-10 flex items-center justify-center">
                 <svg 
                   aria-hidden="true" 
                   focusable="false" 
-                  className="w-5 h-5" 
+                  className="w-4 h-4 sm:w-5 sm:h-5" 
                   role="img" 
                   xmlns="http://www.w3.org/2000/svg" 
                   viewBox="0 0 496 512"
@@ -95,20 +95,20 @@ const Hero: FC<HeroProps> = ({ isDarkMode, onNavigateToTask }) => {
             href="https://huggingface.co/Code-TREAT/datasets"
             target="_blank"
             rel="noopener noreferrer"
-            className={`relative inline-flex items-center px-6 py-4 text-lg text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg
-              overflow-hidden group hover:scale-105 transition-transform cursor-pointer`}
+            className={`relative inline-flex items-center px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base md:text-lg text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg
+              overflow-hidden group hover:scale-105 transition-transform cursor-pointer w-full sm:w-auto`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.7 }}
           >
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-3 sm:gap-6 justify-center">
               <span className="relative z-10 flex items-center justify-center">
                 <svg 
                   aria-hidden="true" 
                   focusable="false" 
-                  className="w-5 h-5" 
+                  className="w-4 h-4 sm:w-5 sm:h-5" 
                   role="img" 
                   xmlns="http://www.w3.org/2000/svg" 
                   viewBox="0 0 576 512"
@@ -129,20 +129,20 @@ const Hero: FC<HeroProps> = ({ isDarkMode, onNavigateToTask }) => {
           
           <motion.a
             href="#evaluation"
-            className={`relative inline-flex items-center px-6 py-4 text-lg text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg
-              overflow-hidden group hover:scale-105 transition-transform cursor-pointer`}
+            className={`relative inline-flex items-center px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base md:text-lg text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg
+              overflow-hidden group hover:scale-105 transition-transform cursor-pointer w-full sm:w-auto`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
           >
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-3 sm:gap-6 justify-center">
               <span className="relative z-10 flex items-center justify-center">
                 <svg 
                   aria-hidden="true" 
                   focusable="false" 
-                  className="w-5 h-5" 
+                  className="w-4 h-4 sm:w-5 sm:h-5" 
                   role="img" 
                   xmlns="http://www.w3.org/2000/svg" 
                   viewBox="0 0 576 512"

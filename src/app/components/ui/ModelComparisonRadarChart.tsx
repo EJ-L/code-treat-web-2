@@ -107,23 +107,26 @@ const ModelComparisonRadarChart = ({ data, models, activeModels, isDarkMode }: R
   };
 
   return (
-    <div className="w-full h-96">
-      <div className="flex justify-center mb-2 flex-wrap gap-2">
+    <div className="w-full h-full">
+      <div className="flex justify-center mb-2 flex-wrap gap-1 sm:gap-2">
         {models.map((model, index) => (
           <button
             key={model}
-            className={`px-2 py-1 text-xs rounded-md transition-all ${
+            className={`px-1 sm:px-2 py-1 text-xs rounded-md transition-all break-words ${
               visibleModels[model] 
                 ? 'bg-opacity-100'
                 : 'bg-opacity-30'
             }`}
             style={{ 
               backgroundColor: colors[index % colors.length], 
-              color: isDarkMode ? 'white' : '#333'
+              color: isDarkMode ? 'white' : '#333',
+              maxWidth: '120px',
+              fontSize: '10px'
             }}
             onClick={() => handleLegendClick(model)}
+            title={model}
           >
-            {model}
+            <span className="truncate block">{model}</span>
           </button>
         ))}
       </div>
@@ -132,32 +135,41 @@ const ModelComparisonRadarChart = ({ data, models, activeModels, isDarkMode }: R
         <RadarChart
           cx="50%"
           cy="50%"
-          outerRadius="80%"
+          outerRadius="70%"
           data={data}
+          margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
         >
           <PolarGrid 
             stroke={isDarkMode ? "#4a5568" : "#cbd5e0"} 
           />
           <PolarAngleAxis 
             dataKey="metric" 
-            tick={{ fill: isDarkMode ? "#cbd5e0" : "#4a5568" }}
-            tickSize={5}
+            tick={{ 
+              fill: isDarkMode ? "#cbd5e0" : "#4a5568",
+              fontSize: 10
+            }}
+            tickSize={3}
             tickFormatter={(value) => {
               const formatted = formatMetricName(value);
-              return formatted.length > 15 ? `${formatted.substring(0, 12)}...` : formatted;
+              return formatted.length > 10 ? `${formatted.substring(0, 8)}...` : formatted;
             }}
           />
           <PolarRadiusAxis 
             angle={30} 
             domain={domainRange}
-            tick={{ fill: isDarkMode ? "#cbd5e0" : "#4a5568" }}
-            tickCount={5}
+            tick={{ 
+              fill: isDarkMode ? "#cbd5e0" : "#4a5568",
+              fontSize: 8
+            }}
+            tickCount={4}
           />
           <Tooltip 
             contentStyle={{
               backgroundColor: isDarkMode ? "#1a202c" : "#fff",
               borderColor: isDarkMode ? "#4a5568" : "#e2e8f0",
-              color: isDarkMode ? "#e2e8f0" : "#1a202c"
+              color: isDarkMode ? "#e2e8f0" : "#1a202c",
+              fontSize: '12px',
+              maxWidth: '200px'
             }}
             formatter={(value) => [`${value}%`, '']}
             labelFormatter={(value) => `Metric: ${formatMetricName(value)}`}
@@ -185,7 +197,7 @@ const ModelComparisonRadarChart = ({ data, models, activeModels, isDarkMode }: R
         </RadarChart>
       </ResponsiveContainer>
       
-      <div className={`text-center text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+      <div className={`text-center text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} hidden sm:block`}>
         Click model names above to toggle visibility
       </div>
     </div>

@@ -26,7 +26,7 @@ export const BASE_HEADERS: Record<string, HeaderConfig> = {
     width: 'w-32',
     description: '',
     defaultWidth: 80,
-    minWidth: 60
+    minWidth: 50
   },
   model: {
     key: 'model',
@@ -34,7 +34,7 @@ export const BASE_HEADERS: Record<string, HeaderConfig> = {
     width: 'w-192',
     description: '',
     defaultWidth: 200,
-    minWidth: 150
+    minWidth: 120
   },
   // Pass metrics
   'pass@1': {
@@ -767,4 +767,17 @@ export function getDefaultSortDirection(key: string): 'asc' | 'desc' {
     return 'asc';
   }
   return HIGH_TO_LOW_METRICS.includes(key) ? 'desc' : 'asc';
+}
+
+export function getMobileColumnWidth(task: TaskType, headerKey: string): number {
+  // For mobile, use smaller widths for sticky columns
+  if (headerKey === 'rank') return 50;
+  if (headerKey === 'model') return 120;
+  
+  // For other columns, use 80% of desktop width or minimum width
+  const desktopWidth = getColumnWidth(task, headerKey);
+  const minWidth = getMinColumnWidth(task, headerKey);
+  const mobileWidth = Math.max(desktopWidth * 0.8, minWidth * 0.9);
+  
+  return Math.floor(mobileWidth);
 } 

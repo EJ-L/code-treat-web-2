@@ -24,6 +24,7 @@ import {
 } from '@/lib/leaderboardConfig';
 import {
   initializeColumnWidths,
+  initializeMobileColumnWidths,
   getFilteredTableHeaders,
   updateColumnWidthsForFilteredHeaders,
   isColumnCentered,
@@ -111,6 +112,9 @@ interface LeaderboardProps {
   
   // Multi-leaderboard state
   const [selectedMultiTab, setSelectedMultiTab] = useState<string>('All');
+  
+  // Mobile detection state
+  const [isMobile, setIsMobile] = useState(false);
   
   // Chart export ref
   const chartExportRef = useRef<ScatterChartRef>(null);
@@ -444,11 +448,25 @@ interface LeaderboardProps {
     return getFilteredTableHeaders(task, false, sortedResults, activeFilters);
   }, [sortedResults, selectedAbilities.dataset]);
 
-  // Initialize column widths when task changes
+  // Detect mobile screen size
   useEffect(() => {
-    const newWidths = initializeColumnWidths(currentTask, false);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640); // sm breakpoint
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Initialize column widths when task changes or mobile state changes
+  useEffect(() => {
+    const newWidths = isMobile 
+      ? initializeMobileColumnWidths(currentTask, false)
+      : initializeColumnWidths(currentTask, false);
     setColumnWidths(newWidths);
-  }, [currentTask]);
+  }, [currentTask, isMobile]);
 
   // Update column widths when filtered headers change
   useEffect(() => {

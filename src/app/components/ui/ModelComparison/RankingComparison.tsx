@@ -20,7 +20,7 @@ export const RankingComparison: React.FC<RankingComparisonProps> = ({
   const model2Better = model2Rank < model1Rank;
 
   const getModelCardStyles = (isBetter: boolean, isDarkMode: boolean): string => {
-    const baseStyles = 'text-center p-6 rounded-lg';
+    const baseStyles = 'text-center p-2 sm:p-4 md:p-6 rounded-lg min-h-0';
     const betterStyles = isBetter
       ? (isDarkMode ? 'bg-green-900/30 border-2 border-green-600' : 'bg-green-50 border-2 border-green-300')
       : (isDarkMode ? 'bg-slate-700/30 border border-slate-600' : 'bg-gray-100 border border-gray-300');
@@ -28,44 +28,46 @@ export const RankingComparison: React.FC<RankingComparisonProps> = ({
   };
 
   return (
-    <div className={`p-6 rounded-lg ${isDarkMode ? 'bg-slate-800/20' : 'bg-white/60'} border ${isDarkMode ? 'border-slate-700' : 'border-gray-200'}`}>
-      <h3 className={`text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+    <div className={`p-3 sm:p-6 rounded-lg ${isDarkMode ? 'bg-slate-800/20' : 'bg-white/60'} border ${isDarkMode ? 'border-slate-700' : 'border-gray-200'}`}>
+      <h3 className={`text-lg sm:text-xl md:text-2xl font-bold mb-3 sm:mb-4 md:mb-6 text-center ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
         Overall Ranking
       </h3>
-      <div className="grid grid-cols-3 gap-2 sm:gap-6 items-center">
+      <div className="grid grid-cols-3 gap-1 sm:gap-2 md:gap-6 items-center">
         {/* Model 1 */}
         <div className={getModelCardStyles(model1Better, isDarkMode)}>
-          <div className="flex items-center justify-center mb-3">
+          <div className="flex items-center justify-center mb-2 sm:mb-3">
             {model1Better && (
-              <CrownIcon className="w-8 h-8 text-yellow-500 mr-3" />
+              <CrownIcon className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8 text-yellow-500 mr-1 sm:mr-2 md:mr-3" />
             )}
-            <span className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+            <span className={`text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
               #{model1.rank}
             </span>
           </div>
-          <div className={`text-sm sm:text-lg font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'} text-center px-1`}>
+          <div className={`text-xs sm:text-sm md:text-base lg:text-lg font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'} text-center px-1 break-words hyphens-auto`}
+               style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
             {model1.name}
           </div>
         </div>
         
         {/* VS Separator */}
         <div className="text-center">
-          <span className={`text-2xl sm:text-4xl font-bold ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+          <span className={`text-lg sm:text-xl md:text-2xl lg:text-4xl font-bold ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
             VS
           </span>
         </div>
         
         {/* Model 2 */}
         <div className={getModelCardStyles(model2Better, isDarkMode)}>
-          <div className="flex items-center justify-center mb-3">
+          <div className="flex items-center justify-center mb-2 sm:mb-3">
             {model2Better && (
-              <CrownIcon className="w-8 h-8 text-yellow-500 mr-3" />
+              <CrownIcon className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8 text-yellow-500 mr-1 sm:mr-2 md:mr-3" />
             )}
-            <span className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+            <span className={`text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
               #{model2.rank}
             </span>
           </div>
-          <div className={`text-sm sm:text-lg font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'} text-center px-1`}>
+          <div className={`text-xs sm:text-sm md:text-base lg:text-lg font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'} text-center px-1 break-words hyphens-auto`}
+               style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
             {model2.name}
           </div>
         </div>

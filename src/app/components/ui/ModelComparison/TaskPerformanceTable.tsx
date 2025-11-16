@@ -12,11 +12,11 @@ export const TaskPerformanceTable: React.FC<TaskPerformanceTableProps> = ({
   taskInfo
 }) => {
   const getTableHeaderStyles = (isDarkMode: boolean): string => {
-    return `px-4 sm:px-8 py-4 sm:py-6 text-left text-base sm:text-lg font-bold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`;
+    return `px-2 sm:px-4 md:px-8 py-2 sm:py-4 md:py-6 text-left text-sm sm:text-base md:text-lg font-bold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`;
   };
 
   const getTableCellStyles = (isBetter: boolean, isDarkMode: boolean): string => {
-    const baseStyles = 'px-4 sm:px-8 py-4 sm:py-8 text-center transition-all duration-300';
+    const baseStyles = 'px-2 sm:px-4 md:px-8 py-3 sm:py-4 md:py-8 text-center transition-all duration-300';
     const betterStyles = isBetter
       ? (isDarkMode ? 'bg-green-900/30 text-green-300 font-bold' : 'bg-green-50 text-green-800 font-bold')
       : (isDarkMode ? 'text-gray-300' : 'text-gray-700');
@@ -36,24 +36,28 @@ export const TaskPerformanceTable: React.FC<TaskPerformanceTableProps> = ({
 
   return (
     <div className={`rounded-lg border ${isDarkMode ? 'border-slate-700 bg-slate-800/20' : 'border-gray-200 bg-white/60'} overflow-hidden`}>
-      <div className={`px-6 py-4 ${isDarkMode ? 'bg-slate-800/30' : 'bg-gray-50/70'} border-b ${isDarkMode ? 'border-slate-700' : 'border-gray-200'}`}>
-        <h3 className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+      <div className={`px-3 sm:px-6 py-3 sm:py-4 ${isDarkMode ? 'bg-slate-800/30' : 'bg-gray-50/70'} border-b ${isDarkMode ? 'border-slate-700' : 'border-gray-200'}`}>
+        <h3 className={`text-lg sm:text-xl md:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
           Task Performance Comparison
         </h3>
       </div>
       
       <div className="overflow-x-auto">
-        <table className="w-full">
+        <table className="w-full min-w-full">
           <thead className={`${isDarkMode ? 'bg-slate-800/20' : 'bg-gray-100/50'}`}>
             <tr>
               <th className={getTableHeaderStyles(isDarkMode)}>
                 Task
               </th>
               <th className={`${getTableHeaderStyles(isDarkMode)} text-center`}>
-                {model1.name}
+                <div className="truncate max-w-[120px] sm:max-w-none" title={model1.name}>
+                  {model1.name}
+                </div>
               </th>
               <th className={`${getTableHeaderStyles(isDarkMode)} text-center`}>
-                {model2.name}
+                <div className="truncate max-w-[120px] sm:max-w-none" title={model2.name}>
+                  {model2.name}
+                </div>
               </th>
             </tr>
           </thead>
@@ -69,10 +73,10 @@ export const TaskPerformanceTable: React.FC<TaskPerformanceTableProps> = ({
                   key={key} 
                   className={`transition-colors duration-200 ${isDarkMode ? 'hover:bg-slate-700/20' : 'hover:bg-gray-50/70'}`}
                 >
-                  <td className={`px-8 py-8 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <td className={`px-2 sm:px-4 md:px-8 py-3 sm:py-4 md:py-8 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                     <div className="group relative">
-                      <div className="text-lg font-semibold">{info.name}</div>
-                      <div className={`text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                      <div className="text-sm sm:text-base md:text-lg font-semibold">{info.name}</div>
+                      <div className={`text-xs sm:text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                         {info.abbr}
                       </div>
                       {/* Tooltip */}
@@ -82,15 +86,15 @@ export const TaskPerformanceTable: React.FC<TaskPerformanceTableProps> = ({
                     </div>
                   </td>
                   <td className={getTableCellStyles(model1Better, isDarkMode)}>
-                    <div className="flex items-center justify-center space-x-3">
-                      {model1Better && <CrownIcon className="w-6 h-6 text-yellow-500" />}
-                      <span className="text-xl font-bold">{score1.toFixed(1)}%</span>
+                    <div className="flex items-center justify-center space-x-1 sm:space-x-2 md:space-x-3">
+                      {model1Better && <CrownIcon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-yellow-500" />}
+                      <span className="text-sm sm:text-base md:text-lg lg:text-xl font-bold">{score1.toFixed(1)}%</span>
                     </div>
                   </td>
                   <td className={getTableCellStyles(model2Better, isDarkMode)}>
-                    <div className="flex items-center justify-center space-x-3">
-                      {model2Better && <CrownIcon className="w-6 h-6 text-yellow-500" />}
-                      <span className="text-xl font-bold">{score2.toFixed(1)}%</span>
+                    <div className="flex items-center justify-center space-x-1 sm:space-x-2 md:space-x-3">
+                      {model2Better && <CrownIcon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-yellow-500" />}
+                      <span className="text-sm sm:text-base md:text-lg lg:text-xl font-bold">{score2.toFixed(1)}%</span>
                     </div>
                   </td>
                 </tr>

@@ -131,16 +131,16 @@ const ModelComparisonModal = ({
   }), {});
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 p-4 bg-black bg-opacity-50">
+    <div className="fixed inset-0 flex items-center justify-center z-50 p-2 sm:p-4 bg-black bg-opacity-50">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{ duration: 0.2 }}
-        className={`w-full max-w-5xl ${isDarkMode ? 'bg-[#0f1729]' : 'bg-white'} rounded-xl shadow-xl overflow-hidden`}
+        className={`w-full max-w-5xl max-h-[95vh] ${isDarkMode ? 'bg-[#0f1729]' : 'bg-white'} rounded-xl shadow-xl overflow-hidden flex flex-col`}
       >
-        <div className={`p-4 border-b ${isDarkMode ? 'border-slate-700' : 'border-slate-200'} flex justify-between items-center`}>
-          <h2 className={`text-lg sm:text-xl font-semibold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+        <div className={`p-3 sm:p-4 border-b ${isDarkMode ? 'border-slate-700' : 'border-slate-200'} flex justify-between items-center flex-shrink-0`}>
+          <h2 className={`text-base sm:text-lg md:text-xl font-semibold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
             <span className="hidden sm:inline">Compare Models (select up to 5)</span>
             <span className="sm:hidden">Compare Models</span>
           </h2>
@@ -154,7 +154,7 @@ const ModelComparisonModal = ({
           </button>
         </div>
         
-        <div className={`p-6 max-h-[80vh] overflow-auto ${isDarkMode ? 'bg-[#0f1729]' : 'bg-white'}`}>
+        <div className={`p-3 sm:p-6 flex-1 overflow-y-auto ${isDarkMode ? 'bg-[#0f1729]' : 'bg-white'}`}>
           {/* Active Filters Display */}
           {getActiveFilters.length > 0 && (
             <div className="mb-6">
@@ -179,18 +179,18 @@ const ModelComparisonModal = ({
             </div>
           )}
 
-          <div className="mb-6">
-            <h3 className={`text-lg font-semibold mb-3 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
+          <div className="mb-4 sm:mb-6">
+            <h3 className={`text-base sm:text-lg font-semibold mb-2 sm:mb-3 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
               Select Models
             </h3>
-            <div className="flex flex-wrap gap-2 mb-6">
+            <div className="flex flex-wrap gap-1 sm:gap-2 mb-4 sm:mb-6">
               {uniqueModels.map((result, index) => (
                 <button
                   key={index}
                   onClick={() => handleModelToggle(result.model!)}
                   disabled={!selectedModels.includes(result.model!) && selectedModels.length >= MAX_MODELS}
                   className={`
-                    px-3 py-2 rounded-lg text-sm transition-all
+                    px-2 sm:px-3 py-1 sm:py-2 rounded-lg text-xs sm:text-sm transition-all break-words
                     ${selectedModels.includes(result.model!)
                       ? isDarkMode 
                         ? 'bg-blue-700 text-white' 
@@ -243,10 +243,10 @@ const ModelComparisonModal = ({
           )}
         </div>
 
-        <div className={`p-4 border-t ${isDarkMode ? 'border-slate-700' : 'border-slate-200'} flex justify-end`}>
+        <div className={`p-3 sm:p-4 border-t ${isDarkMode ? 'border-slate-700' : 'border-slate-200'} flex justify-end flex-shrink-0`}>
           <button
             onClick={handleCloseModal}
-            className={`px-4 py-2 rounded-lg ${isDarkMode ? 'bg-slate-700 text-white hover:bg-slate-600' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`}
+            className={`px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base ${isDarkMode ? 'bg-slate-700 text-white hover:bg-slate-600' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`}
           >
             Close
           </button>
