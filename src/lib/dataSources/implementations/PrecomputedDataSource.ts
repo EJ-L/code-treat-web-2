@@ -366,7 +366,8 @@ export class PrecomputedDataSource extends BaseDataSource implements IPrecompute
       modality: [...(userFilters.modalities || []), ...(userFilters.langs || [])],
       knowledge: userFilters.knowledge || [],
       reasoning: userFilters.reasoning || [],
-      dataset: userFilters.datasets || []
+      dataset: userFilters.datasets || [],
+      llmJudges: userFilters.llmJudges || []
     };
     
     debug.dataSource('Finding matching combination:', {

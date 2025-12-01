@@ -20,13 +20,32 @@ interface CodeQuestionData {
   lang?: string; // For code generation and unit test generation
   wrapped_text: string;
   models: Record<string, {
-    parsed_code: string | number; // Can be string (most tasks) or number (vulnerability detection)
+    parsed_code: string | number | { comments?: string; [key: string]: any }; // Can be string (most tasks), number (vulnerability detection), or object (code review)
     metric?: number; // Single metric (code translation)
     metrics?: { // Multi-field metrics (unit test generation, code generation)
       [key: string]: number;
     };
   }>;
 }
+
+// Helper function to extract parsed code text from model data
+const extractParsedCode = (parsedCode: string | number | { comments?: string; [key: string]: any }, currentTask: string): string => {
+  // Handle object type (code review, code summarization)
+  if (typeof parsedCode === 'object' && parsedCode !== null) {
+    // For code review and summarization, the content is in the 'comments' field
+    if (parsedCode.comments) {
+      return parsedCode.comments;
+    }
+    // Fallback to stringifying the object if no comments field
+    return JSON.stringify(parsedCode, null, 2);
+  }
+  // Handle number type (vulnerability detection)
+  if (typeof parsedCode === 'number') {
+    return String(parsedCode);
+  }
+  // Handle string type (most other tasks)
+  return parsedCode;
+};
 
 // Helper function to get the primary metric value and name from model data
 const getPrimaryMetric = (modelData: { metric?: number; metrics?: { [key: string]: number | { [key: string]: number } } }): { value: number; name: string } => {
@@ -938,7 +957,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
                       ? '(1) YES: A security vulnerability detected.' 
                       : '(2) NO: No security vulnerability.';
                   }
-                  return String(leftModel.data.parsed_code);
+                  return extractParsedCode(leftModel.data.parsed_code, currentTask as string);
                 })()}
                 language={getLanguageForHighlighting(currentQuestion, false)}
                 isDarkMode={isDarkMode}
@@ -1005,7 +1024,7 @@ const CodeQuestionsView: FC<CodeQuestionsViewProps> = ({
                       ? '(1) YES: A security vulnerability detected.' 
                       : '(2) NO: No security vulnerability.';
                   }
-                  return String(rightModel.data.parsed_code);
+                  return extractParsedCode(rightModel.data.parsed_code, currentTask as string);
                 })()}
                 language={getLanguageForHighlighting(currentQuestion, false)}
                 isDarkMode={isDarkMode}

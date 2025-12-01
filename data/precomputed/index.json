@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-09-26T16:35:09.087Z",
+  "generatedAt": "2025-12-01T10:43:47.740Z",
   "tasks": {
     "code generation": {
       "totalCombinations": 194,
@@ -5063,13 +5063,14 @@
       ]
     },
     "code summarization": {
-      "totalCombinations": 64,
+      "totalCombinations": 178,
       "files": [
         {
           "filename": "code-summarization_overall.json",
           "filters": {
             "modality": [],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_overall.json"
@@ -5080,7 +5081,8 @@
             "modality": [
               "Python"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python.json"
@@ -5091,7 +5093,8 @@
             "modality": [
               "Java"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java.json"
@@ -5102,7 +5105,8 @@
             "modality": [
               "C"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C.json"
@@ -5113,7 +5117,8 @@
             "modality": [
               "CPP"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-CPP.json"
@@ -5124,7 +5129,8 @@
             "modality": [
               "C#"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C#.json"
@@ -5135,7 +5141,8 @@
             "modality": [
               "Ruby"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Ruby.json"
@@ -5146,7 +5153,8 @@
             "modality": [
               "JavaScript"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-JavaScript.json"
@@ -5157,7 +5165,8 @@
             "modality": [
               "TypeScript"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-TypeScript.json"
@@ -5168,7 +5177,8 @@
             "modality": [
               "PHP"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-PHP.json"
@@ -5179,7 +5189,8 @@
             "modality": [
               "Go"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Go.json"
@@ -5191,7 +5202,8 @@
               "Python",
               "Java"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-Java.json"
@@ -5203,7 +5215,8 @@
               "Python",
               "JavaScript"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-JavaScript.json"
@@ -5215,7 +5228,8 @@
               "Java",
               "JavaScript"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-JavaScript.json"
@@ -5227,7 +5241,8 @@
               "Python",
               "C"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-C.json"
@@ -5239,7 +5254,8 @@
               "Java",
               "C"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-C.json"
@@ -5250,7 +5266,8 @@
             "modality": [],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-Direct.json"
@@ -5261,7 +5278,8 @@
             "modality": [],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-CoTReasoning.json"
@@ -5273,10 +5291,86 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-Direct-CoTReasoning.json"
+        },
+        {
+          "filename": "code-summarization_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
         },
         {
           "filename": "code-summarization_modality-Python_reasoning-Direct.json",
@@ -5286,7 +5380,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python_reasoning-Direct.json"
@@ -5299,7 +5394,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python_reasoning-CoTReasoning.json"
@@ -5313,7 +5409,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python_reasoning-Direct-CoTReasoning.json"
@@ -5326,7 +5423,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java_reasoning-Direct.json"
@@ -5339,7 +5437,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java_reasoning-CoTReasoning.json"
@@ -5353,7 +5452,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java_reasoning-Direct-CoTReasoning.json"
@@ -5366,7 +5466,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C_reasoning-Direct.json"
@@ -5379,7 +5480,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C_reasoning-CoTReasoning.json"
@@ -5393,7 +5495,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C_reasoning-Direct-CoTReasoning.json"
@@ -5406,7 +5509,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-CPP_reasoning-Direct.json"
@@ -5419,7 +5523,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-CPP_reasoning-CoTReasoning.json"
@@ -5433,7 +5538,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-CPP_reasoning-Direct-CoTReasoning.json"
@@ -5446,7 +5552,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C#_reasoning-Direct.json"
@@ -5459,7 +5566,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C#_reasoning-CoTReasoning.json"
@@ -5473,7 +5581,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C#_reasoning-Direct-CoTReasoning.json"
@@ -5486,7 +5595,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Ruby_reasoning-Direct.json"
@@ -5499,7 +5609,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Ruby_reasoning-CoTReasoning.json"
@@ -5513,7 +5624,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Ruby_reasoning-Direct-CoTReasoning.json"
@@ -5526,7 +5638,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-JavaScript_reasoning-Direct.json"
@@ -5539,7 +5652,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-JavaScript_reasoning-CoTReasoning.json"
@@ -5553,7 +5667,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-JavaScript_reasoning-Direct-CoTReasoning.json"
@@ -5566,7 +5681,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-TypeScript_reasoning-Direct.json"
@@ -5579,7 +5695,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-TypeScript_reasoning-CoTReasoning.json"
@@ -5593,7 +5710,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-TypeScript_reasoning-Direct-CoTReasoning.json"
@@ -5606,7 +5724,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-PHP_reasoning-Direct.json"
@@ -5619,7 +5738,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-PHP_reasoning-CoTReasoning.json"
@@ -5633,7 +5753,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-PHP_reasoning-Direct-CoTReasoning.json"
@@ -5646,7 +5767,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Go_reasoning-Direct.json"
@@ -5659,7 +5781,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Go_reasoning-CoTReasoning.json"
@@ -5673,7 +5796,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Go_reasoning-Direct-CoTReasoning.json"
@@ -5687,7 +5811,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-Java_reasoning-Direct.json"
@@ -5701,7 +5826,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-Java_reasoning-CoTReasoning.json"
@@ -5716,7 +5842,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-Java_reasoning-Direct-CoTReasoning.json"
@@ -5730,7 +5857,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-JavaScript_reasoning-Direct.json"
@@ -5744,7 +5872,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-JavaScript_reasoning-CoTReasoning.json"
@@ -5759,7 +5888,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-JavaScript_reasoning-Direct-CoTReasoning.json"
@@ -5773,7 +5903,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-JavaScript_reasoning-Direct.json"
@@ -5787,7 +5918,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-JavaScript_reasoning-CoTReasoning.json"
@@ -5802,7 +5934,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-JavaScript_reasoning-Direct-CoTReasoning.json"
@@ -5816,7 +5949,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-C_reasoning-Direct.json"
@@ -5830,7 +5964,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-C_reasoning-CoTReasoning.json"
@@ -5845,7 +5980,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-C_reasoning-Direct-CoTReasoning.json"
@@ -5859,7 +5995,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-C_reasoning-Direct.json"
@@ -5873,7 +6010,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-C_reasoning-CoTReasoning.json"
@@ -5888,21 +6026,1625 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-C_reasoning-Direct-CoTReasoning.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Python"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Python"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Python"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-C_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_modality-C_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-C_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-C_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-C_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-C_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-CPP_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "CPP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-CPP_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_modality-CPP_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "CPP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-CPP_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-CPP_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "CPP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-CPP_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-CPP_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "CPP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-CPP_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-CPP_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "CPP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-CPP_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-CPP_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "CPP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-CPP_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-C#_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "C#"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C#_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_modality-C#_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "C#"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C#_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-C#_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "C#"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C#_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-C#_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "C#"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C#_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-C#_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "C#"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C#_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-C#_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "C#"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-C#_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Ruby_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Ruby"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Ruby_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_modality-Ruby_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Ruby"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Ruby_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Ruby_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Ruby"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Ruby_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Ruby_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Ruby"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Ruby_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Ruby_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Ruby"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Ruby_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Ruby_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Ruby"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Ruby_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-JavaScript_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-JavaScript_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_modality-JavaScript_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-JavaScript_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-JavaScript_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-JavaScript_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-JavaScript_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-JavaScript_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-JavaScript_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-JavaScript_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-JavaScript_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-JavaScript_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-TypeScript_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "TypeScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-TypeScript_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_modality-TypeScript_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "TypeScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-TypeScript_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-TypeScript_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "TypeScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-TypeScript_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-TypeScript_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "TypeScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-TypeScript_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-TypeScript_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "TypeScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-TypeScript_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-TypeScript_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "TypeScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-TypeScript_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-PHP_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "PHP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-PHP_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_modality-PHP_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "PHP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-PHP_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-PHP_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "PHP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-PHP_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-PHP_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "PHP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-PHP_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-PHP_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "PHP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-PHP_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-PHP_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "PHP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-PHP_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Go_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Go"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Go_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_modality-Go_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Go"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Go_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Go_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Go"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Go_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Go_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Go"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Go_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Go_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Go"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Go_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Go_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Go"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Go_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-Java_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-Java_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-Java_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-Java_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-Java_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-Java_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-Java_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-Java_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-Java_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-Java_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-Java_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-Java_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-JavaScript_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-JavaScript_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-JavaScript_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-JavaScript_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-JavaScript_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-JavaScript_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-JavaScript_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-JavaScript_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-JavaScript_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-JavaScript_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-JavaScript_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-JavaScript_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java-JavaScript_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-JavaScript_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java-JavaScript_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-JavaScript_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java-JavaScript_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-JavaScript_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java-JavaScript_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-JavaScript_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java-JavaScript_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-JavaScript_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java-JavaScript_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-JavaScript_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-C_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-C_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-C_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-C_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-C_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-C_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-C_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-C_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-C_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-C_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Python-C_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Python-C_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java-C_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-C_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java-C_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-C_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java-C_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-C_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java-C_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-C_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java-C_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-C_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_modality-Java-C_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_modality-Java-C_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-Direct_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-Direct_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-Direct_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct"
+            ],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-Direct_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-Direct_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-Direct_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-Direct_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct"
+            ],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-Direct_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-Direct_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-Direct_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-Direct_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct"
+            ],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-Direct_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-CoTReasoning_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-CoTReasoning_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-CoTReasoning_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-CoTReasoning_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-CoTReasoning_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-CoTReasoning_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-CoTReasoning_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-CoTReasoning_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-CoTReasoning_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-CoTReasoning_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-CoTReasoning_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-CoTReasoning_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-Direct-CoTReasoning_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct",
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-Direct-CoTReasoning_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-Direct-CoTReasoning_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct",
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-Direct-CoTReasoning_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-Direct-CoTReasoning_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct",
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-Direct-CoTReasoning_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-Direct-CoTReasoning_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct",
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-Direct-CoTReasoning_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-Direct-CoTReasoning_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct",
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-Direct-CoTReasoning_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-summarization_reasoning-Direct-CoTReasoning_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct",
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-summarization\\code-summarization_reasoning-Direct-CoTReasoning_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
         }
       ]
     },
     "code review": {
-      "totalCombinations": 64,
+      "totalCombinations": 178,
       "files": [
         {
           "filename": "code-review_overall.json",
           "filters": {
             "modality": [],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_overall.json"
@@ -5913,7 +7655,8 @@
             "modality": [
               "Python"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Python.json"
@@ -5924,7 +7667,8 @@
             "modality": [
               "Java"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Java.json"
@@ -5935,7 +7679,8 @@
             "modality": [
               "C"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-C.json"
@@ -5946,7 +7691,8 @@
             "modality": [
               "CPP"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-CPP.json"
@@ -5957,7 +7703,8 @@
             "modality": [
               "C#"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-C#.json"
@@ -5968,7 +7715,8 @@
             "modality": [
               "Ruby"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Ruby.json"
@@ -5979,7 +7727,8 @@
             "modality": [
               "JavaScript"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-JavaScript.json"
@@ -5990,7 +7739,8 @@
             "modality": [
               "TypeScript"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-TypeScript.json"
@@ -6001,7 +7751,8 @@
             "modality": [
               "PHP"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-PHP.json"
@@ -6012,7 +7763,8 @@
             "modality": [
               "Go"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Go.json"
@@ -6024,7 +7776,8 @@
               "Python",
               "Java"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Python-Java.json"
@@ -6036,7 +7789,8 @@
               "Python",
               "JavaScript"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Python-JavaScript.json"
@@ -6048,7 +7802,8 @@
               "Java",
               "JavaScript"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Java-JavaScript.json"
@@ -6060,7 +7815,8 @@
               "Python",
               "C"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Python-C.json"
@@ -6072,7 +7828,8 @@
               "Java",
               "C"
             ],
-            "reasoning": []
+            "reasoning": [],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Java-C.json"
@@ -6083,7 +7840,8 @@
             "modality": [],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_reasoning-Direct.json"
@@ -6094,7 +7852,8 @@
             "modality": [],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_reasoning-CoTReasoning.json"
@@ -6106,10 +7865,86 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_reasoning-Direct-CoTReasoning.json"
+        },
+        {
+          "filename": "code-review_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
         },
         {
           "filename": "code-review_modality-Python_reasoning-Direct.json",
@@ -6119,7 +7954,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Python_reasoning-Direct.json"
@@ -6132,7 +7968,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Python_reasoning-CoTReasoning.json"
@@ -6146,7 +7983,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Python_reasoning-Direct-CoTReasoning.json"
@@ -6159,7 +7997,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Java_reasoning-Direct.json"
@@ -6172,7 +8011,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Java_reasoning-CoTReasoning.json"
@@ -6186,7 +8026,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Java_reasoning-Direct-CoTReasoning.json"
@@ -6199,7 +8040,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-C_reasoning-Direct.json"
@@ -6212,7 +8054,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-C_reasoning-CoTReasoning.json"
@@ -6226,7 +8069,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-C_reasoning-Direct-CoTReasoning.json"
@@ -6239,7 +8083,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-CPP_reasoning-Direct.json"
@@ -6252,7 +8097,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-CPP_reasoning-CoTReasoning.json"
@@ -6266,7 +8112,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-CPP_reasoning-Direct-CoTReasoning.json"
@@ -6279,7 +8126,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-C#_reasoning-Direct.json"
@@ -6292,7 +8140,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-C#_reasoning-CoTReasoning.json"
@@ -6306,7 +8155,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-C#_reasoning-Direct-CoTReasoning.json"
@@ -6319,7 +8169,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Ruby_reasoning-Direct.json"
@@ -6332,7 +8183,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Ruby_reasoning-CoTReasoning.json"
@@ -6346,7 +8198,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Ruby_reasoning-Direct-CoTReasoning.json"
@@ -6359,7 +8212,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-JavaScript_reasoning-Direct.json"
@@ -6372,7 +8226,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-JavaScript_reasoning-CoTReasoning.json"
@@ -6386,7 +8241,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-JavaScript_reasoning-Direct-CoTReasoning.json"
@@ -6399,7 +8255,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-TypeScript_reasoning-Direct.json"
@@ -6412,7 +8269,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-TypeScript_reasoning-CoTReasoning.json"
@@ -6426,7 +8284,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-TypeScript_reasoning-Direct-CoTReasoning.json"
@@ -6439,7 +8298,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-PHP_reasoning-Direct.json"
@@ -6452,7 +8312,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-PHP_reasoning-CoTReasoning.json"
@@ -6466,7 +8327,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-PHP_reasoning-Direct-CoTReasoning.json"
@@ -6479,7 +8341,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Go_reasoning-Direct.json"
@@ -6492,7 +8355,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Go_reasoning-CoTReasoning.json"
@@ -6506,7 +8370,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Go_reasoning-Direct-CoTReasoning.json"
@@ -6520,7 +8385,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Python-Java_reasoning-Direct.json"
@@ -6534,7 +8400,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Python-Java_reasoning-CoTReasoning.json"
@@ -6549,7 +8416,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Python-Java_reasoning-Direct-CoTReasoning.json"
@@ -6563,7 +8431,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Python-JavaScript_reasoning-Direct.json"
@@ -6577,7 +8446,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Python-JavaScript_reasoning-CoTReasoning.json"
@@ -6592,7 +8462,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Python-JavaScript_reasoning-Direct-CoTReasoning.json"
@@ -6606,7 +8477,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Java-JavaScript_reasoning-Direct.json"
@@ -6620,7 +8492,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Java-JavaScript_reasoning-CoTReasoning.json"
@@ -6635,7 +8508,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Java-JavaScript_reasoning-Direct-CoTReasoning.json"
@@ -6649,7 +8523,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Python-C_reasoning-Direct.json"
@@ -6663,7 +8538,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Python-C_reasoning-CoTReasoning.json"
@@ -6678,7 +8554,8 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Python-C_reasoning-Direct-CoTReasoning.json"
@@ -6692,7 +8569,8 @@
             ],
             "reasoning": [
               "Direct"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Java-C_reasoning-Direct.json"
@@ -6706,7 +8584,8 @@
             ],
             "reasoning": [
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Java-C_reasoning-CoTReasoning.json"
@@ -6721,10 +8600,1613 @@
             "reasoning": [
               "Direct",
               "CoT Reasoning"
-            ]
+            ],
+            "llmJudges": []
           },
           "showByDifficulty": false,
           "path": "data\\precomputed\\code-review\\code-review_modality-Java-C_reasoning-Direct-CoTReasoning.json"
+        },
+        {
+          "filename": "code-review_modality-Python_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Python"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_modality-Python_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Python"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Python_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Python"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Python_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Python_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Python_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Java_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_modality-Java_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Java_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Java_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Java_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Java_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-C_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-C_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_modality-C_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-C_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-C_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-C_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-C_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-C_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-C_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-C_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-C_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-C_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-CPP_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "CPP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-CPP_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_modality-CPP_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "CPP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-CPP_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-CPP_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "CPP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-CPP_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-CPP_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "CPP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-CPP_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-CPP_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "CPP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-CPP_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-CPP_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "CPP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-CPP_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-C#_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "C#"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-C#_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_modality-C#_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "C#"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-C#_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-C#_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "C#"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-C#_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-C#_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "C#"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-C#_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-C#_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "C#"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-C#_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-C#_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "C#"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-C#_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Ruby_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Ruby"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Ruby_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_modality-Ruby_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Ruby"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Ruby_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Ruby_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Ruby"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Ruby_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Ruby_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Ruby"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Ruby_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Ruby_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Ruby"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Ruby_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Ruby_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Ruby"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Ruby_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-JavaScript_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-JavaScript_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_modality-JavaScript_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-JavaScript_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-JavaScript_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-JavaScript_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-JavaScript_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-JavaScript_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-JavaScript_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-JavaScript_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-JavaScript_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-JavaScript_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-TypeScript_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "TypeScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-TypeScript_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_modality-TypeScript_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "TypeScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-TypeScript_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-TypeScript_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "TypeScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-TypeScript_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-TypeScript_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "TypeScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-TypeScript_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-TypeScript_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "TypeScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-TypeScript_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-TypeScript_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "TypeScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-TypeScript_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-PHP_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "PHP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-PHP_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_modality-PHP_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "PHP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-PHP_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-PHP_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "PHP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-PHP_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-PHP_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "PHP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-PHP_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-PHP_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "PHP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-PHP_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-PHP_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "PHP"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-PHP_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Go_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Go"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Go_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_modality-Go_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Go"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Go_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Go_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Go"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Go_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Go_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Go"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Go_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Go_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Go"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Go_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Go_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Go"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Go_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Python-Java_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-Java_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_modality-Python-Java_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-Java_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Python-Java_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-Java_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Python-Java_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-Java_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Python-Java_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-Java_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Python-Java_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "Java"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-Java_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Python-JavaScript_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-JavaScript_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_modality-Python-JavaScript_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-JavaScript_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Python-JavaScript_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-JavaScript_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Python-JavaScript_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-JavaScript_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Python-JavaScript_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-JavaScript_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Python-JavaScript_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-JavaScript_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Java-JavaScript_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java-JavaScript_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_modality-Java-JavaScript_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java-JavaScript_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Java-JavaScript_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java-JavaScript_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Java-JavaScript_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java-JavaScript_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Java-JavaScript_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java-JavaScript_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Java-JavaScript_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "JavaScript"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java-JavaScript_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Python-C_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-C_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_modality-Python-C_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-C_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Python-C_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-C_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Python-C_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-C_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Python-C_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-C_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Python-C_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Python",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Python-C_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Java-C_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java-C_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_modality-Java-C_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java-C_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Java-C_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java-C_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_modality-Java-C_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java-C_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Java-C_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java-C_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_modality-Java-C_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [
+              "Java",
+              "C"
+            ],
+            "reasoning": [],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_modality-Java-C_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_reasoning-Direct_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-Direct_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_reasoning-Direct_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct"
+            ],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-Direct_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_reasoning-Direct_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-Direct_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_reasoning-Direct_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct"
+            ],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-Direct_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_reasoning-Direct_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-Direct_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_reasoning-Direct_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct"
+            ],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-Direct_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_reasoning-CoTReasoning_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-CoTReasoning_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_reasoning-CoTReasoning_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-CoTReasoning_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_reasoning-CoTReasoning_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-CoTReasoning_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_reasoning-CoTReasoning_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-CoTReasoning_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_reasoning-CoTReasoning_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-CoTReasoning_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_reasoning-CoTReasoning_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-CoTReasoning_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_reasoning-Direct-CoTReasoning_llmJudges-GPT_4o_2024_11_20.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct",
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-Direct-CoTReasoning_llmJudges-GPT_4o_2024_11_20.json"
+        },
+        {
+          "filename": "code-review_reasoning-Direct-CoTReasoning_llmJudges-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct",
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-Direct-CoTReasoning_llmJudges-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_reasoning-Direct-CoTReasoning_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct",
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Gemini 2.5 Flash"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-Direct-CoTReasoning_llmJudges-GPT_4o_2024_11_20-Gemini2.5Flash.json"
+        },
+        {
+          "filename": "code-review_reasoning-Direct-CoTReasoning_llmJudges-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct",
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-Direct-CoTReasoning_llmJudges-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_reasoning-Direct-CoTReasoning_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct",
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "GPT-4o-2024-11-20",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-Direct-CoTReasoning_llmJudges-GPT_4o_2024_11_20-Claude_sonnet4_20250514.json"
+        },
+        {
+          "filename": "code-review_reasoning-Direct-CoTReasoning_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json",
+          "filters": {
+            "modality": [],
+            "reasoning": [
+              "Direct",
+              "CoT Reasoning"
+            ],
+            "llmJudges": [
+              "Gemini 2.5 Flash",
+              "Claude-sonnet 4-20250514"
+            ]
+          },
+          "showByDifficulty": false,
+          "path": "data\\precomputed\\code-review\\code-review_reasoning-Direct-CoTReasoning_llmJudges-Gemini2.5Flash-Claude_sonnet4_20250514.json"
         }
       ]
     },

@@ -205,7 +205,7 @@ const GuidelineContent: FC<GuidelineContentProps> = ({ isDarkMode, onNavigateToT
                 "The Code View displays example questions used to evaluate model performance for a specific task. Users can click 'Refresh Questions' button to load a new set of 10 questions.",
                 "Each entry includes the original code-related question and the model’s response to it.",
                 "Model responses are color-coded: green indicates better performance, while red suggests poorer performance.",
-                "Users can use the dropdown menu to view responses from different models.",
+                "Users can use the dropdown menu to view responses from different models for side-by-side comparison.",
                 "Filtering options are available, just like in other views, allowing users to narrow down the results.",
                 "Currently, the following tasks support Code View: Code Review, Code Summarization, Code Translation, Code Generation, Input Prediction, Output Prediction, Vulnerability Detection, Unit Test Generation."
               ],
@@ -262,6 +262,22 @@ const GuidelineContent: FC<GuidelineContentProps> = ({ isDarkMode, onNavigateToT
                 captions: {
                   pc: ["Here is showing the comparison between 3 models", "Here is the result when 'Claude-3.7-Sonnet' (orange button) is hidden", "", "When user selected some filter outside, it will show the filter in the section as well"],
                   mobile: ["Here is showing the comparison between 3 models", "Here is the result when 'Claude-3.7-Sonnet' (orange button) is hidden", "", "When user selected some filter outside, it will show the filter in the section as well"]
+                }
+              }
+            },
+            {
+              question: "What is in model comparison section",
+              instructions: [
+                "The model comparison section shows the comparison between the selected models in overall leaderboard based on the selected metric.",
+                "It includes the metric selcted for each task, and the final ranking of the models.",
+                "It also includes the comparison between the models in each task."
+              ],
+              images: {
+                pc: ["/guidelines/desktop/model-comparison-pc-1.png", "/guidelines/desktop/model-comparison-pc-2.png", "/guidelines/desktop/model-comparison-pc-3.png"],
+                mobile: ["/guidelines/mobile/model-comparison-mobile-1.png", "/guidelines/mobile/model-comparison-mobile-2.png", "/guidelines/mobile/model-comparison-mobile-3.png"],
+                captions: {
+                  pc: ["User can click the 'Model Comparison' button to navigate to the section", "User can select two different models to compare", "It will show the ranking, as well as the comparison between the models in each task"],
+                  mobile: ["User can click the 'Model Comparison' button to navigate to the section", "User can select two different models to compare", "It will show the ranking, as well as the comparison between the models in each task"]
                 }
               }
             }

@@ -202,7 +202,7 @@ export function getAvailableLLMJudges(results: ResultEntry[] | ProcessedResult[]
   
   // If no judges found from metrics, return common default judges
   if (judges.size === 0) {
-    return ['gpt-4', 'gpt-4o', 'claude-3-sonnet'];
+    return ['GPT-4o-2024-11-20', 'Gemini 2.5 Flash', 'Claude-sonnet 4-20250514'];
   }
   
   return Array.from(judges);

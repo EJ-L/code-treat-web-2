@@ -376,7 +376,7 @@ export function getAvailableLLMJudges(results: ResultEntry[] | ProcessedResult[]
   // console.log(`Detected judges: ${judgesList.join(', ')}`);
   // If no judges found, return common default judges
   if (judgesList.length === 0) {
-    return ['gpt-4', 'gpt-4o', 'claude-3-sonnet'];
+    return ['GPT-4o-2024-11-20', 'Gemini 2.5 Flash', 'Claude-sonnet 4-20250514'];
   }
   
   return judgesList;

@@ -14,7 +14,7 @@ export const ComparisonHeader: React.FC<ComparisonHeaderProps> = ({ isDarkMode }
         <span className="font-semibold">Ranking Calculation:</span> Based on average ranking across 7 task groups. For each model, we calculate their rank in each task category, then compute the arithmetic mean of these ranks.
       </p>
       <p>
-        <span className="font-semibold">Task Metrics:</span> Code Generation (Pass@1), Code Translation (CodeBLEU), Code Summarization (BLEU-4), Code Review (F1), Code Reasoning (Accuracy), Unit Test Generation (Pass@1), Vulnerability Detection (F1).
+        <span className="font-semibold">Task Metrics:</span> Code Generation (Pass@1), Code Translation (Pass@1), Code Summarization (LLM-Judge), Code Review (LLM-Judge), Code Reasoning (Pass@1), Unit Test Generation (CSR), Vulnerability Detection (Accuracy).
       </p>
     </div>
   </div>

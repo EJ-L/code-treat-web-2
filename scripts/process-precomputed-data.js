@@ -11,6 +11,26 @@ const __dirname = path.dirname(__filename);
 // Simulate the data loading and processing that happens in the React app
 // This will need to be adapted based on your actual data processing logic
 
+/**
+ * Sanitize a JSON string by removing invalid control characters.
+ * This handles cases where JSON contains unescaped control characters (0x00-0x1F).
+ * Keeps tabs, newlines, and carriage returns as they should be escaped in JSON.
+ */
+function sanitizeJsonString(jsonStr) {
+  let result = '';
+  for (let i = 0; i < jsonStr.length; i++) {
+    const charCode = jsonStr.charCodeAt(i);
+    // Control characters are 0x00-0x1F (except tab \t=0x09, newline \n=0x0A, carriage return \r=0x0D)
+    if (charCode < 0x20 && charCode !== 0x09 && charCode !== 0x0A && charCode !== 0x0D) {
+      // Replace with space
+      result += ' ';
+    } else {
+      result += jsonStr[i];
+    }
+  }
+  return result;
+}
+
 // Load the combinations metadata
 function loadCombinationMetadata() {
   const metadataPath = path.join(__dirname, '..', 'data', 'precomputed', 'combinations-metadata.json');
@@ -26,7 +46,29 @@ function loadCombinationMetadata() {
 function readJSONL(filePath) {
   try {
     const content = fs.readFileSync(filePath, 'utf8');
-    return content.trim().split('\n').map(line => JSON.parse(line));
+    const lines = content.trim().split('\n');
+    const results = [];
+    
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      if (!line.trim()) continue;
+      
+      try {
+        results.push(JSON.parse(line));
+      } catch (parseError) {
+        // Try to sanitize and parse again
+        try {
+          const sanitizedLine = sanitizeJsonString(line);
+          results.push(JSON.parse(sanitizedLine));
+          console.log(`  Successfully parsed line ${i + 1} after sanitization in ${path.basename(filePath)}`);
+        } catch (sanitizeError) {
+          console.error(`  Failed to parse line ${i + 1} in ${path.basename(filePath)} even after sanitization`);
+          // Skip this line and continue
+        }
+      }
+    }
+    
+    return results;
   } catch (error) {
     console.error(`Error reading JSONL file ${filePath}:`, error.message);
     return [];
@@ -272,11 +314,15 @@ function applyFilters(data, task, filters) {
     });
   }
   
+  // Apply llmJudges filter (for code review and code summarization)
+  // Note: We don't filter entries here - instead we pass the selected judges to aggregateData
+  // This is because entries may have scores from multiple judges, and we want to use the selected ones for calculation
+  
   return filteredData;
 }
 
 // Aggregate data by model and calculate metrics
-function aggregateData(data, task, showByDifficulty) {
+function aggregateData(data, task, showByDifficulty, selectedLLMJudges = []) {
   const modelGroups = new Map();
   
   // Group by model using original names
@@ -386,18 +432,63 @@ function aggregateData(data, task, showByDifficulty) {
       }
     } else if (task === 'code review') {
       // For code review, use LLM Judge scores
-      // Metrics looks like {"gpt-4o": [2], "claude": [1], ...}
+      // Old format: {"gpt-4o": [2], "claude": [1], ...}
+      // New format: {"gpt-4o": [2], "LLMJudge": {"Gemini 2.5 Flash": 2, "Claude-sonnet 4-20250514": 2}}
       const allScores = [];
       
       entries.forEach(entry => {
         if (entry.metrics) {
-          Object.values(entry.metrics).forEach(scoreArray => {
-            if (Array.isArray(scoreArray)) {
-              allScores.push(...scoreArray);
-            } else if (typeof scoreArray === 'number') {
-              allScores.push(scoreArray);
+          // Check if we have selected judges to filter by
+          if (selectedLLMJudges && selectedLLMJudges.length > 0) {
+            // First check old format (direct judge keys like "gpt-4o")
+            selectedLLMJudges.forEach(judge => {
+              // Normalize judge name for matching (handle case variations)
+              const normalizedJudge = judge.toLowerCase().replace(/[\s-]/g, '');
+              
+              Object.entries(entry.metrics).forEach(([key, value]) => {
+                const normalizedKey = key.toLowerCase().replace(/[\s-]/g, '');
+                if (key !== 'LLMJudge' && normalizedKey.includes(normalizedJudge.substring(0, 5))) {
+                  if (Array.isArray(value)) {
+                    allScores.push(...value);
+                  } else if (typeof value === 'number') {
+                    allScores.push(value);
+                  }
+                }
+              });
+            });
+            
+            // Then check new format (LLMJudge nested object)
+            if (entry.metrics.LLMJudge && typeof entry.metrics.LLMJudge === 'object') {
+              selectedLLMJudges.forEach(judge => {
+                if (entry.metrics.LLMJudge[judge] !== undefined) {
+                  const score = entry.metrics.LLMJudge[judge];
+                  if (typeof score === 'number') {
+                    allScores.push(score);
+                  } else if (Array.isArray(score)) {
+                    allScores.push(...score);
+                  }
+                }
+              });
             }
-          });
+          } else {
+            // No filter - use all scores
+            Object.entries(entry.metrics).forEach(([key, value]) => {
+              if (key === 'LLMJudge' && typeof value === 'object') {
+                // Handle nested LLMJudge object
+                Object.values(value).forEach(score => {
+                  if (typeof score === 'number') {
+                    allScores.push(score);
+                  } else if (Array.isArray(score)) {
+                    allScores.push(...score);
+                  }
+                });
+              } else if (Array.isArray(value)) {
+                allScores.push(...value);
+              } else if (typeof value === 'number') {
+                allScores.push(value);
+              }
+            });
+          }
         }
       });
       
@@ -409,16 +500,29 @@ function aggregateData(data, task, showByDifficulty) {
       }
     } else if (task === 'code-summarization' || task === 'code summarization') {
       // For code summarization, use LLM Judge scores
-      // Metrics looks like {"LLMJudge": {"gpt-4o-2024-11-20": 4}}
+      // Format: {"LLMJudge": {"GPT-4o-2024-11-20": 4, "Gemini 2.5 Flash": 2, "Claude-sonnet 4-20250514": 4}}
       const allScores = [];
       
       entries.forEach(entry => {
         if (entry.metrics && entry.metrics.LLMJudge) {
-          Object.values(entry.metrics.LLMJudge).forEach(score => {
-            if (typeof score === 'number') {
-              allScores.push(score);
-            }
-          });
+          // Check if we have selected judges to filter by
+          if (selectedLLMJudges && selectedLLMJudges.length > 0) {
+            selectedLLMJudges.forEach(judge => {
+              if (entry.metrics.LLMJudge[judge] !== undefined) {
+                const score = entry.metrics.LLMJudge[judge];
+                if (typeof score === 'number') {
+                  allScores.push(score);
+                }
+              }
+            });
+          } else {
+            // No filter - use all scores
+            Object.values(entry.metrics.LLMJudge).forEach(score => {
+              if (typeof score === 'number') {
+                allScores.push(score);
+              }
+            });
+          }
         }
       });
       
@@ -693,8 +797,11 @@ async function processTaskData(task, filters, showByDifficulty) {
       return [];
     }
     
+    // Extract LLM judges from filters for code review and code summarization
+    const selectedLLMJudges = filters.llmJudges || [];
+    
     // Aggregate and format results
-    const results = aggregateData(filteredData, task, showByDifficulty);
+    const results = aggregateData(filteredData, task, showByDifficulty, selectedLLMJudges);
     console.log(`  -> Generated ${results.length} results for ${task}`);
     
     return results;

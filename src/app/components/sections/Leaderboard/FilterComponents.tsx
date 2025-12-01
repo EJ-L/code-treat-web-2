@@ -257,6 +257,8 @@ export const SecondaryFiltersBar: FC<SecondaryFiltersBarProps> = ({
   const tasksWithSecondaryFilters: TaskType[] = [
     'code generation',
     'code translation', 
+    'code summarization',
+    'code review',
     'input prediction',
     'output prediction',
     'multi-modality'

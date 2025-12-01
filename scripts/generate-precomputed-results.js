@@ -39,7 +39,7 @@ const taskAbilities = {
     dataset: ['github_2023'],
     robustness: [],
     privacy: [],
-    llmJudges: ['gpt-4o-2024-11-20'],
+    llmJudges: ['GPT-4o-2024-11-20', 'Gemini 2.5 Flash', 'Claude-sonnet 4-20250514'],
   },
   'code review': {
     modality: ['Python', 'Java', 'C', 'CPP', 'C#', 'Ruby', 'JavaScript', 'TypeScript', 'PHP', 'Go'],
@@ -48,7 +48,7 @@ const taskAbilities = {
     dataset: ['github_2023'],
     robustness: [],
     privacy: [],
-    llmJudges: ['gpt-4o-2024-11-20'],
+    llmJudges: ['GPT-4o-2024-11-20', 'Gemini 2.5 Flash', 'Claude-sonnet 4-20250514'],
   },
   'input prediction': {
     modality: ['Python', 'Java'],
@@ -190,8 +190,9 @@ function generateTaskCombinations(task, abilities) {
     if (abilities[filterType] && abilities[filterType].length > 0) {
       // Special handling for specific tasks
       if (task === 'code summarization' || task === 'code review') {
-        // For these tasks, ignore dataset and llmJudges since they typically use the same ones
-        if (filterType === 'dataset' || filterType === 'llmJudges') {
+        // For these tasks, ignore dataset since they typically use the same ones
+        // But include llmJudges as it now has multiple options
+        if (filterType === 'dataset') {
           return;
         }
       }
