@@ -1,0 +1,81 @@
+name: Sync with Upstream Repository
+
+on:
+  # Run manually
+  workflow_dispatch:
+  
+  # Run on a schedule (every 6 hours)
+  schedule:
+    - cron: '0 */6 * * *'
+  
+  # Run when there are pushes to the upstream repository (if webhook is set up)
+  repository_dispatch:
+    types: [upstream-sync]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+    
+    - name: Configure Git
+      run: |
+        git config user.name "GitHub Actions Bot"
+        git config user.email "actions@github.com"
+    
+    - name: Add upstream remote
+      run: |
+        git remote add upstream https://github.com/EJ-L/code-treat-web-2.git
+        git fetch upstream
+    
+    - name: Check for changes
+      id: check
+      run: |
+        LOCAL=$(git rev-parse HEAD)
+        REMOTE=$(git rev-parse upstream/main)
+        if [ "$LOCAL" != "$REMOTE" ]; then
+          echo "changes=true" >> $GITHUB_OUTPUT
+          echo "Changes detected, syncing..."
+        else
+          echo "changes=false" >> $GITHUB_OUTPUT
+          echo "No changes detected"
+        fi
+    
+    - name: Merge upstream changes
+      if: steps.check.outputs.changes == 'true'
+      run: |
+        git merge upstream/main --no-edit
+    
+    - name: Push changes
+      if: steps.check.outputs.changes == 'true'
+      run: |
+        git push origin main
+    
+    - name: Create summary
+      if: steps.check.outputs.changes == 'true'
+      run: |
+        echo "✅ Successfully synced with upstream repository" >> $GITHUB_STEP_SUMMARY
+        echo "🚀 Vercel deployment will be triggered automatically" >> $GITHUB_STEP_SUMMARY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
